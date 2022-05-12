@@ -1,13 +1,11 @@
 import styled, { createGlobalStyle } from 'styled-components';
 
-const customMediaQuery = (maxSize: number) => {
-  return `@meida (max-width: ${maxSize})`;
-};
+const customMediaQuery = (maxWidth: number) =>
+  `@media (max-width: ${maxWidth}px)`;
 
 export const media = {
   desktop_m: customMediaQuery(1200),
-  tablet: customMediaQuery(1000),
-  tablet_s: customMediaQuery(800),
+  tablet: customMediaQuery(800),
   phone: customMediaQuery(650),
 };
 
@@ -30,6 +28,7 @@ export const GlobalStyles = createGlobalStyle`
 :root {
 
     /* Primary */
+  
   --color-main-bg-light:#F8F8FB;
   --color-main-bg-dark:#141625;
 
@@ -48,8 +47,8 @@ export const GlobalStyles = createGlobalStyle`
   --color-main-button: #7C5DFA;
   --color-main-button-hover: #9277FF;
 
-  --color-secondary-button:#EC5757;
-  --color-secondary-button-hover:#FF9797;
+  --color-delete-button:#EC5757;
+  --color-delete-button-hover:#FF9797;
 
   --color-edit-button-ligth:#FEF9F9;
   --color-edit-button-ligth-hover:#DFE3FA;
@@ -72,7 +71,7 @@ export const GlobalStyles = createGlobalStyle`
   --color-bill-footer-light:#373B53;
   --color-bill-footer-dark:#0C0E16;
 
-  --color-bill-editor-bg-light:#ffffff;
+  --color-bill-editor-bg-light:#FFFFFF;
   --color-bill-editor-bg-dark:#141625;
 
   --color-add-btn-light:#F9FAFE;
@@ -92,7 +91,7 @@ export const GlobalStyles = createGlobalStyle`
   --color-ebony: #252945;
   --color-mirage: #1E2139;
   --color-ship-cove: #7E88C3;
-  --color-white:#ffffff
+  --color-white:#FFFFFF;
   --color-error:#EC5757;
 
   
@@ -147,8 +146,9 @@ body {
   background-color: ${({ theme }) => theme.mainBg};
   color: ${({ theme }) => theme.mainText};
   
+  
   min-height: 100Vh;
-  display: flex;
+  
  
 /* 
   &::-webkit-scrollbar-track {
@@ -163,9 +163,9 @@ body {
 &::-webkit-scrollbar {
   width: 12px;             
 } */
-
-
 }
+
+
 
 a {
   text-decoration:none;
@@ -181,6 +181,7 @@ p.body_s {
 h1,h2,h3,h4{
   font-family: 'Spartan-Bold';
   font-weight: 700;
+  color:${({ theme }) => theme.mainText};
 }
 
 h1 {
@@ -203,4 +204,20 @@ h4 {
   line-height: var(--font-line-heading-xs);
   letter-spacing: var(--font-letter-spacing-heading-xs);
 }
+`;
+
+export const PageWrapper = styled.div`
+  display: flex;
+  min-height: 100vh;
+
+  ${media.tablet} {
+    flex-direction: column;
+  }
+`;
+
+export const MainWrapper = styled.main`
+  margin: 0 auto;
+  padding: 2.4rem;
+  max-width: 73rem;
+  width: 100%;
 `;

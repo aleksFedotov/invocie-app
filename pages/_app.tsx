@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { AppProps } from 'next/app';
-import { GlobalStyles } from '../styles/GlobalStyles';
+import { GlobalStyles, MainWrapper, PageWrapper } from '../styles/GlobalStyles';
 import { ThemeProvider } from 'styled-components';
 import { lightTheme, darkTheme } from '../styles/theme/theme';
 
@@ -19,8 +19,12 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
       <GlobalStyles />
-      <Header themeHandler={changeTheme} theme={theme} />
-      <Component {...pageProps} />
+      <PageWrapper>
+        <Header themeHandler={changeTheme} theme={theme} />
+        <MainWrapper>
+          <Component {...pageProps} />
+        </MainWrapper>
+      </PageWrapper>
     </ThemeProvider>
   );
 }

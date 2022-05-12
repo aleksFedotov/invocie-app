@@ -6,7 +6,7 @@ declare module 'styled-components' {
     secondbg: string;
     mainText: string;
     secondTExt: string;
-    tertiaryTest: string;
+    tertiaryText: string;
     editBtn: string;
     editBtnHover: string;
     statusDraft: string;
@@ -17,6 +17,7 @@ declare module 'styled-components' {
     addBtnHover: string;
     saveBtn: string;
     saveBtnHover: string;
+    saveBtnText: string;
   }
 }
 
@@ -25,7 +26,7 @@ export const lightTheme: DefaultTheme = {
   secondbg: '#FFFFFF',
   mainText: '#0C0E16',
   secondTExt: '#7E88C3',
-  tertiaryTest: '#888EB0',
+  tertiaryText: '#888EB0',
   editBtn: '#FEF9F9',
   editBtnHover: '#DFE3FA',
   statusDraft: 'rgba(55, 59, 83,0.05)',
@@ -36,6 +37,7 @@ export const lightTheme: DefaultTheme = {
   addBtnHover: '#DFE3FA',
   saveBtn: '#373B53',
   saveBtnHover: '#0C0E16',
+  saveBtnText: '#888EB0',
 };
 
 export const darkTheme: DefaultTheme = {
@@ -43,7 +45,7 @@ export const darkTheme: DefaultTheme = {
   secondbg: '#1E2139',
   mainText: '#FFFFFF',
   secondTExt: '#FFFFFF',
-  tertiaryTest: '#DFE3FA',
+  tertiaryText: '#DFE3FA',
   editBtn: '#252945',
   editBtnHover: '#FFFFFF',
   statusDraft: 'rgba(223, 227, 250,0.05)',
@@ -54,4 +56,5 @@ export const darkTheme: DefaultTheme = {
   addBtnHover: '#DFE3FA',
   saveBtn: '#373B53',
   saveBtnHover: '#1E2139',
+  saveBtnText: '#DFE3FA',
 };

@@ -1,4 +1,5 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
 
 import Header from '../Header';
 
@@ -14,11 +15,7 @@ describe('Header compotent testting', () => {
     const header = screen.getByRole('banner');
     expect(header).toBeInTheDocument();
   });
-  test('component should have logo', () => {
-    render(mockHeader('light'));
-    const logo = screen.getByRole('img');
-    expect(logo).toBeInTheDocument();
-  });
+
   test('component should have logo', () => {
     render(mockHeader('light'));
     const logo = screen.getByAltText('logo');
@@ -47,5 +44,12 @@ describe('Header compotent testting', () => {
     render(mockHeader('light'));
     const avatar = screen.getByAltText('avatar');
     expect(avatar).toBeInTheDocument();
+  });
+
+  test('should callen onClick when icon is cliked', () => {
+    render(mockHeader('light'));
+    const sunIcon = screen.getByTestId('sun');
+    fireEvent.click(sunIcon);
+    expect(themeHandler).toBeCalled();
   });
 });
