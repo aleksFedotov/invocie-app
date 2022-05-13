@@ -14,13 +14,13 @@ export default class MyDocument extends Document {
         <Head>
           <link
             rel="preload"
-            href="/fonts/Outfit-Light.ttf"
+            href="/fonts/Spartan-Bold.ttf"
             as="font"
             crossOrigin=""
           />
           <link
             rel="preload"
-            href="/fonts/Outfit-Medium.ttf"
+            href="/fonts/Spartan-Medium.ttf"
             as="font"
             crossOrigin=""
           />

@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { media } from '../../../styles/GlobalStyles';
+
 export const Button = styled.button`
   border: none;
   border-radius: 2.4rem;
@@ -16,7 +18,13 @@ export const Button = styled.button`
     background-color: var(--color-main-button);
 
     &.new_invoice {
-      padding: 0;
+      padding-left: 0.8rem;
+      padding-right: 1.6rem;
+      gap: 1.6rem;
+
+      ${media.phone} {
+        gap: 0.8rem;
+      }
     }
 
     &:hover {

@@ -18,6 +18,8 @@ declare module 'styled-components' {
     saveBtn: string;
     saveBtnHover: string;
     saveBtnText: string;
+    checkBoxBg: string;
+    boxShadow: string;
   }
 }
 
@@ -38,11 +40,13 @@ export const lightTheme: DefaultTheme = {
   saveBtn: '#373B53',
   saveBtnHover: '#0C0E16',
   saveBtnText: '#888EB0',
+  checkBoxBg: '#DFE3FA',
+  boxShadow: 'rgba(72, 84, 159, 0.25)',
 };
 
 export const darkTheme: DefaultTheme = {
   mainBg: '#141625',
-  secondbg: '#1E2139',
+  secondbg: '#252945',
   mainText: '#FFFFFF',
   secondTExt: '#FFFFFF',
   tertiaryText: '#DFE3FA',
@@ -57,4 +61,6 @@ export const darkTheme: DefaultTheme = {
   saveBtn: '#373B53',
   saveBtnHover: '#1E2139',
   saveBtnText: '#DFE3FA',
+  checkBoxBg: '#1E2139',
+  boxShadow: 'rgba(0, 0, 0, 0.25)',
 };

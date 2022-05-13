@@ -12,14 +12,14 @@ export const media = {
 export const GlobalStyles = createGlobalStyle`
   @font-face {
     font-family: 'Spartan-Medium';
-    src: url('/fonts/LeagueSpartan-Medium.ttf') format('truetype');
+    src: url('/fonts/Spartan-Medium.ttf') format('truetype');
     font-style: medium;
     font-weight: 500;
     font-display: swap;
   }
   @font-face {
     font-family: 'Spartan-Bold';
-    src: url('/fonts/LeagueSpartan-Bold.ttf') format('truetype');
+    src: url('/fonts/Spartan-Bold.ttf') format('truetype');
     font-style: bold;
     font-weight: 700;
     font-display: swap;
@@ -86,6 +86,9 @@ export const GlobalStyles = createGlobalStyle`
   --color-save-btn-dark:#373B53;
   --color-save-btn-dark-hover:#1E2139;
 
+  --color-checkbox-bg-light: #DFE3FA;
+  --color-checkbox-bg-dark: #1E2139;
+
   
   --colot-discard-btn:#F9FAFE;
   --color-ebony: #252945;
@@ -93,6 +96,7 @@ export const GlobalStyles = createGlobalStyle`
   --color-ship-cove: #7E88C3;
   --color-white:#FFFFFF;
   --color-error:#EC5757;
+  --color-purple:#7C5DFA;
 
   
 /*  Font sizes*/
@@ -101,7 +105,7 @@ export const GlobalStyles = createGlobalStyle`
   --font-size-heading-s: 16px;
   --font-size-heading-xs: 12px;
  
-  --font-size-body-m: 15px;
+  --font-size-body-m: 12px;
   --font-size-body-s: 11px;
 
   /*  Font line height*/
