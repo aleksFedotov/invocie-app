@@ -5,8 +5,9 @@ const customMediaQuery = (maxWidth: number) =>
 
 export const media = {
   desktop_m: customMediaQuery(1200),
-  tablet: customMediaQuery(800),
-  phone: customMediaQuery(650),
+  tablet: customMediaQuery(850),
+  tablet_s: customMediaQuery(750),
+  phone: customMediaQuery(700),
 };
 
 export const GlobalStyles = createGlobalStyle`
@@ -88,6 +89,8 @@ export const GlobalStyles = createGlobalStyle`
 
   --color-checkbox-bg-light: #DFE3FA;
   --color-checkbox-bg-dark: #1E2139;
+
+
 
   
   --colot-discard-btn:#F9FAFE;
