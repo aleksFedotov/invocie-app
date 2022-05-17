@@ -11,7 +11,7 @@ export const InvoicesHeaderWrapper = styled.header`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  margin-top: 7.2rem;
+  margin-top: 4.8rem;
 
   ${media.tablet} {
     margin-top: 5.6rem;

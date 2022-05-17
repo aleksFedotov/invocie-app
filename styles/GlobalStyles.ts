@@ -44,6 +44,9 @@ export const GlobalStyles = createGlobalStyle`
 
   --color--tertiary-text-light:#888EB0;
   --color--tertiary-text-dark:#DFE3FA;
+  
+  --color--quaternary-text-light:#7E88C3;
+  --color--quaternary-text-dark:#DFE3FA;
 
   --color-main-button: #7C5DFA;
   --color-main-button-hover: #9277FF;
@@ -100,6 +103,7 @@ export const GlobalStyles = createGlobalStyle`
   --color-white:#FFFFFF;
   --color-error:#EC5757;
   --color-purple:#7C5DFA;
+  --color-light-purple:#888EB0;
 
   
 /*  Font sizes*/
@@ -227,4 +231,7 @@ export const MainWrapper = styled.main`
   padding: 2.4rem;
   max-width: 73rem;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 `;

@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { media } from '../../../styles/GlobalStyles';
 
 export const Button = styled.button`
+  position: relative;
+  overflow: hidden;
   border: none;
   border-radius: 2.4rem;
   height: 4.8rem;
@@ -12,6 +14,7 @@ export const Button = styled.button`
   color: var(--color-white);
   font-family: inherit;
   font-weight: bold;
+  font-size: var(--font-size-body-m);
   cursor: pointer;
 
   &.main_btn {

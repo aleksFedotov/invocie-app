@@ -1,5 +1,13 @@
 import React from 'react';
-import { IInvoice } from '../../../@types/types';
+import { useRouter } from 'next/router';
+
+import { IInvoiceListData } from '../../../@types/types';
+import Status from '../../UI/status/Status';
+import formatDate from '../../../helpers/dateFormat';
+import moneyFormat from '../../../helpers/moneyFormat';
+import ArrowRightIcon from '../../../public/assets/icon-arrow-right.svg';
+import useWindowWidth from '../../../hooks/useWindowWidth';
+
 import {
   ListItem,
   ListItemLeft,
@@ -9,24 +17,22 @@ import {
   ClientName,
   Total,
 } from './InvoicesListItemStyles';
-import Status from '../../UI/status/Status';
-import formatDate from '../../../helpers/dateFormat';
-import moneyFormat from '../../../helpers/moneyFormat';
-import Link from 'next/link';
-import ArrowRightIcon from '../../../public/assets/icon-arrow-right.svg';
-import useWindowWidth from '../../../hooks/useWindowWidth';
-import { useRouter } from 'next/router';
-
-const InvoicesListItem: React.FC<{ data: IInvoice }> = ({ data }) => {
+const InvoicesListItem: React.FC<{ data: IInvoiceListData }> = ({ data }) => {
   const windowWidth = useWindowWidth();
   const router = useRouter();
 
   const listItemHandler = () => {
-    if (windowWidth && windowWidth > 650) return;
-    router.push(`/invoices/${data.id}`);
+    router.push(`/invoice/${data.id}`);
   };
   return (
-    <ListItem data-testid="invoice" onClick={listItemHandler}>
+    <ListItem
+      data-testid="invoice"
+      onClick={listItemHandler}
+      layout
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
       <ListItemLeft>
         <InvoiceId>
           <span>#</span>
@@ -48,11 +54,7 @@ const InvoicesListItem: React.FC<{ data: IInvoice }> = ({ data }) => {
 
         <Status status={data.status} />
 
-        {windowWidth && windowWidth > 700 && (
-          <Link href={`/invoices/${data.id}`}>
-            <ArrowRightIcon />
-          </Link>
-        )}
+        {windowWidth && windowWidth > 700 && <ArrowRightIcon />}
       </ListItemRight>
     </ListItem>
   );

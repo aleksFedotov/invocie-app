@@ -33,3 +33,11 @@ export interface IInvoiceItem {
   price: number;
   total: number;
 }
+
+export interface IInvoiceListData {
+  id: string;
+  paymentDue: string;
+  clientName: string;
+  total: number;
+  status: string;
+}

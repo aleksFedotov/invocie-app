@@ -1,8 +1,9 @@
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 
 import { media } from '../../../styles/GlobalStyles';
 
-export const ListItem = styled.li`
+export const ListItem = styled(motion.li)`
   background-color: ${({ theme }) => theme.secondbg};
   padding: 1.6rem 3.2rem;
   border: 1px solid transparent;
@@ -50,6 +51,10 @@ export const ListItemRight = styled.div`
   display: flex;
   align-items: center;
 
+  svg {
+    margin-left: 1.8rem;
+  }
+
   ${media.phone} {
     flex-direction: column;
     justify-content: space-between;
@@ -85,4 +90,9 @@ export const ClientName = styled.p`
 
 export const Total = styled.h2`
   font-size: var(--font-size-heading-s);
+  margin-right: 3.6rem;
+
+  ${media.phone} {
+    margin-right: 0;
+  }
 `;

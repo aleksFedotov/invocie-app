@@ -7,6 +7,7 @@ declare module 'styled-components' {
     mainText: string;
     secondTExt: string;
     tertiaryText: string;
+    quaternaryText: string;
     editBtn: string;
     editBtnHover: string;
     statusDraft: string;
@@ -29,6 +30,7 @@ export const lightTheme: DefaultTheme = {
   mainText: '#0C0E16',
   secondTExt: '#7E88C3',
   tertiaryText: '#888EB0',
+  quaternaryText: '#7E88C3',
   editBtn: '#FEF9F9',
   editBtnHover: '#DFE3FA',
   statusDraft: 'rgba(55, 59, 83,0.05)',
@@ -46,10 +48,11 @@ export const lightTheme: DefaultTheme = {
 
 export const darkTheme: DefaultTheme = {
   mainBg: '#141625',
-  secondbg: '#252945',
+  secondbg: '#1E2139',
   mainText: '#FFFFFF',
   secondTExt: '#FFFFFF',
   tertiaryText: '#DFE3FA',
+  quaternaryText: '#DFE3FA',
   editBtn: '#252945',
   editBtnHover: '#FFFFFF',
   statusDraft: 'rgba(223, 227, 250,0.05)',

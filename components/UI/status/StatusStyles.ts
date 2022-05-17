@@ -16,13 +16,6 @@ export const StatusWrapper = styled.div<IStatus>`
   gap: 0.8rem;
   font-family: 'Spartan-Bold';
   text-transform: capitalize;
-  margin-left: 4rem;
-  margin-right: 2rem;
-
-  ${media.phone} {
-    margin-left: 0;
-    margin-right: 0;
-  }
 
   p {
     margin-top: 0.2rem;

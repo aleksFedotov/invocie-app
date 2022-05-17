@@ -1,17 +1,20 @@
 import React from 'react';
+import { AnimatePresence } from 'framer-motion';
 
-import { IInvoice } from '../../@types/types';
+import { IInvoiceListData } from '../../@types/types';
 
 import { List } from './InvoicesListStyles';
 import InvoicesListItem from './invoice-list-item/InvoicesListItem';
 
-const InvoicesList: React.FC<{ data: IInvoice[] }> = ({ data }) => {
+const InvoicesList: React.FC<{ data: IInvoiceListData[] }> = ({ data }) => {
   return (
-    <List>
-      {data.map((invoice: IInvoice) => (
-        <InvoicesListItem key={invoice.id} data={invoice} />
-      ))}
-    </List>
+    <AnimatePresence>
+      <List>
+        {data.map((invoice: IInvoiceListData) => (
+          <InvoicesListItem key={invoice.id} data={invoice} />
+        ))}
+      </List>
+    </AnimatePresence>
   );
 };
 
