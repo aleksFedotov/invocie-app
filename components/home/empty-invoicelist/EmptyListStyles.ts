@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { media } from '../../styles/GlobalStyles';
+import { media } from '../../../styles/GlobalStyles';
 
 export const EmptyListWrapper = styled.div`
   width: 100%;

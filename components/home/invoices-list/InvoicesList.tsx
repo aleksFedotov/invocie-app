@@ -1,10 +1,10 @@
 import React from 'react';
 import { AnimatePresence } from 'framer-motion';
 
-import { IInvoiceListData } from '../../@types/types';
+import { IInvoiceListData } from '../../../@types/types';
 
 import { List } from './InvoicesListStyles';
-import InvoicesListItem from './invoice-list-item/InvoicesListItem';
+import InvoicesListItem from '../invoices-list-item/InvoicesListItem';
 
 const InvoicesList: React.FC<{ data: IInvoiceListData[] }> = ({ data }) => {
   return (

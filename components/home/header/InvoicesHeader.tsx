@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-import ArrowDownIcon from '../../public/assets/icon-arrow-down.svg';
-import Filters from './drop-filters/Filters';
+import ArrowDownIcon from '../../../public/assets/icon-arrow-down.svg';
+import Filters from '../drop-filters/Filters';
 
 import {
   InvoicesHeaderWrapper,
@@ -11,11 +11,11 @@ import {
   PlusIconWrapper,
 } from './InvoicesHeaderStyles';
 
-import { Button } from '../UI/button/ButtonStyles';
-import PlusIcon from '../../public/assets/icon-plus.svg';
+import { Button } from '../../UI/button/ButtonStyles';
+import PlusIcon from '../../../public/assets/icon-plus.svg';
 import { AnimatePresence } from 'framer-motion';
-import useWindowWidth from '../../hooks/useWindowWidth';
-import Ripple from '../UI/ripple/Ripple';
+import useWindowWidth from '../../../hooks/useWindowWidth';
+import Ripple from '../../UI/ripple/Ripple';
 
 const InvoicesHeader: React.FC<{ total: number }> = ({ total }) => {
   const [menuIsOpened, setMenuIsOpened] = useState<boolean>(false);

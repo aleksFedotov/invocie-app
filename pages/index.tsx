@@ -6,9 +6,9 @@ import { IInvoice, IInvoiceListData } from '../@types/types';
 import { selectFilters } from '../store/filterSlice';
 import { useAppSelector } from '../store/hooks';
 
-import InvoicesHeader from '../components/invoices-header/InvoicesHeader';
-import InvoicesList from '../components/invoices-list/InvoicesList';
-import EmptyList from '../components/empty-invoicelist/EmptyList';
+import InvoicesHeader from '../components/home/header/InvoicesHeader';
+import InvoicesList from '../components/home/invoices-list/InvoicesList';
+import EmptyList from '../components/home/empty-invoicelist/EmptyList';
 
 const Home: NextPage<{ invoicesListData: IInvoiceListData[] }> = ({
   invoicesListData,

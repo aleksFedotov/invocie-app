@@ -8,6 +8,7 @@ export const media = {
   tablet: customMediaQuery(850),
   tablet_s: customMediaQuery(750),
   phone: customMediaQuery(700),
+  phone_s: customMediaQuery(500),
 };
 
 export const GlobalStyles = createGlobalStyle`
@@ -39,14 +40,17 @@ export const GlobalStyles = createGlobalStyle`
   --color-main-text-light:#0C0E16;
   --color--main-text-dark:#FFFFFF;
 
-  --color--second-text-light:#7E88C3;
-  --color--second-text-dark:#FFFFFF;
+  --color-second-text-light:#7E88C3;
+  --color-second-text-dark:#FFFFFF;
 
-  --color--tertiary-text-light:#888EB0;
-  --color--tertiary-text-dark:#DFE3FA;
+  --color-tertiary-text-light:#888EB0;
+  --color-tertiary-text-dark:#DFE3FA;
   
-  --color--quaternary-text-light:#7E88C3;
-  --color--quaternary-text-dark:#DFE3FA;
+  --color-quaternary-text-light:#7E88C3;
+  --color-quaternary-text-dark:#DFE3FA;
+
+  --color-total-text-mobile-light:#7E88C3;
+  --color-total-text-mobile-dark:#888EB0;
 
   --color-main-button: #7C5DFA;
   --color-main-button-hover: #9277FF;
@@ -156,9 +160,9 @@ body {
   font-family: 'Spartan-Medium';
   background-color: ${({ theme }) => theme.mainBg};
   color: ${({ theme }) => theme.mainText};
-  
-  
   min-height: 100Vh;
+  transition: background .3s;
+  
   
  
 /* 
@@ -220,7 +224,6 @@ h4 {
 export const PageWrapper = styled.div`
   display: flex;
   min-height: 100vh;
-
   ${media.tablet} {
     flex-direction: column;
   }
@@ -228,7 +231,7 @@ export const PageWrapper = styled.div`
 
 export const MainWrapper = styled.main`
   margin: 0 auto;
-  padding: 2.4rem;
+  padding: 3.2rem 2.4rem 2.4rem;
   max-width: 73rem;
   width: 100%;
   display: flex;

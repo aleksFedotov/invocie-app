@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-import { media } from '../../styles/GlobalStyles';
+import { media } from '../../../styles/GlobalStyles';
 
 interface IFilter {
   isOpened: boolean;
@@ -11,14 +11,14 @@ export const InvoicesHeaderWrapper = styled.header`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  margin-top: 4.8rem;
+  margin-top: 4.5rem;
 
   ${media.tablet} {
-    margin-top: 5.6rem;
+    margin-top: 2.3rem;
   }
 
   ${media.phone} {
-    margin-top: 3.2rem;
+    margin-top: 0;
   }
 `;
 

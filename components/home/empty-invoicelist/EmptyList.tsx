@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import useWindowWidth from '../../hooks/useWindowWidth';
+import useWindowWidth from '../../../hooks/useWindowWidth';
 
 import { EmptyListWrapper, EmptyListContent } from './EmptyListStyles';
 

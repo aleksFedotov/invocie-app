@@ -3,6 +3,10 @@ import styled from 'styled-components';
 import { media } from '../../styles/GlobalStyles';
 
 export const HeaderWrapper = styled.header`
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 3;
   display: flex;
   flex-direction: column;
 
@@ -10,7 +14,7 @@ export const HeaderWrapper = styled.header`
   border-radius: 0 2rem 2rem 0;
   justify-content: space-between;
 
-  min-height: 100%;
+  height: 100vh;
   background-color: var(--color-mirage);
 
   ${media.tablet} {

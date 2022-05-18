@@ -22,7 +22,7 @@ const testData = {
     street: '84 Church Way',
     city: 'Bradford',
     postCode: 'BD1 9PB',
-    country: 'United Kingdom',
+    country: 'USA',
   },
   items: [
     {
@@ -64,7 +64,7 @@ describe('InvoiceViewMain component testing', () => {
   });
   test('should have due date', () => {
     render(<InvoiceViewContent data={testData} />);
-    const dueDate = screen.queryByText(/20 Sep 2021/i);
+    const dueDate = screen.queryByText(/20 Sept 2021/i);
     expect(dueDate).toBeInTheDocument();
   });
   test('should have client name', () => {
@@ -116,19 +116,7 @@ describe('InvoiceViewMain component testing', () => {
   });
   test('should have client country', () => {
     render(<InvoiceViewContent data={testData} />);
-    const country = screen.queryByText(/United Kingdom/i);
+    const country = screen.queryByText(/USA/i);
     expect(country).toBeInTheDocument();
-  });
-
-  test('should have 2 items', () => {
-    render(<InvoiceViewContent data={testData} />);
-    const items = screen.getAllByTestId(/invoice-item/i);
-    expect(items).toHaveLength(2);
-  });
-
-  test('should have amount due', () => {
-    render(<InvoiceViewContent data={testData} />);
-    const total = screen.queryByText(/556.00/i);
-    expect(total).toBeInTheDocument();
   });
 });

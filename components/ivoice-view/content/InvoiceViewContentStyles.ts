@@ -1,7 +1,12 @@
 import styled from 'styled-components';
+import { media } from '../../../styles/GlobalStyles';
 
 interface IAddress {
   align: string;
+}
+
+interface IDataContainer {
+  margin?: string;
 }
 
 export const ContentWrapper = styled.div`
@@ -9,12 +14,22 @@ export const ContentWrapper = styled.div`
   border-radius: 0.8rem;
   padding: 4.8rem;
   color: ${({ theme }) => theme.quaternaryText};
+  transition: background 0.3s;
+
+  ${media.phone} {
+    padding: 2.4rem;
+  }
 `;
 
 export const MainInfo = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 2rem;
+
+  ${media.phone} {
+    flex-direction: column;
+    gap: 3rem;
+  }
 `;
 
 export const MainInfoLeft = styled.div`
@@ -36,12 +51,16 @@ export const Address = styled.div<IAddress>`
   gap: 0.1rem;
   font-size: var(--font-size-body-s);
   text-align: ${({ align }) => align};
+
+  ${media.phone} {
+    text-align: start;
+  }
 `;
 
 export const ClientInfo = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 10rem;
+  gap: 2.4rem 0;
 
   h3 {
     font-size: var(--font-size-heading-s);
@@ -57,10 +76,23 @@ export const Dates = styled.div`
   display: flex;
   flex-direction: column;
   gap: 3.2rem;
-`;
+  margin-right: 9rem;
 
-export const DataContainer = styled.div`
+  ${media.tablet_s} {
+    margin-right: 6rem;
+  }
+
+  ${media.phone_s} {
+    margin-right: 4rem;
+  }
+`;
+export const DataContainer = styled.div<IDataContainer>`
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
+  margin-right: ${({ margin }) => margin};
+
+  ${media.phone_s} {
+    margin-right: 0;
+  }
 `;

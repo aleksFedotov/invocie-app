@@ -12,7 +12,7 @@ declare module 'styled-components' {
     editBtnHover: string;
     statusDraft: string;
     statusDraftText: string;
-    billFooter: string;
+    tableFooter: string;
     billEditor: string;
     addBtn: string;
     addBtnHover: string;
@@ -21,6 +21,7 @@ declare module 'styled-components' {
     saveBtnText: string;
     checkBoxBg: string;
     boxShadow: string;
+    totalText: string;
   }
 }
 
@@ -35,7 +36,7 @@ export const lightTheme: DefaultTheme = {
   editBtnHover: '#DFE3FA',
   statusDraft: 'rgba(55, 59, 83,0.05)',
   statusDraftText: '#373B53',
-  billFooter: '#373B53',
+  tableFooter: '#373B53',
   billEditor: '#ffffff',
   addBtn: '#F9FAFE',
   addBtnHover: '#DFE3FA',
@@ -44,6 +45,7 @@ export const lightTheme: DefaultTheme = {
   saveBtnText: '#888EB0',
   checkBoxBg: '#DFE3FA',
   boxShadow: 'rgba(72, 84, 159, 0.25)',
+  totalText: '#7E88C3',
 };
 
 export const darkTheme: DefaultTheme = {
@@ -57,7 +59,7 @@ export const darkTheme: DefaultTheme = {
   editBtnHover: '#FFFFFF',
   statusDraft: 'rgba(223, 227, 250,0.05)',
   statusDraftText: '#FFFFFF',
-  billFooter: '#0C0E16',
+  tableFooter: '#0C0E16',
   billEditor: '#141625',
   addBtn: '#252945',
   addBtnHover: '#DFE3FA',
@@ -66,4 +68,5 @@ export const darkTheme: DefaultTheme = {
   saveBtnText: '#DFE3FA',
   checkBoxBg: '#1E2139',
   boxShadow: 'rgba(0, 0, 0, 0.25)',
+  totalText: '#888EB0',
 };

@@ -3,21 +3,10 @@ import Head from 'next/head';
 import { GetServerSideProps } from 'next';
 import Data from '../../data.json';
 import { IInvoice } from '../../@types/types';
-import Link from 'next/link';
-import ArrowLeftIcon from '../../public/assets/icon-arrow-left.svg';
-import styled from 'styled-components';
-import InvoiceViewHeader from '../../components/invoce-view-header/InvoiceViewHeader';
-import InvoiceViewContent from '../../components/invoice-view-main/InvoiceViewContent';
-const GoBack = styled.div`
-  display: flex;
-  gap: 2.2rem;
-  cursor: pointer;
-  font-family: 'Spartan-Bold';
 
-  p {
-    color: ${({ theme }) => theme.mainText};
-  }
-`;
+import InvoiceViewHeader from '../../components/ivoice-view/header/InvoiceViewHeader';
+import InvoiceViewContent from '../../components/ivoice-view/content/InvoiceViewContent';
+import HomeLink from '../../components/ivoice-view/home-link/HomeLink';
 
 const InvoceView: NextPage<{ invoiceData: IInvoice }> = ({ invoiceData }) => {
   return (
@@ -28,12 +17,7 @@ const InvoceView: NextPage<{ invoiceData: IInvoice }> = ({ invoiceData }) => {
         <link rel="icon" href="/assets/favicon-32x32.png" />
       </Head>
 
-      <Link href={'/'}>
-        <GoBack>
-          <ArrowLeftIcon />
-          <p>Go back</p>
-        </GoBack>
-      </Link>
+      <HomeLink />
       <InvoiceViewHeader data={invoiceData} />
       <InvoiceViewContent data={invoiceData} />
     </>

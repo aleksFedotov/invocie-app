@@ -5,11 +5,18 @@ import { ThemeProvider } from 'styled-components';
 import { lightTheme, darkTheme } from '../styles/theme/theme';
 import { Provider } from 'react-redux';
 import store from '../store/store';
+import useWindowWidth from '../hooks/useWindowWidth';
+import { useRouter } from 'next/router';
 
 import Header from '../components/header/Header';
+import ViewButtons from '../components/ivoice-view/view-buttons/ViewButtons';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [theme, setTheme] = useState<string>('dark');
+
+  const windowWidth = useWindowWidth();
+  const router = useRouter();
+
   const changeTheme = () => {
     if (theme === 'dark') {
       setTheme('light');
@@ -27,6 +34,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           <MainWrapper>
             <Component {...pageProps} />
           </MainWrapper>
+          {router.pathname === '/invoice/[id]' && windowWidth! < 700 && (
+            <ViewButtons isMobile={true} />
+          )}
         </PageWrapper>
       </Provider>
     </ThemeProvider>

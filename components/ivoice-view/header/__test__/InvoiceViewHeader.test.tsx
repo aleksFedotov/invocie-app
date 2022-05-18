@@ -47,28 +47,4 @@ describe('InvoiceViewHeaderStyle componetn testing', () => {
     const status = screen.queryByText(/paid/i);
     expect(status).toBeInTheDocument();
   });
-
-  test('should render 3 buttons', () => {
-    render(<InvoiceViewHeader data={testData} />);
-    const buttons = screen.getAllByRole('button');
-    expect(buttons).toHaveLength(3);
-  });
-
-  test('should render edit btn', () => {
-    render(<InvoiceViewHeader data={testData} />);
-    const editBtn = screen.getByRole('button', { name: /edit/i });
-    expect(editBtn).toHaveClass('edit_btn');
-  });
-
-  test('should render delete btn', () => {
-    render(<InvoiceViewHeader data={testData} />);
-    const deleteBtn = screen.getByRole('button', { name: /delete/i });
-    expect(deleteBtn).toHaveClass('delete_btn');
-  });
-
-  test('should render main btn', () => {
-    render(<InvoiceViewHeader data={testData} />);
-    const mainBtn = screen.getByRole('button', { name: /Mark as Read/i });
-    expect(mainBtn).toHaveClass('main_btn');
-  });
 });

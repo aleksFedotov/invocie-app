@@ -47,6 +47,7 @@ export const Button = styled.button`
   &.cancel_btn {
     background-color: ${({ theme }) => theme.editBtn};
     color: ${({ theme }) => theme.tertiaryText};
+    transition: background 0.3s;
 
     &:hover {
       background-color: ${({ theme }) => theme.editBtnHover};

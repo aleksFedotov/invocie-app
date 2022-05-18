@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { media } from '../../../styles/GlobalStyles';
+
 export const HeaderWrapper = styled.header`
   max-width: 100%;
   width: 100%;
@@ -12,6 +14,11 @@ export const HeaderWrapper = styled.header`
   background-color: ${({ theme }) => theme.secondbg};
   margin-top: 3.2rem;
   margin-bottom: 2.4rem;
+  transition: background 0.3s;
+
+  ${media.phone} {
+    margin-bottom: 1.6rem;
+  }
 `;
 
 export const HeaderLeft = styled.div`
@@ -19,6 +26,11 @@ export const HeaderLeft = styled.div`
   align-items: center;
   gap: 1.6rem;
 
+  ${media.phone} {
+    width: 100%;
+    justify-content: space-between;
+    gap: 0;
+  }
   span {
     color: ${({ theme }) => theme.tertiaryText};
   }
@@ -26,4 +38,8 @@ export const HeaderLeft = styled.div`
 export const HeaderRight = styled.div`
   display: flex;
   gap: 0.8rem;
+
+  ${media.phone} {
+    display: none;
+  }
 `;

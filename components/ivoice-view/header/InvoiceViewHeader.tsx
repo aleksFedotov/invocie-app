@@ -1,13 +1,14 @@
 import React from 'react';
-import { IInvoice } from '../../@types/types';
+import { IInvoice } from '../../../@types/types';
 
-import { Button } from '../UI/button/ButtonStyles';
-import Status from '../UI/status/Status';
+import { Button } from '../../UI/button/ButtonStyles';
+import Status from '../../UI/status/Status';
 import {
   HeaderWrapper,
   HeaderLeft,
   HeaderRight,
 } from './InvoiceViewHeaderStyle';
+import ViewButtons from '../view-buttons/ViewButtons';
 
 const InvoiceViewHeader: React.FC<{ data: IInvoice }> = ({ data }) => {
   return (
@@ -16,11 +17,7 @@ const InvoiceViewHeader: React.FC<{ data: IInvoice }> = ({ data }) => {
         <span>Status</span>
         <Status status={data.status} />
       </HeaderLeft>
-      <HeaderRight>
-        <Button className="edit_btn">Edit</Button>
-        <Button className="delete_btn">Delete</Button>
-        <Button className="main_btn">Mark as Read</Button>
-      </HeaderRight>
+      <ViewButtons isMobile={false} />
     </HeaderWrapper>
   );
 };
