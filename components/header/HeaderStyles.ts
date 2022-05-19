@@ -6,7 +6,7 @@ export const HeaderWrapper = styled.header`
   position: sticky;
   top: 0;
   left: 0;
-  z-index: 3;
+  z-index: 5;
   display: flex;
   flex-direction: column;
 

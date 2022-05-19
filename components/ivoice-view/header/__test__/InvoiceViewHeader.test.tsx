@@ -1,5 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { Provider } from 'react-redux';
+import store from '../../../../store/store';
 
 import InvoiceViewHeader from '../InvoiceViewHeader';
 
@@ -35,15 +37,23 @@ const testData = {
   total: 1800.9,
 };
 
-describe('InvoiceViewHeaderStyle componetn testing', () => {
+const mockComponent = () => {
+  return (
+    <Provider store={store}>
+      <InvoiceViewHeader data={testData} />
+    </Provider>
+  );
+};
+
+describe('InvoiceViewHeader componetn testing', () => {
   test('should render componnet', () => {
-    render(<InvoiceViewHeader data={testData} />);
+    render(mockComponent());
     const id = screen.queryByText(/status/i);
     expect(id).toBeInTheDocument();
   });
 
   test('should have status paid', () => {
-    render(<InvoiceViewHeader data={testData} />);
+    render(mockComponent());
     const status = screen.queryByText(/paid/i);
     expect(status).toBeInTheDocument();
   });

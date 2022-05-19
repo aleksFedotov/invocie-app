@@ -22,6 +22,7 @@ declare module 'styled-components' {
     checkBoxBg: string;
     boxShadow: string;
     totalText: string;
+    deleteText: string;
   }
 }
 
@@ -46,6 +47,7 @@ export const lightTheme: DefaultTheme = {
   checkBoxBg: '#DFE3FA',
   boxShadow: 'rgba(72, 84, 159, 0.25)',
   totalText: '#7E88C3',
+  deleteText: '#888EB0',
 };
 
 export const darkTheme: DefaultTheme = {
@@ -69,4 +71,5 @@ export const darkTheme: DefaultTheme = {
   checkBoxBg: '#1E2139',
   boxShadow: 'rgba(0, 0, 0, 0.25)',
   totalText: '#888EB0',
+  deleteText: '#DFE3FA',
 };

@@ -4,16 +4,21 @@ import { GetServerSideProps } from 'next';
 import Data from '../data.json';
 import { IInvoice, IInvoiceListData } from '../@types/types';
 import { selectFilters } from '../store/filterSlice';
+import { selectformModal } from '../store/modalSlice';
 import { useAppSelector } from '../store/hooks';
+import { AnimatePresence } from 'framer-motion';
 
 import InvoicesHeader from '../components/home/header/InvoicesHeader';
 import InvoicesList from '../components/home/invoices-list/InvoicesList';
 import EmptyList from '../components/home/empty-invoicelist/EmptyList';
+import Modal from '../components/UI/modal/Modal';
+import InvoiceForm from '../components/shered/form/InvoiceForm';
 
 const Home: NextPage<{ invoicesListData: IInvoiceListData[] }> = ({
   invoicesListData,
 }) => {
   const filters = useAppSelector(selectFilters);
+  const isModalOpened = useAppSelector(selectformModal);
 
   if (filters.length) {
     invoicesListData = invoicesListData.filter((invoice) =>
@@ -35,6 +40,13 @@ const Home: NextPage<{ invoicesListData: IInvoiceListData[] }> = ({
       ) : (
         <EmptyList />
       )}
+      <AnimatePresence>
+        {isModalOpened && (
+          <Modal type="new">
+            <InvoiceForm />
+          </Modal>
+        )}
+      </AnimatePresence>
     </>
   );
 };

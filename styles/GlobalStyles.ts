@@ -52,6 +52,9 @@ export const GlobalStyles = createGlobalStyle`
   --color-total-text-mobile-light:#7E88C3;
   --color-total-text-mobile-dark:#888EB0;
 
+  --color-delete-text-mobile-light:#888EB0;
+  --color-delete-text-mobile-dark:#DFE3FA;
+
   --color-main-button: #7C5DFA;
   --color-main-button-hover: #9277FF;
 
@@ -112,6 +115,8 @@ export const GlobalStyles = createGlobalStyle`
   
 /*  Font sizes*/
   --font-size-heading-l: 32px;
+  
+  --font-size-heading-xm: 24px;
   --font-size-heading-m: 20px;
   --font-size-heading-s: 16px;
   --font-size-heading-xs: 12px;

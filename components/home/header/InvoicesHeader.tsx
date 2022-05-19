@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useAppDispatch } from '../../../store/hooks';
+import { openFormModal } from '../../../store/modalSlice';
 
 import ArrowDownIcon from '../../../public/assets/icon-arrow-down.svg';
 import Filters from '../drop-filters/Filters';
@@ -20,6 +22,7 @@ import Ripple from '../../UI/ripple/Ripple';
 const InvoicesHeader: React.FC<{ total: number }> = ({ total }) => {
   const [menuIsOpened, setMenuIsOpened] = useState<boolean>(false);
   const windowWidth = useWindowWidth();
+  const dispatch = useAppDispatch();
 
   const filterClickHandler = () => {
     setMenuIsOpened((prevState) => !prevState);
@@ -48,7 +51,12 @@ const InvoicesHeader: React.FC<{ total: number }> = ({ total }) => {
           </span>
           <ArrowDownIcon />
         </InvoiceFitler>
-        <Button className="main_btn new_invoice" onClick={() => {}}>
+        <Button
+          className="main_btn new_invoice"
+          onClick={() => {
+            dispatch(openFormModal());
+          }}
+        >
           <PlusIconWrapper>
             <PlusIcon />
           </PlusIconWrapper>
