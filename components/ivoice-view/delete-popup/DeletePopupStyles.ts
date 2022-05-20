@@ -9,6 +9,10 @@ export const PoupWrapper = styled(motion.div)`
   max-width: 48rem;
   width: 100%;
 
+  transform: translateX(50%);
+
+  z-index: 11;
+
   h2 {
     font-size: var(--font-size-heading-xm);
     color: ${({ theme }) => theme.mainText};

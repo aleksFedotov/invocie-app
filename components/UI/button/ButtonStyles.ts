@@ -80,4 +80,21 @@ export const Button = styled.button`
       background-color: var(--colot-discard-btn);
     }
   }
+
+  &.back_btn {
+    background-color: transparent;
+    gap: 2.4rem;
+    color: ${({ theme }) => theme.mainText};
+    align-items: center;
+    width: fit-content;
+    padding: 0;
+
+    p {
+      margin-top: 2px;
+    }
+
+    &:hover {
+      color: ${({ theme }) => theme.totalText};
+    }
+  }
 `;

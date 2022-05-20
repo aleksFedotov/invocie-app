@@ -23,6 +23,9 @@ declare module 'styled-components' {
     boxShadow: string;
     totalText: string;
     deleteText: string;
+    inputBg: string;
+    inputBorder: string;
+    scroll: string;
   }
 }
 
@@ -48,6 +51,9 @@ export const lightTheme: DefaultTheme = {
   boxShadow: 'rgba(72, 84, 159, 0.25)',
   totalText: '#7E88C3',
   deleteText: '#888EB0',
+  inputBg: '#FFFFFF',
+  inputBorder: '#DFE3FA',
+  scroll: '#DFE3FA',
 };
 
 export const darkTheme: DefaultTheme = {
@@ -72,4 +78,7 @@ export const darkTheme: DefaultTheme = {
   boxShadow: 'rgba(0, 0, 0, 0.25)',
   totalText: '#888EB0',
   deleteText: '#DFE3FA',
+  inputBg: '#1E2139',
+  inputBorder: '#252945',
+  scroll: '#252945',
 };

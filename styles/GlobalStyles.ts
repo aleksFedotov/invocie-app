@@ -100,6 +100,12 @@ export const GlobalStyles = createGlobalStyle`
   --color-checkbox-bg-light: #DFE3FA;
   --color-checkbox-bg-dark: #1E2139;
 
+  --color-input-bg-light: #FFFFFF;
+  --color-input-bg-dark:#1E2139;
+
+  --color-input-border-light:#DFE3FA;
+  --color-input-border-dark:#252945;
+
 
 
   
@@ -170,19 +176,19 @@ body {
   
   
  
-/* 
+
   &::-webkit-scrollbar-track {
-  background: var(-color-semi-dark-blue);       
+  background: ${({ theme }) => theme.mainBg};       
 }
 &::-webkit-scrollbar-thumb {
-  background-color: var(--color-red);   
+  background-color: ${({ theme }) => theme.scroll};   
   border-radius: 20px;      
    
 }
 
 &::-webkit-scrollbar {
   width: 12px;             
-} */
+}
 }
 
 

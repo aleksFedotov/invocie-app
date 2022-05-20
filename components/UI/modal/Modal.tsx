@@ -1,22 +1,58 @@
-import React from 'react';
-import { useAppDispatch } from '../../../store/hooks';
-import { toggleDelteModal, toggleFormModal } from '../../../store/modalSlice';
+import React, { useEffect, useState, useRef } from 'react';
+import ReactDOM from 'react-dom';
 
-import { Backdrop } from './ModalStyles';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import { selectDeleteModal, selectformModal } from '../../../store/modalSlice';
+import { closeDeleteModal, closeFormModal } from '../../../store/modalSlice';
 
-const Modal: React.FC<{
-  type: string;
+import { ModalOverlay, ModalWrapper } from './ModalStyles';
 
-  children?: React.ReactNode;
-}> = ({ type, children }) => {
+const Modal: React.FC<{ children?: React.ReactNode; type: string }> = ({
+  children,
+  type,
+}) => {
+  const [_document, setDocument] = useState<Document | null>(null);
   const dispatch = useAppDispatch();
-  const modalClickHandler = () => {
-    if (type === 'delete') {
-      dispatch(toggleDelteModal());
-    } else dispatch(toggleFormModal());
-  };
 
-  return <Backdrop type={type}>{children}</Backdrop>;
+  const modalWrapperRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    setDocument(document);
+  }, []);
+
+  useEffect(() => {
+    const backDropHandler = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (
+        modalWrapperRef.current &&
+        !modalWrapperRef.current.contains(target)
+      ) {
+        if (type === 'delete') {
+          dispatch(closeDeleteModal());
+        } else {
+          dispatch(closeFormModal());
+        }
+      }
+    };
+    setDocument(document);
+    window.addEventListener('click', backDropHandler);
+    return () => window.removeEventListener('click', backDropHandler);
+  }, [dispatch, type]);
+
+  const modalContent = (
+    <ModalOverlay type={type} id="modal">
+      <ModalWrapper ref={modalWrapperRef}>{children}</ModalWrapper>
+    </ModalOverlay>
+  );
+
+  if (_document) {
+    return ReactDOM.createPortal(
+      modalContent,
+      document.getElementById('modal-root')!
+    );
+  } else {
+    return null;
+  }
 };
 
 export default Modal;

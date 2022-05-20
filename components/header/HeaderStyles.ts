@@ -2,13 +2,18 @@ import styled from 'styled-components';
 
 import { media } from '../../styles/GlobalStyles';
 
-export const HeaderWrapper = styled.header`
+export const HeaderWrapper = styled.div`
+  background-color: ${({ theme }) => theme.mainBg};
+`;
+
+export const MainHeader = styled.header`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   position: sticky;
   top: 0;
   left: 0;
   z-index: 5;
-  display: flex;
-  flex-direction: column;
 
   width: 10.3rem;
   border-radius: 0 2rem 2rem 0;

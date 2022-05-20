@@ -5,15 +5,18 @@ interface IModal {
   type: string;
 }
 
-export const Backdrop = styled(motion.div)<IModal>`
-  position: fixed;
+export const ModalWrapper = styled(motion.div)`
+  width: fit-content;
+  height: fit-content;
+`;
+
+export const ModalOverlay = styled(motion.div)<IModal>`
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.45);
-  padding: 0 2.4rem;
-  z-index: ${({ type }) => (type === 'delete' ? '10' : '2')};
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
 
   ${(props) =>
     props.type === 'delete' &&
