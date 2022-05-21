@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import ReactDOM from 'react-dom';
 
-import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { selectDeleteModal, selectformModal } from '../../../store/modalSlice';
+import { useAppDispatch } from '../../../store/hooks';
+
 import { closeDeleteModal, closeFormModal } from '../../../store/modalSlice';
 
 import { ModalOverlay, ModalWrapper } from './ModalStyles';
@@ -14,7 +14,7 @@ const Modal: React.FC<{ children?: React.ReactNode; type: string }> = ({
   const [_document, setDocument] = useState<Document | null>(null);
   const dispatch = useAppDispatch();
 
-  const modalWrapperRef = useRef<HTMLInputElement>(null);
+  const modalWrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setDocument(document);
@@ -22,7 +22,7 @@ const Modal: React.FC<{ children?: React.ReactNode; type: string }> = ({
 
   useEffect(() => {
     const backDropHandler = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
+      const target = e.target as Node;
       if (
         modalWrapperRef.current &&
         !modalWrapperRef.current.contains(target)

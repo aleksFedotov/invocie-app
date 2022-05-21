@@ -1,12 +1,18 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { Provider } from 'react-redux';
+import store from '../../../store/store';
 
 import Header from '../Header';
 
 const themeHandler = jest.fn();
 
 const mockHeader = (theme: string) => {
-  return <Header themeHandler={themeHandler} theme={theme} />;
+  return (
+    <Provider store={store}>
+      <Header themeHandler={themeHandler} theme={theme} />
+    </Provider>
+  );
 };
 
 describe('Header compotent testting', () => {

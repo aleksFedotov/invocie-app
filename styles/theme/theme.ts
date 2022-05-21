@@ -26,6 +26,8 @@ declare module 'styled-components' {
     inputBg: string;
     inputBorder: string;
     scroll: string;
+    datePickerDissabled: string;
+    datePickerDissabledText: string;
   }
 }
 
@@ -54,6 +56,8 @@ export const lightTheme: DefaultTheme = {
   inputBg: '#FFFFFF',
   inputBorder: '#DFE3FA',
   scroll: '#DFE3FA',
+  datePickerDissabled: 'rgba(126	,136,195, 0.4)',
+  datePickerDissabledText: 'rgba(12, 14, 22,0.4)',
 };
 
 export const darkTheme: DefaultTheme = {
@@ -81,4 +85,6 @@ export const darkTheme: DefaultTheme = {
   inputBg: '#1E2139',
   inputBorder: '#252945',
   scroll: '#252945',
+  datePickerDissabled: 'rgb(223, 227, 250, 0.4)',
+  datePickerDissabledText: 'rgba(255, 255, 255, 0.4)',
 };

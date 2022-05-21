@@ -30,7 +30,8 @@ export const Input = styled.input<InputProps>`
   cursor: pointer;
 
   &:focus {
-    outline: 1px solid var(--color-purple);
+    border: 1px solid var(--color-purple);
+    outline: none;
   }
 
   &::placeholder {

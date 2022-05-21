@@ -1,7 +1,8 @@
 import React from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import FormInput from '../../UI/form-input/FormInput';
 import { Button } from '../../UI/button/ButtonStyles';
+import DatePicker from '../../UI/date-picker/DatePicker';
 
 import {
   FormSection,
@@ -15,6 +16,19 @@ import {
 type Inputs = {
   example: string;
   exampleRequired: string;
+  senderAddress: string;
+  senderCity: string;
+  senderPostCode: string;
+  senederCountry: string;
+  clientName: string;
+  clientEmail: string;
+  clientAddress: string;
+  clientCity: string;
+  clientPostCode: string;
+  clientCountry: string;
+  createdAt: string;
+  terms: string;
+  description: string;
 };
 
 const InvoiceForm: React.FC = () => {
@@ -32,6 +46,7 @@ const InvoiceForm: React.FC = () => {
   const {
     register,
     handleSubmit,
+    control,
     watch,
     formState: { errors },
   } = useForm<Inputs>();
@@ -53,35 +68,27 @@ const InvoiceForm: React.FC = () => {
             <FormInput
               id="senderAddress"
               label="Street Address"
-              // @ts-ignore:next-line
               error={errors.senderAddress}
-              // @ts-ignore:next-line
               {...register('senderAddress', { required: true })}
             />
 
             <FormInput
-              id="city"
+              id="senderCity"
               label="City"
-              // @ts-ignore:next-line
-              error={errors.city}
-              // @ts-ignore:next-line
-              {...register('city', { required: true })}
+              error={errors.senderCity}
+              {...register('senderCity', { required: true })}
             />
             <FormInput
-              id="code"
+              id="senderPostCode"
               label="Post Code"
-              // @ts-ignore:next-line
-              error={errors.code}
-              // @ts-ignore:next-line
-              {...register('code', { required: true })}
+              error={errors.senderPostCode}
+              {...register('senderPostCode', { required: true })}
             />
             <FormInput
-              id="country"
-              label="Country"
-              // @ts-ignore:next-line
-              error={errors.country}
-              // @ts-ignore:next-line
-              {...register('country', { required: true })}
+              id="senederCountry"
+              label="Contry"
+              error={errors.senederCountry}
+              {...register('senederCountry', { required: true })}
             />
           </BillFromSection>
         </FormSection>
@@ -91,18 +98,14 @@ const InvoiceForm: React.FC = () => {
             <FormInput
               id="clientName"
               label="Client’s Name"
-              // @ts-ignore:next-line
               error={errors.clientName}
-              // @ts-ignore:next-line
               {...register('clientName', { required: true })}
             />
             <FormInput
               id="clientEmail"
               label="Client’s Email"
               placeholder="e.g. email@example.com"
-              // @ts-ignore:next-line
               error={errors.clientEmail}
-              // @ts-ignore:next-line
               {...register('clientEmail', {
                 required: true,
                 pattern:
@@ -112,55 +115,50 @@ const InvoiceForm: React.FC = () => {
             <FormInput
               id="clientAddress"
               label="Street Address"
-              // @ts-ignore:next-line
               error={errors.clientAddress}
-              // @ts-ignore:next-line
               {...register('clientAddress', { required: true })}
             />
 
             <FormInput
-              id="city"
+              id="clientCity"
               label="City"
-              // @ts-ignore:next-line
-              error={errors.city}
-              // @ts-ignore:next-line
-              {...register('city', { required: true })}
+              error={errors.clientCity}
+              {...register('clientCity', { required: true })}
             />
             <FormInput
-              id="code"
+              id="clientPostCode"
               label="Post Code"
-              // @ts-ignore:next-line
-              error={errors.code}
-              // @ts-ignore:next-line
-              {...register('code', { required: true })}
+              error={errors.clientPostCode as any}
+              {...register('clientPostCode', { required: true })}
             />
             <FormInput
-              id="country"
+              id="clientCountry"
               label="Country"
-              // @ts-ignore:next-line
-              error={errors.country}
-              // @ts-ignore:next-line
-              {...register('country', { required: true })}
+              error={errors.clientCountry}
+              {...register('clientCountry', { required: true })}
             />
           </BillToSection>
         </FormSection>
 
         <BottomSection>
-          <FormInput
-            id="createdAt"
-            label="Invoice Date"
-            type="date"
-            // @ts-ignore:next-line
-            error={errors.createdAt}
-            // @ts-ignore:next-line
-            {...register('createdAt', { required: true })}
+          <Controller
+            control={control}
+            name="createdAt"
+            render={(props) => (
+              <DatePicker
+                id="date"
+                label="Invoice Date"
+                isEdit={false}
+                value={props.field.value}
+                onChange={(date: string) => props.field.onChange(date)}
+              />
+            )}
           />
+
           <FormInput
             id="terms"
             label="Payment Terms"
-            // @ts-ignore:next-line
-            error={errors.city}
-            // @ts-ignore:next-line
+            error={errors.terms}
             {...register('terms', { required: true })}
           />
 
@@ -168,9 +166,7 @@ const InvoiceForm: React.FC = () => {
             id="description"
             label="Project Description"
             placeholder="e.g. Graphic Design Service"
-            // @ts-ignore:next-line
             error={errors.description}
-            // @ts-ignore:next-line
             {...register('description', { required: true })}
           />
         </BottomSection>
