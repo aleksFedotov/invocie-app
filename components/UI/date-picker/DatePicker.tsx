@@ -13,6 +13,7 @@ import {
   DateInputWrapper,
   DaysGrid,
 } from './DatePickerStyles';
+import { AnimatePresence } from 'framer-motion';
 
 export const DatePicker: React.FC<{
   label: string;
@@ -38,11 +39,10 @@ export const DatePicker: React.FC<{
   const [currentMonth, setCurrentMonth] = useState(initialCurrentMonth);
   const [currentYear, setCurrentYear] = useState(initialCurrentYear);
   const [daysInMonth, setDaysInMonth] = useState(initialDaysInMonth);
-  console.log(selectedDate);
 
-  // useEffect(() => {
-  //   setSelectedDate(new Date(value));
-  // }, [value]);
+  useEffect(() => {
+    onChange(format(selectedDate, 'yyyy-MM-dd'));
+  }, [selectedDate, onChange]);
 
   const resetDaysInMonthEffect = () => {
     setDaysInMonth(getDaysInMonth(new Date(currentYear, currentMonth)));
@@ -108,14 +108,29 @@ export const DatePicker: React.FC<{
   const handleDateSelect = (selectedDay: number) => {
     const newDate = new Date(currentYear, currentMonth, selectedDay);
     setSelectedDate(newDate);
-    onChange(format(newDate, 'yyyy-MM-dd'));
   };
   useEffect(() => {
     openHandlers.off();
   }, [openHandlers, selectedDate]);
 
+  const calendarVariants = {
+    hidden: {
+      scaleY: 0,
+    },
+    visible: {
+      scaleY: 1,
+
+      transition: { duration: 0.3 },
+    },
+    exit: {
+      scaleY: 0,
+
+      transition: { duration: 0.3 },
+    },
+  };
+
   return (
-    <DataPickerWrapper isEdit={isEdit} ref={ref}>
+    <DataPickerWrapper isEdit={isEdit} ref={ref} data-testid="datepicker">
       <label id={id}>{label}</label>
       <DateInputWrapper>
         <DateInput
@@ -127,45 +142,55 @@ export const DatePicker: React.FC<{
           readOnly={true}
           disabled={isEdit}
           aria-label={id}
-        ></DateInput>
+        />
         <CalendarIcon className="calendarIcon" />
       </DateInputWrapper>
-      {open && (
-        <Calendar>
-          <CalendarNav>
-            <button onClick={handlePrevMonth} type="button">
-              <ArrowLeftIcon />
-            </button>
-            <p>
-              {format(new Date(currentYear, currentMonth), 'MMM')} {currentYear}
-            </p>
-            <button onClick={handleNextMonth} type="button">
-              <ArrowRightIcon />
-            </button>
-          </CalendarNav>
-          <DaysGrid>
-            {Array.from(Array(daysInMonth).keys())
-              .map((p) => p + 1)
-              .map((p, i) =>
-                selectedDate.getDate() === p &&
-                selectedDate.getFullYear() === currentYear &&
-                selectedDate.getMonth() === currentMonth ? (
-                  <p
-                    key={i}
-                    className="selected"
-                    onClick={() => handleDateSelect(p)}
-                  >
-                    {p}
-                  </p>
-                ) : (
-                  <p key={i} onClick={() => handleDateSelect(p)}>
-                    {p}
-                  </p>
-                )
-              )}
-          </DaysGrid>
-        </Calendar>
-      )}
+      <AnimatePresence>
+        {open && (
+          <Calendar
+            data-testid="calender"
+            variants={calendarVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            style={{ originY: 0 }}
+          >
+            <CalendarNav>
+              <button onClick={handlePrevMonth} type="button">
+                <ArrowLeftIcon />
+              </button>
+              <p>
+                {format(new Date(currentYear, currentMonth), 'MMM')}{' '}
+                {currentYear}
+              </p>
+              <button onClick={handleNextMonth} type="button">
+                <ArrowRightIcon />
+              </button>
+            </CalendarNav>
+            <DaysGrid>
+              {Array.from(Array(daysInMonth).keys())
+                .map((p) => p + 1)
+                .map((p, i) =>
+                  selectedDate.getDate() === p &&
+                  selectedDate.getFullYear() === currentYear &&
+                  selectedDate.getMonth() === currentMonth ? (
+                    <p
+                      key={i}
+                      className="selected"
+                      onClick={() => handleDateSelect(p)}
+                    >
+                      {p}
+                    </p>
+                  ) : (
+                    <p key={i} onClick={() => handleDateSelect(p)}>
+                      {p}
+                    </p>
+                  )
+                )}
+            </DaysGrid>
+          </Calendar>
+        )}
+      </AnimatePresence>
     </DataPickerWrapper>
   );
 };

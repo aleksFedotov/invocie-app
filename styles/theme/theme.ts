@@ -28,6 +28,7 @@ declare module 'styled-components' {
     scroll: string;
     datePickerDissabled: string;
     datePickerDissabledText: string;
+    dropFiltersBd: string;
   }
 }
 
@@ -49,6 +50,7 @@ export const lightTheme: DefaultTheme = {
   saveBtn: '#373B53',
   saveBtnHover: '#0C0E16',
   saveBtnText: '#888EB0',
+  dropFiltersBd: '#FFFFFF',
   checkBoxBg: '#DFE3FA',
   boxShadow: 'rgba(72, 84, 159, 0.25)',
   totalText: '#7E88C3',
@@ -79,6 +81,7 @@ export const darkTheme: DefaultTheme = {
   saveBtnHover: '#1E2139',
   saveBtnText: '#DFE3FA',
   checkBoxBg: '#1E2139',
+  dropFiltersBd: '#252945',
   boxShadow: 'rgba(0, 0, 0, 0.25)',
   totalText: '#888EB0',
   deleteText: '#DFE3FA',

@@ -20,7 +20,8 @@ export const Input = styled.input<InputProps>`
       isError ? 'var(--color-error)' : theme.inputBorder};
   background-color: ${({ theme }) => theme.inputBg};
   border-radius: 0.4rem;
-  font-family: 'Spartan-bold';
+  font-family: inherit;
+  font-weight: 700;
   font-size: var(--font-size-body-m);
   color: ${({ theme }) => theme.mainText};
   padding: 1.6rem 1.8rem;

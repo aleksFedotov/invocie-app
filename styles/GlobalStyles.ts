@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import styled, { createGlobalStyle } from 'styled-components';
 
 const customMediaQuery = (maxWidth: number) =>
@@ -12,20 +13,7 @@ export const media = {
 };
 
 export const GlobalStyles = createGlobalStyle`
-  @font-face {
-    font-family: 'Spartan-Medium';
-    src: url('/fonts/Spartan-Medium.ttf') format('truetype');
-    font-style: medium;
-    font-weight: 500;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Spartan-Bold';
-    src: url('/fonts/Spartan-Bold.ttf') format('truetype');
-    font-style: bold;
-    font-weight: 700;
-    font-display: swap;
-  }
+ 
 
 :root {
 
@@ -168,11 +156,13 @@ body {
   font-size: var(--font-size-body-m);
   line-height: var(--font-line-body-m);
   letter-spacing: var(--font-letter-spacing-body-m);
-  font-family: 'Spartan-Medium';
+  font-family: 'Spartan', sans-serif;
+  font-weight: 500;
   background-color: ${({ theme }) => theme.mainBg};
   color: ${({ theme }) => theme.mainText};
   min-height: 100Vh;
-  transition: background .3s;
+ overflow-x: hidden;
+  transition: background .3s ease;
   
   
  
@@ -197,17 +187,19 @@ a {
   text-decoration:none;
 }
 
-p.body_s {
-  font-size: var(--font-size-body-s);
-  line-height: var(--font-line-body-s);
-  letter-spacing: var(--font-letter-spacing-body-s);
+p {
+  transition: color ease 0.3s;
+}
 
+span {
+  transition: color ease 0.3s;
 }
 
 h1,h2,h3,h4{
-  font-family: 'Spartan-Bold';
+  font-family: 'Spartan',sans-serif;
   font-weight: 700;
   color:${({ theme }) => theme.mainText};
+  transition: color ease 0.3s;
 }
 
 h1 {
@@ -240,7 +232,7 @@ export const PageWrapper = styled.div`
   }
 `;
 
-export const MainWrapper = styled.main`
+export const MainWrapper = styled(motion.main)`
   margin: 0 auto;
   padding: 3.2rem 2.4rem 2.4rem;
   max-width: 73rem;

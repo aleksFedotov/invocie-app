@@ -1,11 +1,6 @@
 import React, { useEffect } from 'react';
 
-import {
-  HeaderWrapper,
-  ThemeSwitcher,
-  HeaderContent,
-  MainHeader,
-} from './HeaderStyles';
+import { ThemeSwitcher, HeaderContent, MainHeader } from './HeaderStyles';
 import Logo from '../UI/logo/Logo';
 import Avatar from '../UI/avatar/Avatar';
 import MoonIcon from '../../public/assets/icon-moon.svg';
@@ -27,25 +22,23 @@ const Header: React.FC<{ themeHandler: () => void; theme: string }> = ({
   }, [deleteModal, formModal]);
 
   return (
-    <HeaderWrapper>
-      <MainHeader>
-        <Logo />
-        <HeaderContent>
-          <ThemeSwitcher
-            onClick={() => {
-              themeHandler();
-            }}
-          >
-            {theme === 'light' ? (
-              <SunIcon data-testid="sun" />
-            ) : (
-              <MoonIcon data-testid="moon" />
-            )}
-          </ThemeSwitcher>
-          <Avatar image={'/assets/image-avatar.jpg'} />
-        </HeaderContent>
-      </MainHeader>
-    </HeaderWrapper>
+    <MainHeader>
+      <Logo />
+      <HeaderContent>
+        <ThemeSwitcher
+          onClick={() => {
+            themeHandler();
+          }}
+        >
+          {theme === 'light' ? (
+            <SunIcon data-testid="sun" />
+          ) : (
+            <MoonIcon data-testid="moon" />
+          )}
+        </ThemeSwitcher>
+        <Avatar image={'/assets/image-avatar.jpg'} />
+      </HeaderContent>
+    </MainHeader>
   );
 };
 

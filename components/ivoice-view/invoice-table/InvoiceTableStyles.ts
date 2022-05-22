@@ -59,7 +59,7 @@ export const TableBody = styled.tbody`
   td {
     color: ${({ theme }) => theme.mainText};
     font-size: var(--font-size-body-m);
-    font-family: 'Spartan-Bold';
+    font-weight: 700;
   }
 
   tr {
@@ -111,7 +111,9 @@ export const Amount = styled.p`
 
 export const Total = styled.h3`
   font-size: 2.4rem;
-  font-family: 'Spartan-Bold';
+
+  font-weight: 700;
+  color: var(--color-white);
 
   ${media.phone_s} {
     font-size: var(--font-size-heading-m);
@@ -126,7 +128,7 @@ export const MobileTable = styled.ol`
   display: flex;
   flex-direction: column;
   gap: 2.4rem;
-  font-family: 'Spartan-Bold';
+  font-weight: 700;
 `;
 
 export const InvoiceItem = styled.li`

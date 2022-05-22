@@ -13,7 +13,7 @@ export const ListItem = styled(motion.li)`
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
-  transition: border 0.5s ease;
+  transition: border 0.5s ease, background-color 0.3s ease;
 
   ${media.tablet_s} {
     padding: 2.4rem;

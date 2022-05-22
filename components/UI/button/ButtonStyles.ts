@@ -16,6 +16,7 @@ export const Button = styled.button`
   font-weight: bold;
   font-size: var(--font-size-body-m);
   cursor: pointer;
+  transition: all 0.3s ease;
 
   &.main_btn {
     background-color: var(--color-main-button);

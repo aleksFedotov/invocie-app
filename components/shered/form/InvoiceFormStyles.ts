@@ -5,20 +5,22 @@ import { media } from '../../../styles/GlobalStyles';
 
 export const FormWrapper = styled(motion.form)`
   z-index: 3;
-  max-width: 62rem;
+  max-width: 75rem;
   max-height: 100vh;
   width: 100%;
   border-radius: 0 2rem 2rem 0;
   position: fixed;
   top: 0;
   bottom: 0;
-  left: 10.3rem;
+  left: 8.5rem;
   background-color: ${({ theme }) => theme.mainBg};
   padding: 5.6rem;
   padding-right: 3.2rem;
+  padding-left: 6.9;
   display: flex;
   flex-direction: column;
   gap: 4.8rem;
+  transition: background-color 0.3s ease;
 
   h2 {
     font-size: var(--font-size-heading-xm);
@@ -33,6 +35,7 @@ export const FormWrapper = styled(motion.form)`
   ${media.phone} {
     top: 7.2rem;
     padding: 2.4rem;
+    border-radius: 0;
   }
 `;
 

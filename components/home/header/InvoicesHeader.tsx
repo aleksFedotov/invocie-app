@@ -46,9 +46,7 @@ const InvoicesHeader: React.FC<{ total: number }> = ({ total }) => {
       </HeaderTextContent>
       <HeaderCtx>
         <InvoiceFitler onClick={filterClickHandler} isOpened={menuIsOpened}>
-          <span>
-            {windowWidth && windowWidth < 650 ? 'Filter' : 'Filter by status'}
-          </span>
+          <span>{windowWidth > 650 ? 'Filter by status' : 'Filter'}</span>
           <ArrowDownIcon />
         </InvoiceFitler>
         <Button
@@ -60,7 +58,8 @@ const InvoicesHeader: React.FC<{ total: number }> = ({ total }) => {
           <PlusIconWrapper>
             <PlusIcon />
           </PlusIconWrapper>
-          {windowWidth && windowWidth < 650 ? 'New' : 'New Invoice'}
+
+          {windowWidth > 650 ? 'New Invoice' : 'New'}
           <Ripple color={'var(--color-white)'} duration={1000} />
         </Button>
       </HeaderCtx>

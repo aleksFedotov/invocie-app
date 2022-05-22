@@ -13,6 +13,7 @@ export const ButtonsWrapper = styled.div<IButtons>`
   justify-content: center;
   gap: ${({ mobile }) => (mobile ? '2rem' : '0.8rem')};
   background-color: ${({ theme }) => theme.secondbg};
+  transition: background-color 0.3s ease;
 
   ${media.phone} {
     display: ${({ mobile }) => (mobile ? 'flex' : 'none')};

@@ -2,10 +2,6 @@ import styled from 'styled-components';
 
 import { media } from '../../styles/GlobalStyles';
 
-export const HeaderWrapper = styled.div`
-  background-color: ${({ theme }) => theme.mainBg};
-`;
-
 export const MainHeader = styled.header`
   height: 100%;
   display: flex;

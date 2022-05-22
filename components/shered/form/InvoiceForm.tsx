@@ -3,6 +3,7 @@ import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import FormInput from '../../UI/form-input/FormInput';
 import { Button } from '../../UI/button/ButtonStyles';
 import DatePicker from '../../UI/date-picker/DatePicker';
+import SelectDropdown from '../../UI/select-dropdown/SelectDropdown';
 
 import {
   FormSection,
@@ -59,6 +60,7 @@ const InvoiceForm: React.FC = () => {
       animate="visible"
       exit="hidden"
       onSubmit={handleSubmit(onSubmit)}
+      // autoComplete="off"
     >
       <h2>New Invoice</h2>
       <Wrapper>
@@ -85,7 +87,7 @@ const InvoiceForm: React.FC = () => {
               {...register('senderPostCode', { required: true })}
             />
             <FormInput
-              id="senederCountry"
+              id="senderCountry"
               label="Contry"
               error={errors.senederCountry}
               {...register('senederCountry', { required: true })}
@@ -155,11 +157,17 @@ const InvoiceForm: React.FC = () => {
             )}
           />
 
-          <FormInput
-            id="terms"
-            label="Payment Terms"
-            error={errors.terms}
-            {...register('terms', { required: true })}
+          <Controller
+            control={control}
+            name="terms"
+            render={(props) => (
+              <SelectDropdown
+                id="terms"
+                label="Payment Terms"
+                value={props.field.value}
+                onChange={(n: string) => props.field.onChange(n)}
+              />
+            )}
           />
 
           <FormInput

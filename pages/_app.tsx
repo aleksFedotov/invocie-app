@@ -10,6 +10,7 @@ import { useRouter } from 'next/router';
 
 import Header from '../components/header/Header';
 import ViewButtons from '../components/ivoice-view/view-buttons/ViewButtons';
+import { AnimatePresence } from 'framer-motion';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [theme, setTheme] = useState<string>('dark');
@@ -25,15 +26,50 @@ function MyApp({ Component, pageProps }: AppProps) {
       localStorage.setItem('theme', theme);
     }
   };
+
+  const pageAnimation = {
+    hidden: {
+      opacity: 0,
+      transition: {
+        type: 'tween',
+        ease: 'easeIn',
+        duration: 0.5,
+        staggerChildren: 0,
+      },
+    },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { type: 'tween', ease: 'easeOut', duration: 1 },
+    },
+    exit: {
+      opacity: 0,
+      x: '50%',
+      transition: {
+        type: 'tween',
+        ease: 'easeIn',
+        duration: 0.5,
+        staggerChildren: 0,
+      },
+    },
+  };
   return (
     <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
       <Provider store={store}>
         <GlobalStyles />
         <PageWrapper>
           <Header themeHandler={changeTheme} theme={theme} />
-          <MainWrapper>
-            <Component {...pageProps} />
-          </MainWrapper>
+          <AnimatePresence exitBeforeEnter>
+            <MainWrapper
+              key={router.route}
+              variants={pageAnimation}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+            >
+              <Component {...pageProps} />
+            </MainWrapper>
+          </AnimatePresence>
           {router.pathname === '/invoice/[id]' && windowWidth! < 700 && (
             <ViewButtons isMobile={true} />
           )}

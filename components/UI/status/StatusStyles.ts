@@ -14,7 +14,7 @@ export const StatusWrapper = styled.div<IStatus>`
   align-items: center;
   justify-content: center;
   gap: 0.8rem;
-  font-family: 'Spartan-Bold';
+  font-weight: 700;
   text-transform: capitalize;
 
   p {

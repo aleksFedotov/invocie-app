@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
 type DatePiker = {
@@ -33,7 +34,8 @@ export const DateInput = styled.input`
   border: 1px solid ${({ theme }) => theme.inputBorder};
   background-color: ${({ theme }) => theme.inputBg};
   border-radius: 0.4rem;
-  font-family: 'Spartan-bold';
+  font-family: inherit;
+  font-weight: 700;
   font-size: var(--font-size-body-m);
   color: ${({ theme }) => theme.mainText};
   padding: 1.6rem 1.8rem;
@@ -56,7 +58,7 @@ export const DateInput = styled.input`
   }
 `;
 
-export const Calendar = styled.div`
+export const Calendar = styled(motion.div)`
   position: absolute;
   top: 105%;
   left: 0;
@@ -79,7 +81,8 @@ export const CalendarNav = styled.div`
 
   p {
     color: ${({ theme }) => theme.mainText};
-    font-family: 'Spartan-Bold';
+    font-family: 'Spartan';
+    font-weight: 700;
   }
   button {
     padding: 0.5rem;
