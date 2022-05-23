@@ -4,6 +4,7 @@ import FormInput from '../../UI/form-input/FormInput';
 import { Button } from '../../UI/button/ButtonStyles';
 import DatePicker from '../../UI/date-picker/DatePicker';
 import SelectDropdown from '../../UI/select-dropdown/SelectDropdown';
+import FormInvoiceItems from '../form-incoice-items/FormInvoiceItems';
 
 import {
   FormSection,
@@ -14,22 +15,29 @@ import {
   Wrapper,
 } from './InvoiceFormStyles';
 
-type Inputs = {
-  example: string;
-  exampleRequired: string;
-  senderAddress: string;
-  senderCity: string;
-  senderPostCode: string;
-  senederCountry: string;
+type Item = {
+  name: string;
+  quantity: number;
+  price: number;
+  total: number;
+};
+
+type Address = {
+  street: string;
+  city: string;
+  postCode: string;
+  country: string;
+};
+
+export type Inputs = {
+  createdAt: string;
+  description: string;
+  paymentTerms: number;
   clientName: string;
   clientEmail: string;
-  clientAddress: string;
-  clientCity: string;
-  clientPostCode: string;
-  clientCountry: string;
-  createdAt: string;
-  terms: string;
-  description: string;
+  senderAddress: Address;
+  clientAddress: Address;
+  items: Item[];
 };
 
 const InvoiceForm: React.FC = () => {
@@ -48,7 +56,7 @@ const InvoiceForm: React.FC = () => {
     register,
     handleSubmit,
     control,
-    watch,
+
     formState: { errors },
   } = useForm<Inputs>();
 
@@ -70,30 +78,31 @@ const InvoiceForm: React.FC = () => {
             <FormInput
               id="senderAddress"
               label="Street Address"
-              error={errors.senderAddress}
-              {...register('senderAddress', { required: true })}
+              error={errors.senderAddress?.street}
+              {...register('senderAddress.street', { required: true })}
             />
 
             <FormInput
               id="senderCity"
               label="City"
-              error={errors.senderCity}
-              {...register('senderCity', { required: true })}
+              error={errors.senderAddress?.city}
+              {...register('senderAddress.city', { required: true })}
             />
             <FormInput
               id="senderPostCode"
               label="Post Code"
-              error={errors.senderPostCode}
-              {...register('senderPostCode', { required: true })}
+              error={errors.senderAddress?.postCode}
+              {...register('senderAddress.postCode', { required: true })}
             />
             <FormInput
               id="senderCountry"
               label="Contry"
-              error={errors.senederCountry}
-              {...register('senederCountry', { required: true })}
+              error={errors.senderAddress?.country}
+              {...register('senderAddress.country', { required: true })}
             />
           </BillFromSection>
         </FormSection>
+
         <FormSection>
           <p>Bill To</p>
           <BillToSection>
@@ -117,27 +126,27 @@ const InvoiceForm: React.FC = () => {
             <FormInput
               id="clientAddress"
               label="Street Address"
-              error={errors.clientAddress}
-              {...register('clientAddress', { required: true })}
+              error={errors.clientAddress?.street}
+              {...register('clientAddress.street', { required: true })}
             />
 
             <FormInput
               id="clientCity"
               label="City"
-              error={errors.clientCity}
-              {...register('clientCity', { required: true })}
+              error={errors.clientAddress?.city}
+              {...register('clientAddress.city', { required: true })}
             />
             <FormInput
               id="clientPostCode"
               label="Post Code"
-              error={errors.clientPostCode as any}
-              {...register('clientPostCode', { required: true })}
+              error={errors.clientAddress?.postCode}
+              {...register('clientAddress.postCode', { required: true })}
             />
             <FormInput
               id="clientCountry"
               label="Country"
-              error={errors.clientCountry}
-              {...register('clientCountry', { required: true })}
+              error={errors.clientAddress?.country}
+              {...register('clientAddress.country', { required: true })}
             />
           </BillToSection>
         </FormSection>
@@ -156,20 +165,18 @@ const InvoiceForm: React.FC = () => {
               />
             )}
           />
-
           <Controller
             control={control}
-            name="terms"
+            name="paymentTerms"
             render={(props) => (
               <SelectDropdown
                 id="terms"
                 label="Payment Terms"
                 value={props.field.value}
-                onChange={(n: string) => props.field.onChange(n)}
+                onChange={(n: number) => props.field.onChange(n)}
               />
             )}
           />
-
           <FormInput
             id="description"
             label="Project Description"
@@ -178,7 +185,13 @@ const InvoiceForm: React.FC = () => {
             {...register('description', { required: true })}
           />
         </BottomSection>
+
+        <FormSection>
+          <h3>Item List</h3>
+          <FormInvoiceItems {...{ register }} errors={errors?.items} />
+        </FormSection>
       </Wrapper>
+
       <Button className="main_btn">Save & Send</Button>
     </FormWrapper>
   );

@@ -58,6 +58,8 @@ export const Button = styled.button`
   &.add_item_btn {
     background-color: ${({ theme }) => theme.addBtn};
     color: ${({ theme }) => theme.tertiaryText};
+    display: flex;
+    justify-content: center;
 
     &:hover {
       background-color: ${({ theme }) => theme.addBtnHover};
@@ -96,6 +98,25 @@ export const Button = styled.button`
 
     &:hover {
       color: ${({ theme }) => theme.totalText};
+    }
+  }
+
+  &.delete_item_btn {
+    background-color: transparent;
+    outline: none;
+    width: fit-content;
+    height: 1.6rem;
+    padding: 0;
+    display: block;
+    border-radius: 0;
+    margin-top: 10px;
+
+    &:hover {
+      svg {
+        path {
+          fill: var(--color-error);
+        }
+      }
     }
   }
 `;

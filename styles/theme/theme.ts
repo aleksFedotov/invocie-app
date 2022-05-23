@@ -76,7 +76,7 @@ export const darkTheme: DefaultTheme = {
   tableFooter: '#0C0E16',
   billEditor: '#141625',
   addBtn: '#252945',
-  addBtnHover: '#DFE3FA',
+  addBtnHover: '#1E2139',
   saveBtn: '#373B53',
   saveBtnHover: '#1E2139',
   saveBtnText: '#DFE3FA',

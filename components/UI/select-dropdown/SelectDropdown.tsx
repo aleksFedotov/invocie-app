@@ -19,8 +19,8 @@ type Option = {
 const SelectDropdown: React.FC<{
   label: string;
   id: string;
-  value: string;
-  onChange: (n: string) => void;
+  value: number;
+  onChange: (n: number) => void;
 }> = ({ label, id, value, onChange, ...props }) => {
   const [isDroped, dropHandlers] = useToggle();
   const [selectedOption, setSeletedOption] = useState<Option>({
@@ -42,7 +42,7 @@ const SelectDropdown: React.FC<{
   };
 
   useEffect(() => {
-    onChange(selectedOption.value);
+    onChange(+selectedOption.value);
   }, [onChange, selectedOption.value]);
 
   const dropdownVariants = {

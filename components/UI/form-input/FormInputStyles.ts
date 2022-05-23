@@ -1,7 +1,9 @@
 import styled from 'styled-components';
+import { media } from '../../../styles/GlobalStyles';
 
 type InputProps = {
-  isError: boolean;
+  isError?: boolean;
+  isInvoiceItem?: boolean;
 };
 
 export const InputWrapper = styled.div<InputProps>`
@@ -11,6 +13,14 @@ export const InputWrapper = styled.div<InputProps>`
   gap: 1rem;
   color: ${({ theme, isError }) =>
     isError ? 'var(--color-error)' : theme.quaternaryText};
+
+  label {
+    display: ${({ isInvoiceItem }) => (isInvoiceItem ? 'none' : 'block')};
+
+    ${media.phone_s} {
+      display: block;
+    }
+  }
 `;
 
 export const Input = styled.input<InputProps>`
@@ -40,11 +50,15 @@ export const Input = styled.input<InputProps>`
   }
 `;
 
-export const LabelWrapper = styled.div`
+export const LabelWrapper = styled.div<InputProps>`
   display: flex;
   justify-content: space-between;
 
   span {
     font-size: 1rem;
+  }
+
+  span {
+    display: ${({ isInvoiceItem }) => (isInvoiceItem ? 'none' : 'block')};
   }
 `;

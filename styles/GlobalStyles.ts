@@ -105,6 +105,7 @@ export const GlobalStyles = createGlobalStyle`
   --color-error:#EC5757;
   --color-purple:#7C5DFA;
   --color-light-purple:#888EB0;
+  --color-waterloo:#777F98;
 
   
 /*  Font sizes*/
@@ -112,6 +113,7 @@ export const GlobalStyles = createGlobalStyle`
   
   --font-size-heading-xm: 24px;
   --font-size-heading-m: 20px;
+  --font-size-heading-xm: 18px;
   --font-size-heading-s: 16px;
   --font-size-heading-xs: 12px;
  

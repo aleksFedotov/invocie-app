@@ -5,7 +5,7 @@ import { media } from '../../../styles/GlobalStyles';
 
 export const FormWrapper = styled(motion.form)`
   z-index: 3;
-  max-width: 75rem;
+  max-width: 62.5rem;
   max-height: 100vh;
   width: 100%;
   border-radius: 0 2rem 2rem 0;
@@ -15,8 +15,8 @@ export const FormWrapper = styled(motion.form)`
   left: 8.5rem;
   background-color: ${({ theme }) => theme.mainBg};
   padding: 5.6rem;
-  padding-right: 3.2rem;
-  padding-left: 6.9;
+  padding-right: 2rem;
+  padding-left: 6.9rem;
   display: flex;
   flex-direction: column;
   gap: 4.8rem;
@@ -30,11 +30,14 @@ export const FormWrapper = styled(motion.form)`
   ${media.tablet} {
     top: 8rem;
     left: 0;
+    max-width: 62rem;
+    padding-left: 5.6rem;
   }
 
   ${media.phone} {
     top: 7.2rem;
     padding: 2.4rem;
+    padding-right: 0.4rem;
     border-radius: 0;
   }
 `;
@@ -57,6 +60,10 @@ export const Wrapper = styled.div`
   &::-webkit-scrollbar {
     width: 12px;
   }
+
+  ${media.phone} {
+    padding-right: 0.8rem;
+  }
 `;
 
 export const FormSection = styled.div`
@@ -64,6 +71,11 @@ export const FormSection = styled.div`
   flex-direction: column;
   gap: 2.4rem;
   color: var(--color-purple);
+
+  h3 {
+    color: var(--color-waterlo);
+    font-size: var(--font-size-heading-xm);
+  }
 `;
 
 export const InputsGroup = styled.div`
