@@ -109,7 +109,13 @@ export const Button = styled.button`
     padding: 0;
     display: block;
     border-radius: 0;
-    margin-top: 10px;
+    margin-top: 0.5rem;
+    justify-self: center;
+    align-self: center;
+
+    ${media.phone} {
+      margin-top: 1.8rem;
+    }
 
     &:hover {
       svg {

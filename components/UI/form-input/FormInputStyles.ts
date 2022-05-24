@@ -3,7 +3,7 @@ import { media } from '../../../styles/GlobalStyles';
 
 type InputProps = {
   isError?: boolean;
-  isInvoiceItem?: boolean;
+  invoiceItem?: boolean;
 };
 
 export const InputWrapper = styled.div<InputProps>`
@@ -15,7 +15,7 @@ export const InputWrapper = styled.div<InputProps>`
     isError ? 'var(--color-error)' : theme.quaternaryText};
 
   label {
-    display: ${({ isInvoiceItem }) => (isInvoiceItem ? 'none' : 'block')};
+    display: ${({ invoiceItem }) => (invoiceItem ? 'none' : 'block')};
 
     ${media.phone_s} {
       display: block;
@@ -48,6 +48,19 @@ export const Input = styled.input<InputProps>`
   &::placeholder {
     color: ${({ theme }) => theme.quaternaryText};
   }
+
+  /* hide arrows for input number */
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  &:disabled {
+    background: transparent;
+    border: none;
+    cursor: initial;
+  }
 `;
 
 export const LabelWrapper = styled.div<InputProps>`
@@ -59,6 +72,6 @@ export const LabelWrapper = styled.div<InputProps>`
   }
 
   span {
-    display: ${({ isInvoiceItem }) => (isInvoiceItem ? 'none' : 'block')};
+    display: ${({ invoiceItem }) => (invoiceItem ? 'none' : 'block')};
   }
 `;

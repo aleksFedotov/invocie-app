@@ -104,6 +104,14 @@ export const BillFromSection = styled.div`
   > *:nth-child(4) {
     grid-area: country;
   }
+
+  ${media.phone} {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+      'address address '
+      'city code '
+      'country country';
+  }
 `;
 
 export const BillToSection = styled.div`
@@ -134,6 +142,16 @@ export const BillToSection = styled.div`
   > *:nth-child(6) {
     grid-area: country;
   }
+
+  ${media.phone} {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+      'name name'
+      'email email'
+      'address address'
+      'city code'
+      'country country';
+  }
 `;
 
 export const BottomSection = styled.div`
@@ -152,5 +170,13 @@ export const BottomSection = styled.div`
   }
   > *:nth-child(3) {
     grid-area: descrition;
+  }
+
+  ${media.phone} {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'date'
+      'terms'
+      'descrition';
   }
 `;

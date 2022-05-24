@@ -7,20 +7,13 @@ export interface IInvoice {
   clientName: string;
   clientEmail: string;
   status: string;
-  senderAddress: ISenderAddress;
-  clientAddress: IClientAddress;
+  senderAddress: IAddress;
+  clientAddress: IAddress;
   items: IInvoiceItem[];
   total: number;
 }
 
-export interface ISenderAddress {
-  street: string;
-  city: string;
-  postCode: string;
-  country: string;
-}
-
-export interface IClientAddress {
+export interface IAddress {
   street: string;
   city: string;
   postCode: string;
