@@ -3,6 +3,10 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { media } from '../../../styles/GlobalStyles';
 
+type FormProps = {
+  edit?: boolean;
+};
+
 export const FormWrapper = styled(motion.form)`
   z-index: 3;
   max-width: 62.5rem;
@@ -13,13 +17,13 @@ export const FormWrapper = styled(motion.form)`
   top: 0;
   bottom: 0;
   left: 8.5rem;
-  background-color: ${({ theme }) => theme.mainBg};
-  padding: 5.6rem;
-  padding-right: 2rem;
-  padding-left: 6.9rem;
+  background-color: ${({ theme }) => theme.formBg};
+  gap: 4.8rem;
+
+  padding: 5.6rem 2rem 0 6.9rem;
   display: flex;
   flex-direction: column;
-  gap: 4.8rem;
+
   transition: background-color 0.3s ease;
 
   h2 {
@@ -36,9 +40,9 @@ export const FormWrapper = styled(motion.form)`
 
   ${media.phone} {
     top: 7.2rem;
-    padding: 2.4rem;
-    padding-right: 0.4rem;
+    padding: 2.4rem 0.4rem 0 2.4rem;
     border-radius: 0;
+    gap: 2.4rem;
   }
 `;
 
@@ -48,6 +52,8 @@ export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4.8rem;
+  flex-grow: 1;
+
   &::-webkit-scrollbar-track {
     background: ${({ theme }) => theme.mainBg};
   }
@@ -62,7 +68,9 @@ export const Wrapper = styled.div`
   }
 
   ${media.phone} {
+    gap: 4rem;
     padding-right: 0.8rem;
+    margin-bottom: 2.4rem;
   }
 `;
 
@@ -178,5 +186,56 @@ export const BottomSection = styled.div`
       'date'
       'terms'
       'descrition';
+  }
+`;
+
+export const ButtonWrapper = styled.div`
+  width: calc(100% + 8.9rem);
+  max-height: 11rem;
+  margin-left: -6.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3.2rem 5.6rem 3.2rem 6.9rem;
+  background-color: ${({ theme }) => theme.secondbg};
+  border-radius: 0 2rem 0 0;
+  transition: background-color 0.3s ease;
+
+  ${media.phone} {
+    justify-content: initial;
+    gap: 0.8rem;
+    padding: 2.2rem 2.4rem 2.2rem 2.4rem;
+    padding-right: 2.4rem;
+    width: calc(100% + 2.8rem);
+    max-height: 9rem;
+    margin-left: -2.4rem;
+  }
+`;
+
+export const ButtonsRight = styled.div<FormProps>`
+  display: flex;
+  gap: 0.8rem;
+
+  ${media.phone} {
+    margin-left: auto;
+    button {
+      padding: ${({ edit }) => (edit ? '0 2.4rem' : '0 1.4rem')};
+    }
+  }
+`;
+
+export const Shadow = styled.div`
+  display: none;
+  ${media.phone} {
+    min-height: 6.4rem;
+    display: block;
+    width: calc(100% + 2.8rem);
+    margin-left: -2.4rem;
+
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.01),
+      rgba(0, 0, 0, 0.1)
+    );
   }
 `;

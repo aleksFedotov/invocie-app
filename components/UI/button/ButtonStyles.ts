@@ -15,6 +15,7 @@ export const Button = styled.button`
   font-family: inherit;
   font-weight: bold;
   font-size: var(--font-size-body-m);
+  letter-spacing: var(--font-letter-spacing-body-m);
   cursor: pointer;
   transition: all 0.3s ease;
 
@@ -76,11 +77,20 @@ export const Button = styled.button`
   }
 
   &.discard_btn {
-    background-color: var(--colot-discard-btn);
-    color: var(--color-ship-cove);
+    background-color: ${({ theme }) => theme.discardBg};
+    color: ${({ theme }) => theme.discardText};
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    min-width: 9.6rem;
 
     &:hover {
-      background-color: var(--colot-discard-btn);
+      background-color: ${({ theme }) => theme.discardHover};
+      color: var(--color-discard-text);
+    }
+
+    ${media.phone} {
+      min-width: 8.4rem;
     }
   }
 
@@ -90,6 +100,8 @@ export const Button = styled.button`
     color: ${({ theme }) => theme.mainText};
     align-items: center;
     width: fit-content;
+    min-height: 1.85rem;
+    max-height: 1.85rem;
     padding: 0;
 
     p {
@@ -106,6 +118,7 @@ export const Button = styled.button`
     outline: none;
     width: fit-content;
     height: 1.6rem;
+
     padding: 0;
     display: block;
     border-radius: 0;

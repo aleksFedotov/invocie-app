@@ -12,7 +12,8 @@ type Props = {
   invoiceItem?: boolean;
   disabled?: boolean;
   value?: string | number;
-  onChange?: (data: string) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
 };
 // eslint-disable-next-line react/display-name
 const FormInput: React.FC<Props> = React.forwardRef(
@@ -27,22 +28,20 @@ const FormInput: React.FC<Props> = React.forwardRef(
       disabled,
       value,
       onChange,
+      onBlur,
       ...rest
     },
     ref
   ) => {
-    const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (onChange) {
-        const value = e.target.value;
-        onChange(value);
-      }
-    };
-
     return (
       <InputWrapper isError={error} invoiceItem={invoiceItem}>
         <LabelWrapper invoiceItem={invoiceItem}>
           <label id={id}>{label}</label>
-          {error && <span>{"Can't be empty"}</span>}
+          {error && (
+            <span>
+              {id === 'clientEmail' ? 'Invalid email' : "Can't be empty"}
+            </span>
+          )}
         </LabelWrapper>
 
         <Input
@@ -55,7 +54,8 @@ const FormInput: React.FC<Props> = React.forwardRef(
           ref={ref}
           {...rest}
           disabled={disabled}
-          onChange={onChangeHandler}
+          onChange={onChange}
+          onBlur={onBlur}
           lang="en"
         />
       </InputWrapper>

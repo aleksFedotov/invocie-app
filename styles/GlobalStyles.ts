@@ -97,7 +97,8 @@ export const GlobalStyles = createGlobalStyle`
 
 
   
-  --colot-discard-btn:#F9FAFE;
+  --color-discard-btn:#F9FAFE;
+  --color-discard-text:#7E88C3;
   --color-ebony: #252945;
   --color-mirage: #1E2139;
   --color-ship-cove: #7E88C3;
@@ -163,7 +164,7 @@ body {
   background-color: ${({ theme }) => theme.mainBg};
   color: ${({ theme }) => theme.mainText};
   min-height: 100Vh;
- overflow-x: hidden;
+
   transition: background .3s ease;
   
   

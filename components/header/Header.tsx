@@ -16,6 +16,7 @@ const Header: React.FC<{ themeHandler: () => void; theme: string }> = ({
   const formModal = useAppSelector(selectformModal);
 
   useEffect(() => {
+    document.body.style.overflow = 'visible';
     if (deleteModal || formModal) {
       document.body.style.overflow = 'hidden';
     }

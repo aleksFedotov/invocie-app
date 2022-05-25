@@ -40,8 +40,8 @@ const FormItem: React.FC<{
             id="itemName"
             error={itemsErrors && itemsErrors[ind]?.name}
             value={value}
-            onChange={(data: string) => {
-              onChange(data);
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              onChange(event.target.value);
             }}
             label="Item Name"
             invoiceItem
@@ -58,8 +58,9 @@ const FormItem: React.FC<{
             id="quantity"
             type="number"
             error={itemsErrors && itemsErrors[ind]?.quantity}
-            value={value}
-            onChange={(data: string) => {
+            placeholder="0"
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              const data = event.target.value;
               setTotal(+data, watchItemPrice);
               onChange(+data);
             }}
@@ -75,12 +76,17 @@ const FormItem: React.FC<{
         render={({ field: { onChange, value } }) => (
           <FormInput
             id="price"
-            type="number"
+            type="text"
             error={itemsErrors && itemsErrors[ind]?.price}
-            value={value.toFixed(2)}
-            onChange={(data: string) => {
+            value={value}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              const data = event.target.value.replace(/[^0-9\.]/g, '');
               setTotal(watchItemQty, +data);
               onChange(+data);
+            }}
+            onBlur={(event: React.FocusEvent<HTMLInputElement>) => {
+              const data = +event.target.value;
+              onChange(+data.toFixed(2));
             }}
             label="Price"
             invoiceItem
@@ -93,8 +99,8 @@ const FormItem: React.FC<{
         render={({ field: { value } }) => (
           <FormInput
             id="itemName"
-            type="number"
-            value={value && value.toFixed(2)}
+            type="text"
+            value={value.toFixed(2)}
             label="Total"
             invoiceItem
             disabled

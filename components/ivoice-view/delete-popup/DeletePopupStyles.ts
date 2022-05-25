@@ -8,6 +8,7 @@ export const PoupWrapper = styled(motion.div)`
   padding: 4.8rem;
   max-width: 48rem;
   width: 100%;
+  margin: 0 2.4rem;
 
   transform: translateX(50%);
 

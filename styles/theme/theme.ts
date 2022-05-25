@@ -29,6 +29,10 @@ declare module 'styled-components' {
     datePickerDissabled: string;
     datePickerDissabledText: string;
     dropFiltersBd: string;
+    discardBg: string;
+    discardText: string;
+    discardHover: string;
+    formBg: string;
   }
 }
 
@@ -60,6 +64,10 @@ export const lightTheme: DefaultTheme = {
   scroll: '#DFE3FA',
   datePickerDissabled: 'rgba(126	,136,195, 0.4)',
   datePickerDissabledText: 'rgba(12, 14, 22,0.4)',
+  discardBg: '#F9FAFE',
+  discardText: '#7E88C3',
+  discardHover: '#DFE3FA',
+  formBg: `#FFFFFF`,
 };
 
 export const darkTheme: DefaultTheme = {
@@ -90,4 +98,8 @@ export const darkTheme: DefaultTheme = {
   scroll: '#252945',
   datePickerDissabled: 'rgb(223, 227, 250, 0.4)',
   datePickerDissabledText: 'rgba(255, 255, 255, 0.4)',
+  discardBg: '#252945',
+  discardText: '#DFE3FA',
+  discardHover: '#F9FAFE',
+  formBg: `#141625`,
 };

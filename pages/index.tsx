@@ -43,7 +43,7 @@ const Home: NextPage<{ invoicesListData: IInvoiceListData[] }> = ({
       <AnimatePresence>
         {isModalOpened && (
           <Modal type="new">
-            <InvoiceForm />
+            <InvoiceForm create />
           </Modal>
         )}
       </AnimatePresence>

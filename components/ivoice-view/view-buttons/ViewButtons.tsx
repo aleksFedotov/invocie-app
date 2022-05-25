@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAppDispatch } from '../../../store/hooks';
-import { openDeleteModal } from '../../../store/modalSlice';
+import { openDeleteModal, openFormModal } from '../../../store/modalSlice';
 
 import { ButtonsWrapper } from './ViewButtonsStyles';
 import { Button } from '../../UI/button/ButtonStyles';
@@ -10,7 +10,12 @@ const ViewButtons: React.FC<{ isMobile: boolean }> = ({ isMobile }) => {
   const dispatch = useAppDispatch();
   return (
     <ButtonsWrapper mobile={isMobile}>
-      <Button className="edit_btn">
+      <Button
+        className="edit_btn"
+        onClick={() => {
+          dispatch(openFormModal());
+        }}
+      >
         Edit
         <Ripple color={'var(--color-white)'} duration={1000} />
       </Button>
