@@ -5,6 +5,8 @@ import {
   Controller,
   FormProvider,
 } from 'react-hook-form';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 import FormInput from '../../UI/form-input/FormInput';
 import { Button } from '../../UI/button/ButtonStyles';
 import DatePicker from '../../UI/date-picker/DatePicker';
@@ -26,6 +28,7 @@ import {
   ButtonWrapper,
   ButtonsRight,
   Shadow,
+  ErrorMessage,
 } from './InvoiceFormStyles';
 
 export type Inputs = {
@@ -39,12 +42,46 @@ export type Inputs = {
   items: IInvoiceItem[];
 };
 
+const schema = yup
+  .object()
+  .shape({
+    description: yup.string().required(),
+    createdAt: yup.string().required(),
+    paymentTerms: yup.number().required(),
+    clientName: yup.string().required(),
+    clientEmail: yup.string().email(),
+    senderAddress: yup.object().shape({
+      street: yup.string().required(),
+      city: yup.string().required(),
+      postCode: yup.string().required(),
+      country: yup.string().required(),
+    }),
+    clientAddress: yup.object().shape({
+      street: yup.string().required(),
+      city: yup.string().required(),
+      postCode: yup.string().required(),
+      country: yup.string().required(),
+    }),
+    items: yup
+      .array()
+      .of(
+        yup.object().shape({
+          name: yup.string().required(),
+          quantity: yup.number().min(1).required(),
+          price: yup.number().min(1).required(),
+        })
+      )
+      .min(1),
+  })
+  .required();
+
 const InvoiceForm: React.FC<{
   create?: boolean;
   edit?: boolean;
   data?: IInvoice;
 }> = ({ create, edit, data }) => {
   const dispatch = useAppDispatch();
+
   const formAnimation = {
     hidden: {
       x: '-100%',
@@ -56,11 +93,27 @@ const InvoiceForm: React.FC<{
     },
   };
 
-  const methods = useForm<Inputs>();
+  const methods = useForm<Inputs>({
+    // @ts-ignore:next-line
+    defaultValues: data,
+    resolver: yupResolver(schema),
+  });
 
-  const { handleSubmit, control } = methods;
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+    getValues,
+  } = methods;
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const values = getValues();
+
+  const isErorrs = Object.keys(errors).length > 0;
+  const isEmptyItemsArray =
+    Object.keys(errors).length > 0 && !values.items.length;
+  console.log(errors);
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => console.log('submit', data);
   return (
     <FormProvider {...methods}>
       <FormWrapper
@@ -104,6 +157,7 @@ const InvoiceForm: React.FC<{
                     id="senderStreet"
                     label="Street Address"
                     error={error}
+                    value={value}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                       const data = event.target.value;
                       onChange(data);
@@ -124,6 +178,7 @@ const InvoiceForm: React.FC<{
                     id="senderCity"
                     label="City"
                     error={error}
+                    value={value}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                       const data = event.target.value;
                       onChange(data);
@@ -144,6 +199,7 @@ const InvoiceForm: React.FC<{
                     id="senderPostCode"
                     label="Post Code"
                     error={error}
+                    value={value}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                       const data = event.target.value;
                       onChange(data);
@@ -164,6 +220,7 @@ const InvoiceForm: React.FC<{
                     id="senderCountry"
                     label="Contry"
                     error={error}
+                    value={value}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                       const data = event.target.value;
                       onChange(data);
@@ -189,6 +246,7 @@ const InvoiceForm: React.FC<{
                     id="clientName"
                     label="Client’s Name"
                     error={error}
+                    value={value}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                       const data = event.target.value;
                       onChange(data);
@@ -214,6 +272,7 @@ const InvoiceForm: React.FC<{
                     label="Client’s Email"
                     placeholder="e.g. email@example.com"
                     error={error}
+                    value={value}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                       const data = event.target.value;
                       onChange(data);
@@ -234,6 +293,7 @@ const InvoiceForm: React.FC<{
                     id="clientStreet"
                     label="Street Address"
                     error={error}
+                    value={value}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                       const data = event.target.value;
                       onChange(data);
@@ -254,6 +314,7 @@ const InvoiceForm: React.FC<{
                     id="clientCity"
                     label="City"
                     error={error}
+                    value={value}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                       const data = event.target.value;
                       onChange(data);
@@ -274,6 +335,7 @@ const InvoiceForm: React.FC<{
                     id="clientPostCode"
                     label="Post Code"
                     error={error}
+                    value={value}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                       const data = event.target.value;
                       onChange(data);
@@ -294,6 +356,7 @@ const InvoiceForm: React.FC<{
                     id="clientCountry"
                     label="Country"
                     error={error}
+                    value={value}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                       const data = event.target.value;
                       onChange(data);
@@ -308,25 +371,25 @@ const InvoiceForm: React.FC<{
             <Controller
               control={control}
               name="createdAt"
-              render={(props) => (
+              render={({ field: { onChange, value } }) => (
                 <DatePicker
                   id="date"
                   label="Invoice Date"
                   isEdit={false}
-                  value={props.field.value}
-                  onChange={(date: string) => props.field.onChange(date)}
+                  value={value}
+                  onChange={(date: string) => onChange(date)}
                 />
               )}
             />
             <Controller
               control={control}
               name="paymentTerms"
-              render={(props) => (
+              render={({ field: { onChange, value } }) => (
                 <SelectDropdown
                   id="terms"
                   label="Payment Terms"
-                  value={props.field.value}
-                  onChange={(n: number) => props.field.onChange(n)}
+                  value={value}
+                  onChange={(n: number) => onChange(n)}
                 />
               )}
             />
@@ -344,6 +407,7 @@ const InvoiceForm: React.FC<{
                   label="Project Description"
                   placeholder="e.g. Graphic Design Service"
                   error={error}
+                  value={value}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                     const data = event.target.value;
                     onChange(data);
@@ -357,6 +421,15 @@ const InvoiceForm: React.FC<{
             <h3>Item List</h3>
             <FormInvoiceItems />
           </FormSection>
+
+          <div>
+            {isErorrs && (
+              <ErrorMessage>- All fields must be added</ErrorMessage>
+            )}
+            {isEmptyItemsArray && (
+              <ErrorMessage>- An item must be added</ErrorMessage>
+            )}
+          </div>
         </Wrapper>
         <Shadow />
         {create && (

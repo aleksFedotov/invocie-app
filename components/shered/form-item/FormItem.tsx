@@ -57,11 +57,12 @@ const FormItem: React.FC<{
           <FormInput
             id="quantity"
             type="number"
+            value={value}
             error={itemsErrors && itemsErrors[ind]?.quantity}
             placeholder="0"
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
               const data = event.target.value;
-              setTotal(+data, watchItemPrice);
+              setTotal(+data, watchItemPrice!);
               onChange(+data);
             }}
             label="Qty."
@@ -81,7 +82,7 @@ const FormItem: React.FC<{
             value={value}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
               const data = event.target.value.replace(/[^0-9\.]/g, '');
-              setTotal(watchItemQty, +data);
+              setTotal(watchItemQty!, +data);
               onChange(+data);
             }}
             onBlur={(event: React.FocusEvent<HTMLInputElement>) => {
@@ -100,7 +101,7 @@ const FormItem: React.FC<{
           <FormInput
             id="itemName"
             type="text"
-            value={value.toFixed(2)}
+            value={value!.toFixed(2)}
             label="Total"
             invoiceItem
             disabled

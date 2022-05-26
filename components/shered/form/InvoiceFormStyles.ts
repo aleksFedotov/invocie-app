@@ -31,6 +31,10 @@ export const FormWrapper = styled(motion.form)`
     color: ${({ theme }) => theme.mainText};
   }
 
+  button.back_btn {
+    display: none;
+  }
+
   ${media.tablet} {
     top: 8rem;
     left: 0;
@@ -43,6 +47,10 @@ export const FormWrapper = styled(motion.form)`
     padding: 2.4rem 0.4rem 0 2.4rem;
     border-radius: 0;
     gap: 2.4rem;
+
+    button.back_btn {
+      display: block;
+    }
   }
 `;
 
@@ -238,4 +246,10 @@ export const Shadow = styled.div`
       rgba(0, 0, 0, 0.1)
     );
   }
+`;
+
+export const ErrorMessage = styled.span`
+  display: block;
+  color: var(--color-error);
+  font-size: var(--font-size-body-xs);
 `;

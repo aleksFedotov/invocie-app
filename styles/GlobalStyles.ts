@@ -120,6 +120,7 @@ export const GlobalStyles = createGlobalStyle`
  
   --font-size-body-m: 12px;
   --font-size-body-s: 11px;
+  --font-size-body-xs: 10px;
 
   /*  Font line height*/
 

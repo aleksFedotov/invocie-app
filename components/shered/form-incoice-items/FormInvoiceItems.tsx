@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useFieldArray, FieldError, useFormContext } from 'react-hook-form';
 import { Inputs } from '../form/InvoiceForm';
 
@@ -7,11 +7,17 @@ import { Button } from '../../UI/button/ButtonStyles';
 import FormItem from '../form-item/FormItem';
 
 const FormInvoiceItems: React.FC<{}> = () => {
-  const { control } = useFormContext<Inputs>();
+  const { control, setError } = useFormContext<Inputs>();
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'items',
   });
+
+  useEffect(() => {
+    if (!fields.length) {
+      setError('items', { type: 'required' });
+    }
+  }, [fields.length, setError]);
 
   return (
     <Wrapper>

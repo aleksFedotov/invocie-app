@@ -11,7 +11,6 @@ const DeletePopup: React.FC<{ id: string }> = ({ id }) => {
   const router = useRouter();
 
   const deleteClickHandler = () => {
-    console.log('click');
     dispatch(closeDeleteModal());
     router.push('/');
   };

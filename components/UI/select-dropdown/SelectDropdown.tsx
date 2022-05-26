@@ -11,9 +11,32 @@ import useToggle from '../../../hooks/useToggle';
 
 import ArrowDownIcon from '../../../public/assets/icon-arrow-down.svg';
 
-type Option = {
+type TermOption = {
   text: string;
   value: string;
+};
+
+type ValueOptions = {
+  [key: number]: TermOption;
+};
+
+const valueOptions: ValueOptions = {
+  1: {
+    text: 'Net 1 Day',
+    value: '1',
+  },
+  7: {
+    text: 'Net 7 Days',
+    value: '7',
+  },
+  14: {
+    text: 'Net 14 Days',
+    value: '14',
+  },
+  30: {
+    text: 'Net 30 Days',
+    value: '30',
+  },
 };
 
 const SelectDropdown: React.FC<{
@@ -23,10 +46,14 @@ const SelectDropdown: React.FC<{
   onChange: (n: number) => void;
 }> = ({ label, id, value, onChange, ...props }) => {
   const [isDroped, dropHandlers] = useToggle();
-  const [selectedOption, setSeletedOption] = useState<Option>({
-    text: 'Net 30 Days',
-    value: '30',
-  });
+  const [selectedOption, setSeletedOption] = useState<TermOption>(
+    value
+      ? valueOptions[value]
+      : {
+          text: 'Net 30 Days',
+          value: '30',
+        }
+  );
 
   const ref = useRef<HTMLDivElement>(null);
 
