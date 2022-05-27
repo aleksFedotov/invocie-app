@@ -1,6 +1,8 @@
 import React from 'react';
 import useWindowWidth from '../../../hooks/useWindowWidth';
 import { useRouter } from 'next/router';
+import { useAppDispatch } from '../../../store/hooks';
+import { closeDeleteModal, closeFormModal } from '../../../store/modalSlice';
 
 import { LogoWrapper } from './LogoStyles';
 import Image from 'next/image';
@@ -8,6 +10,7 @@ import Image from 'next/image';
 const Logo: React.FC = () => {
   const windowWidth = useWindowWidth();
   const router = useRouter();
+  const dispatch = useAppDispatch();
   let imageSize = 40;
 
   if (typeof windowWidth !== 'undefined' && windowWidth < 800) {
@@ -19,6 +22,8 @@ const Logo: React.FC = () => {
   return (
     <LogoWrapper
       onClick={() => {
+        dispatch(closeDeleteModal());
+        dispatch(closeFormModal());
         router.push('/');
       }}
     >

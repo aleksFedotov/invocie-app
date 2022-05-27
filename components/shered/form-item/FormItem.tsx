@@ -30,16 +30,15 @@ const FormItem: React.FC<{
   };
 
   return (
-    <InvoiceItem>
+    <InvoiceItem data-testid="invoice_item">
       <Controller
         control={control}
         name={`items.${ind}.name`}
         rules={{ required: true }}
-        render={({ field: { onChange, value } }) => (
+        render={({ field: { onChange } }) => (
           <FormInput
             id="itemName"
             error={itemsErrors && itemsErrors[ind]?.name}
-            value={value}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
               onChange(event.target.value);
             }}
@@ -53,11 +52,10 @@ const FormItem: React.FC<{
         control={control}
         name={`items.${ind}.quantity`}
         rules={{ required: true, min: 1 }}
-        render={({ field: { onChange, value } }) => (
+        render={({ field: { onChange } }) => (
           <FormInput
             id="quantity"
             type="number"
-            value={value}
             error={itemsErrors && itemsErrors[ind]?.quantity}
             placeholder="0"
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
@@ -99,7 +97,7 @@ const FormItem: React.FC<{
         name={`items.${ind}.total`}
         render={({ field: { value } }) => (
           <FormInput
-            id="itemName"
+            id="total"
             type="text"
             value={value!.toFixed(2)}
             label="Total"
@@ -111,6 +109,7 @@ const FormItem: React.FC<{
 
       <Button
         type="button"
+        aria-label={`delete_${ind}`}
         className="delete_item_btn"
         onClick={() => remove(ind)}
       >

@@ -23,7 +23,11 @@ const Header: React.FC<{ themeHandler: () => void; theme: string }> = ({
   }, [deleteModal, formModal]);
 
   return (
-    <MainHeader>
+    <MainHeader
+      onClick={(e: React.MouseEvent) => {
+        e.stopPropagation();
+      }}
+    >
       <Logo />
       <HeaderContent>
         <ThemeSwitcher

@@ -14,6 +14,7 @@ import SelectDropdown from '../../UI/select-dropdown/SelectDropdown';
 import { useAppDispatch } from '../../../store/hooks';
 import { closeFormModal } from '../../../store/modalSlice';
 import IconArrowLeft from '../../../public/assets/icon-arrow-left.svg';
+import Ripple from '../../UI/ripple/Ripple';
 
 import FormInvoiceItems from '../form-incoice-items/FormInvoiceItems';
 import { IInvoiceItem, IAddress, IInvoice } from '../../../@types/types';
@@ -111,7 +112,6 @@ const InvoiceForm: React.FC<{
   const isErorrs = Object.keys(errors).length > 0;
   const isEmptyItemsArray =
     Object.keys(errors).length > 0 && !values.items.length;
-  console.log(errors);
 
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log('submit', data);
   return (
@@ -148,16 +148,11 @@ const InvoiceForm: React.FC<{
               <Controller
                 control={control}
                 name="senderAddress.street"
-                rules={{ required: true }}
-                render={({
-                  field: { onChange, value },
-                  fieldState: { error },
-                }) => (
+                render={({ field: { onChange }, fieldState: { error } }) => (
                   <FormInput
                     id="senderStreet"
                     label="Street Address"
                     error={error}
-                    value={value}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                       const data = event.target.value;
                       onChange(data);
@@ -169,16 +164,11 @@ const InvoiceForm: React.FC<{
               <Controller
                 control={control}
                 name="senderAddress.city"
-                rules={{ required: true }}
-                render={({
-                  field: { onChange, value },
-                  fieldState: { error },
-                }) => (
+                render={({ field: { onChange }, fieldState: { error } }) => (
                   <FormInput
                     id="senderCity"
                     label="City"
                     error={error}
-                    value={value}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                       const data = event.target.value;
                       onChange(data);
@@ -190,16 +180,11 @@ const InvoiceForm: React.FC<{
               <Controller
                 control={control}
                 name="senderAddress.postCode"
-                rules={{ required: true }}
-                render={({
-                  field: { onChange, value },
-                  fieldState: { error },
-                }) => (
+                render={({ field: { onChange }, fieldState: { error } }) => (
                   <FormInput
                     id="senderPostCode"
                     label="Post Code"
                     error={error}
-                    value={value}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                       const data = event.target.value;
                       onChange(data);
@@ -211,16 +196,11 @@ const InvoiceForm: React.FC<{
               <Controller
                 control={control}
                 name="senderAddress.country"
-                rules={{ required: true }}
-                render={({
-                  field: { onChange, value },
-                  fieldState: { error },
-                }) => (
+                render={({ field: { onChange }, fieldState: { error } }) => (
                   <FormInput
                     id="senderCountry"
                     label="Contry"
                     error={error}
-                    value={value}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                       const data = event.target.value;
                       onChange(data);
@@ -237,16 +217,11 @@ const InvoiceForm: React.FC<{
               <Controller
                 control={control}
                 name="clientName"
-                rules={{ required: true }}
-                render={({
-                  field: { onChange, value },
-                  fieldState: { error },
-                }) => (
+                render={({ field: { onChange }, fieldState: { error } }) => (
                   <FormInput
                     id="clientName"
                     label="Client’s Name"
                     error={error}
-                    value={value}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                       const data = event.target.value;
                       onChange(data);
@@ -258,21 +233,12 @@ const InvoiceForm: React.FC<{
               <Controller
                 control={control}
                 name="clientEmail"
-                rules={{
-                  required: true,
-                  pattern:
-                    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                }}
-                render={({
-                  field: { onChange, value },
-                  fieldState: { error },
-                }) => (
+                render={({ field: { onChange }, fieldState: { error } }) => (
                   <FormInput
                     id="clientEmail"
                     label="Client’s Email"
                     placeholder="e.g. email@example.com"
                     error={error}
-                    value={value}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                       const data = event.target.value;
                       onChange(data);
@@ -284,16 +250,11 @@ const InvoiceForm: React.FC<{
               <Controller
                 control={control}
                 name="clientAddress.street"
-                rules={{ required: true }}
-                render={({
-                  field: { onChange, value },
-                  fieldState: { error },
-                }) => (
+                render={({ field: { onChange }, fieldState: { error } }) => (
                   <FormInput
                     id="clientStreet"
                     label="Street Address"
                     error={error}
-                    value={value}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                       const data = event.target.value;
                       onChange(data);
@@ -305,16 +266,11 @@ const InvoiceForm: React.FC<{
               <Controller
                 control={control}
                 name="clientAddress.city"
-                rules={{ required: true }}
-                render={({
-                  field: { onChange, value },
-                  fieldState: { error },
-                }) => (
+                render={({ field: { onChange }, fieldState: { error } }) => (
                   <FormInput
                     id="clientCity"
                     label="City"
                     error={error}
-                    value={value}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                       const data = event.target.value;
                       onChange(data);
@@ -326,16 +282,11 @@ const InvoiceForm: React.FC<{
               <Controller
                 control={control}
                 name="clientAddress.postCode"
-                rules={{ required: true }}
-                render={({
-                  field: { onChange, value },
-                  fieldState: { error },
-                }) => (
+                render={({ field: { onChange }, fieldState: { error } }) => (
                   <FormInput
                     id="clientPostCode"
                     label="Post Code"
                     error={error}
-                    value={value}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                       const data = event.target.value;
                       onChange(data);
@@ -347,16 +298,11 @@ const InvoiceForm: React.FC<{
               <Controller
                 control={control}
                 name="clientAddress.country"
-                rules={{ required: true }}
-                render={({
-                  field: { onChange, value },
-                  fieldState: { error },
-                }) => (
+                render={({ field: { onChange }, fieldState: { error } }) => (
                   <FormInput
                     id="clientCountry"
                     label="Country"
                     error={error}
-                    value={value}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                       const data = event.target.value;
                       onChange(data);
@@ -397,17 +343,12 @@ const InvoiceForm: React.FC<{
             <Controller
               control={control}
               name="description"
-              rules={{ required: true }}
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
+              render={({ field: { onChange }, fieldState: { error } }) => (
                 <FormInput
                   id="description"
                   label="Project Description"
                   placeholder="e.g. Graphic Design Service"
                   error={error}
-                  value={value}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                     const data = event.target.value;
                     onChange(data);
@@ -443,11 +384,18 @@ const InvoiceForm: React.FC<{
                 }}
               >
                 Discard
+                <Ripple color={'var(--color-white)'} duration={1000} />
               </Button>
             </div>
             <ButtonsRight>
-              <Button className="save_btn">Save as Draft</Button>
-              <Button className="main_btn">Save & Send</Button>
+              <Button className="save_btn">
+                Save as Draft{' '}
+                <Ripple color={'var(--color-white)'} duration={1000} />
+              </Button>
+              <Button className="main_btn">
+                Save & Send{' '}
+                <Ripple color={'var(--color-white)'} duration={1000} />
+              </Button>
             </ButtonsRight>
           </ButtonWrapper>
         )}
@@ -463,8 +411,12 @@ const InvoiceForm: React.FC<{
                 }}
               >
                 Cancel
+                <Ripple color={'var(--color-white)'} duration={1000} />
               </Button>
-              <Button className="main_btn">Save Changes</Button>
+              <Button className="main_btn">
+                Save Changes{' '}
+                <Ripple color={'var(--color-white)'} duration={1000} />
+              </Button>
             </ButtonsRight>
           </ButtonWrapper>
         )}
