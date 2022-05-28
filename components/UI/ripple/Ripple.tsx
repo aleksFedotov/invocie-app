@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { RippleContainer } from './RippleStyles';
-import PropTypes from 'prop-types';
 
 interface IRipplrArray {
   x: number;

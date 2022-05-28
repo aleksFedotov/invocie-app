@@ -38,7 +38,7 @@ const FormInput: React.FC<Props> = React.forwardRef(
         <LabelWrapper invoiceItem={invoiceItem}>
           <label id={id}>{label}</label>
           {error && (
-            <span>
+            <span role="alert">
               {id === 'clientEmail' ? 'Invalid email' : "Can't be empty"}
             </span>
           )}

@@ -9,20 +9,17 @@ interface IToggle {
 function useToggle(initialState: boolean = false): [boolean, IToggle] {
   const [toggle, setToogle] = React.useState(initialState);
 
-  const handlers = React.useMemo(
-    () => ({
-      on: () => {
-        setToogle(true);
-      },
-      off: () => {
-        setToogle(false);
-      },
-      toggle: () => {
-        setToogle((prev) => !prev);
-      },
-    }),
-    [setToogle]
-  );
+  const handlers = {
+    on: () => {
+      setToogle(true);
+    },
+    off: () => {
+      setToogle(false);
+    },
+    toggle: () => {
+      setToogle((prev) => !prev);
+    },
+  };
 
   return [toggle, handlers];
 }

@@ -22,7 +22,6 @@ export const InputWrapper = styled.div<InputProps>`
     }
   }
 `;
-
 export const Input = styled.input<InputProps>`
   width: 100%;
   border: 1px solid

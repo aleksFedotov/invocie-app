@@ -13,10 +13,10 @@ const Logo: React.FC = () => {
   const dispatch = useAppDispatch();
   let imageSize = 40;
 
-  if (typeof windowWidth !== 'undefined' && windowWidth < 800) {
-    imageSize = 32;
-  } else if (typeof windowWidth !== 'undefined' && windowWidth < 650) {
+  if (windowWidth < 650) {
     imageSize = 28;
+  } else if (windowWidth < 800) {
+    imageSize = 32;
   }
 
   return (
@@ -32,6 +32,7 @@ const Logo: React.FC = () => {
         width={imageSize}
         height={imageSize}
         alt="logo"
+        data-size={imageSize}
       />
     </LogoWrapper>
   );
