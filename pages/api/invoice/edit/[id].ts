@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { User, Invoice } from '@prisma/client';
+import { Invoice } from '@prisma/client';
 import prisma from '../../../../client';
 
 const data = {
@@ -23,14 +23,7 @@ const data = {
     postCode: 'NR24 5WQ',
     country: 'United Kingdom',
   },
-  items: [
-    {
-      name: 'Brand Guidelines',
-      quantity: 2,
-      price: 1800.9,
-      total: 1800.9,
-    },
-  ],
+  items: [],
 
   total: 1800.9,
 };
@@ -55,7 +48,6 @@ export default async function handler(
         },
       });
     } catch (error) {
-      // console.log(error);
       return res.status(500).json({
         success: false,
         msg: 'Something went wrong, could not edit invoice.',
@@ -67,7 +59,9 @@ export default async function handler(
     // }
 
     try {
-      const updatedItems = data.items;
+      await prisma.item.deleteMany({
+        where: { invoiceId: invoice?.id_db },
+      });
       await prisma.invoice.update({
         where: {
           // @ts-ignore
@@ -97,17 +91,18 @@ export default async function handler(
               country: data.clientAddress.country,
             },
           },
-          items: { update: data.items },
+          items: {
+            create: [...data.items],
+          },
           total: data.total,
         },
       });
     } catch (error) {
-      console.log(error);
       return res.status(500).json({
         success: false,
         msg: 'Something went wrong, could not edit invoice.',
       });
     }
-    res.status(200).json(invoice);
+    res.status(200).json({ success: true, msg: 'Invoice was edit' });
   }
 }

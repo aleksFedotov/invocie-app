@@ -27,7 +27,7 @@ CREATE TABLE "SenderAddress" (
     "postCode" TEXT NOT NULL,
     "country" TEXT NOT NULL,
     "invoiceId" TEXT NOT NULL,
-    CONSTRAINT "SenderAddress_invoiceId_fkey" FOREIGN KEY ("invoiceId") REFERENCES "Invoice" ("id_db") ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT "SenderAddress_invoiceId_fkey" FOREIGN KEY ("invoiceId") REFERENCES "Invoice" ("id_db") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -38,7 +38,7 @@ CREATE TABLE "ClientAddress" (
     "postCode" TEXT NOT NULL,
     "country" TEXT NOT NULL,
     "invoiceId" TEXT NOT NULL,
-    CONSTRAINT "ClientAddress_invoiceId_fkey" FOREIGN KEY ("invoiceId") REFERENCES "Invoice" ("id_db") ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT "ClientAddress_invoiceId_fkey" FOREIGN KEY ("invoiceId") REFERENCES "Invoice" ("id_db") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -49,7 +49,7 @@ CREATE TABLE "Item" (
     "price" REAL NOT NULL,
     "total" REAL NOT NULL,
     "invoiceId" TEXT NOT NULL,
-    CONSTRAINT "Item_invoiceId_fkey" FOREIGN KEY ("invoiceId") REFERENCES "Invoice" ("id_db") ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT "Item_invoiceId_fkey" FOREIGN KEY ("invoiceId") REFERENCES "Invoice" ("id_db") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateIndex
