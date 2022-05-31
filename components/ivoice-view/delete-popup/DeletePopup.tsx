@@ -2,15 +2,26 @@ import React from 'react';
 import { useAppDispatch } from '../../../store/hooks';
 import { closeDeleteModal } from '../../../store/modalSlice';
 import { useRouter } from 'next/router';
+import useHttp from '../../../hooks/useHttp';
 
 import { PoupWrapper, PopupButtons } from './DeletePopupStyles';
 import { Button } from '../../UI/button/ButtonStyles';
 
-const DeletePopup: React.FC<{ id: string }> = ({ id }) => {
+const DeletePopup: React.FC<{ id: string; invoiceId?: string }> = ({
+  id,
+  invoiceId,
+}) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const { sendRequest } = useHttp();
 
-  const deleteClickHandler = () => {
+  const deleteClickHandler = async () => {
+    try {
+      await sendRequest({
+        url: `/api/invoice/delete/${invoiceId}`,
+        method: 'DELETE',
+      });
+    } catch (error) {}
     dispatch(closeDeleteModal());
     router.push('/');
   };

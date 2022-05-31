@@ -1,4 +1,5 @@
 export interface IInvoice {
+  id_db?: string;
   id: string;
   createdAt: string;
   paymentDue: string;
@@ -34,3 +35,14 @@ export interface IInvoiceListData {
   total: number;
   status: string;
 }
+
+export type Inputs = {
+  createdAt: string;
+  description: string;
+  paymentTerms: number;
+  clientName: string;
+  clientEmail: string;
+  senderAddress: IAddress;
+  clientAddress: IAddress;
+  items: IInvoiceItem[];
+};

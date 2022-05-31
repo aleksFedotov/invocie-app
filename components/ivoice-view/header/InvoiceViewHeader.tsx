@@ -12,7 +12,7 @@ const InvoiceViewHeader: React.FC<{ data: IInvoice }> = ({ data }) => {
         <span>Status</span>
         <Status status={data.status} />
       </HeaderLeft>
-      <ViewButtons isMobile={false} />
+      <ViewButtons isMobile={false} invoiceId={data.id_db} />
     </HeaderWrapper>
   );
 };

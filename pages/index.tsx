@@ -7,6 +7,8 @@ import { selectFilters } from '../store/filterSlice';
 import { selectformModal } from '../store/modalSlice';
 import { useAppSelector } from '../store/hooks';
 import { AnimatePresence } from 'framer-motion';
+import prisma from '../client';
+import { User } from '@prisma/client';
 
 import InvoicesHeader from '../components/home/header/InvoicesHeader';
 import InvoicesList from '../components/home/invoices-list/InvoicesList';
@@ -52,21 +54,17 @@ const Home: NextPage<{ invoicesListData: IInvoiceListData[] }> = ({
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  let initialData: IInvoice[] = Data;
-
-  const invoicesListData = initialData.map(
-    (invoice: IInvoice): IInvoiceListData => ({
-      id: invoice.id,
-      paymentDue: invoice.paymentDue,
-      clientName: invoice.clientName,
-      status: invoice.status,
-      total: invoice.total,
-    })
-  );
-
+  const data = await prisma.user.findUnique({
+    where: {
+      id: 'cl3sfjgqi0002a0w0jtc8bc4u',
+    },
+    include: {
+      invoices: true,
+    },
+  });
   return {
     props: {
-      invoicesListData,
+      invoicesListData: data?.invoices,
     },
   };
 };

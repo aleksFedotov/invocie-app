@@ -14,6 +14,7 @@ import { AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/router';
 import IconArrowLeft from '../../public/assets/icon-arrow-left.svg';
 import InvoiceForm from '../../components/shered/form/InvoiceForm';
+import prisma from '../../client';
 
 const InvoceView: NextPage<{ invoiceData: IInvoice }> = ({ invoiceData }) => {
   const modalIsOpened = useAppSelector(selectDeleteModal);
@@ -42,7 +43,11 @@ const InvoceView: NextPage<{ invoiceData: IInvoice }> = ({ invoiceData }) => {
       <AnimatePresence>
         {modalIsOpened && (
           <Modal type="delete" key="modal">
-            <DeletePopup id={invoiceData.id} key="delete" />
+            <DeletePopup
+              id={invoiceData.id}
+              invoiceId={invoiceData.id_db}
+              key="delete"
+            />
           </Modal>
         )}
         <AnimatePresence>
@@ -59,7 +64,18 @@ const InvoceView: NextPage<{ invoiceData: IInvoice }> = ({ invoiceData }) => {
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const id = query.id;
-  const invoiceData = Data.find((invoice) => invoice.id === id);
+
+  const invoiceData = await prisma.invoice.findFirst({
+    where: {
+      // @ts-ignore
+      id: id,
+    },
+    include: {
+      senderAddress: true,
+      clientAddress: true,
+      items: true,
+    },
+  });
 
   return {
     props: {

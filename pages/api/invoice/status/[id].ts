@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { Invoice } from '@prisma/client';
 import prisma from '../../../../client';
 
 export default async function handler(

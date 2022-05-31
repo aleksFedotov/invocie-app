@@ -16,7 +16,9 @@ CREATE TABLE "Invoice" (
     "clientName" TEXT NOT NULL,
     "clientEmail" TEXT NOT NULL,
     "status" TEXT NOT NULL,
-    "total" REAL NOT NULL
+    "total" REAL NOT NULL,
+    "userId" TEXT NOT NULL,
+    CONSTRAINT "Invoice_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateTable

@@ -15,9 +15,10 @@ import { useAppDispatch } from '../../../store/hooks';
 import { closeFormModal } from '../../../store/modalSlice';
 import IconArrowLeft from '../../../public/assets/icon-arrow-left.svg';
 import Ripple from '../../UI/ripple/Ripple';
-
+import useHttp from '../../../hooks/useHttp';
 import FormInvoiceItems from '../form-incoice-items/FormInvoiceItems';
-import { IInvoiceItem, IAddress, IInvoice } from '../../../@types/types';
+import { Inputs, IInvoice } from '../../../@types/types';
+import generateData from '../../../helpers/generateData';
 
 import {
   FormSection,
@@ -31,17 +32,6 @@ import {
   Shadow,
   ErrorMessage,
 } from './InvoiceFormStyles';
-
-export type Inputs = {
-  createdAt: string;
-  description: string;
-  paymentTerms: number;
-  clientName: string;
-  clientEmail: string;
-  senderAddress: IAddress;
-  clientAddress: IAddress;
-  items: IInvoiceItem[];
-};
 
 const schema = yup
   .object()
@@ -82,6 +72,7 @@ const InvoiceForm: React.FC<{
   data?: IInvoice;
 }> = ({ create, edit, data }) => {
   const dispatch = useAppDispatch();
+  const { error, isLoading, sendRequest } = useHttp();
 
   const formAnimation = {
     hidden: {
@@ -113,7 +104,24 @@ const InvoiceForm: React.FC<{
   const isEmptyItemsArray =
     Object.keys(errors).length > 0 && !values.items.length;
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log('submit', data);
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    const generatedData = generateData(data);
+
+    try {
+      const res = await sendRequest({
+        url: 'api/invoice/new',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...generatedData,
+          userId: 'cl3sfjgqi0002a0w0jtc8bc4u',
+        }),
+      });
+      const resData = res.json();
+    } catch (error) {}
+  };
   return (
     <FormProvider {...methods}>
       <FormWrapper
