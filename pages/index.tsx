@@ -1,14 +1,12 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { GetServerSideProps } from 'next';
-import Data from '../data.json';
-import { IInvoice, IInvoiceListData } from '../@types/types';
+import { IInvoiceListData } from '../@types/types';
 import { selectFilters } from '../store/filterSlice';
 import { selectformModal } from '../store/modalSlice';
 import { useAppSelector } from '../store/hooks';
 import { AnimatePresence } from 'framer-motion';
 import prisma from '../client';
-import { User } from '@prisma/client';
 
 import InvoicesHeader from '../components/home/header/InvoicesHeader';
 import InvoicesList from '../components/home/invoices-list/InvoicesList';

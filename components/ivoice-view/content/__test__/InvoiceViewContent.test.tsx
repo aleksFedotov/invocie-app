@@ -64,7 +64,7 @@ describe('InvoiceViewMain component testing', () => {
   });
   test('should have due date', () => {
     render(<InvoiceViewContent data={testData} />);
-    const dueDate = screen.queryByText(/20 Sept 2021/i);
+    const dueDate = screen.queryByText(/20 Sep 2021/i);
     expect(dueDate).toBeInTheDocument();
   });
   test('should have client name', () => {

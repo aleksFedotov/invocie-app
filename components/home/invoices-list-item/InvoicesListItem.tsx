@@ -3,10 +3,11 @@ import { useRouter } from 'next/router';
 
 import { IInvoiceListData } from '../../../@types/types';
 import Status from '../../UI/status/Status';
-import formatDate from '../../../helpers/dateFormat';
+
 import moneyFormat from '../../../helpers/moneyFormat';
 import ArrowRightIcon from '../../../public/assets/icon-arrow-right.svg';
 import useWindowWidth from '../../../hooks/useWindowWidth';
+import { format } from 'date-fns';
 
 import {
   ListItem,
@@ -38,7 +39,9 @@ const InvoicesListItem: React.FC<{ data: IInvoiceListData }> = ({ data }) => {
           <span>#</span>
           {data.id}
         </InvoiceId>
-        <DueDate className="due">Due {formatDate(data.paymentDue)}</DueDate>
+        <DueDate className="due">
+          Due {format(new Date(data.paymentDue), 'dd MMM yyyy')}
+        </DueDate>
         {windowWidth && windowWidth > 700 ? (
           <ClientName className="name">{data.clientName}</ClientName>
         ) : (
@@ -47,7 +50,7 @@ const InvoicesListItem: React.FC<{ data: IInvoiceListData }> = ({ data }) => {
       </ListItemLeft>
       <ListItemRight>
         {windowWidth && windowWidth > 700 ? (
-          <Total>&#163; {moneyFormat(data.total)}</Total>
+          <Total>{moneyFormat(data.total)}</Total>
         ) : (
           <ClientName className="name">{data.clientName}</ClientName>
         )}

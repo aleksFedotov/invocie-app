@@ -12,9 +12,11 @@ export interface IInvoice {
   clientAddress: IAddress;
   items: IInvoiceItem[];
   total: number;
+  userId?: string;
 }
 
 export interface IAddress {
+  id?: string;
   street: string;
   city: string;
   postCode: string;
@@ -22,6 +24,7 @@ export interface IAddress {
 }
 
 export interface IInvoiceItem {
+  id?: string;
   name: string;
   quantity: number;
   price: number;

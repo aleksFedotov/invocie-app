@@ -6,6 +6,7 @@ import { ButtonsWrapper } from './ViewButtonsStyles';
 import { Button } from '../../UI/button/ButtonStyles';
 import Ripple from '../../UI/ripple/Ripple';
 import useHttp from '../../../hooks/useHttp';
+import { useRouter } from 'next/router';
 
 const ViewButtons: React.FC<{ isMobile: boolean; invoiceId?: string }> = ({
   isMobile,
@@ -13,6 +14,10 @@ const ViewButtons: React.FC<{ isMobile: boolean; invoiceId?: string }> = ({
 }) => {
   const dispatch = useAppDispatch();
   const { sendRequest } = useHttp();
+
+  // refresh page after submiting and etc
+  const router = useRouter();
+  const refreshData = () => router.replace(router.asPath);
 
   const paidHanlder = async () => {
     try {
@@ -26,6 +31,7 @@ const ViewButtons: React.FC<{ isMobile: boolean; invoiceId?: string }> = ({
           status: 'paid',
         }),
       });
+      refreshData();
     } catch (error) {}
   };
   return (

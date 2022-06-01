@@ -1,7 +1,7 @@
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import DeleteIcon from '../../../public/assets/icon-delete.svg';
-import { Inputs } from '../form/InvoiceForm';
+import { Inputs } from '../../../@types/types';
 import { Button } from '../../UI/button/ButtonStyles';
 import FormInput from '../../UI/form-input/FormInput';
 import { InvoiceItem } from './FormItemsStyles';
@@ -33,12 +33,14 @@ const FormItem: React.FC<{
     <InvoiceItem data-testid="invoice_item">
       <Controller
         control={control}
+        defaultValue=""
         name={`items.${ind}.name`}
         rules={{ required: true }}
-        render={({ field: { onChange } }) => (
+        render={({ field: { onChange, value } }) => (
           <FormInput
             id="itemName"
             error={itemsErrors && itemsErrors[ind]?.name}
+            value={value}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
               onChange(event.target.value);
             }}
@@ -50,13 +52,15 @@ const FormItem: React.FC<{
 
       <Controller
         control={control}
+        defaultValue={0}
         name={`items.${ind}.quantity`}
         rules={{ required: true, min: 1 }}
-        render={({ field: { onChange } }) => (
+        render={({ field: { onChange, value } }) => (
           <FormInput
             id="quantity"
             type="number"
             error={itemsErrors && itemsErrors[ind]?.quantity}
+            value={value}
             placeholder="0"
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
               const data = event.target.value;
@@ -70,6 +74,7 @@ const FormItem: React.FC<{
       />
       <Controller
         control={control}
+        defaultValue={0}
         name={`items.${ind}.price`}
         rules={{ required: true, min: 1 }}
         render={({ field: { onChange, value } }) => (
@@ -94,6 +99,7 @@ const FormItem: React.FC<{
       />
       <Controller
         control={control}
+        defaultValue={0}
         name={`items.${ind}.total`}
         render={({ field: { value } }) => (
           <FormInput
@@ -111,7 +117,9 @@ const FormItem: React.FC<{
         type="button"
         aria-label={`delete_${ind}`}
         className="delete_item_btn"
-        onClick={() => remove(ind)}
+        onClick={() => {
+          remove(ind);
+        }}
       >
         <DeleteIcon />
       </Button>

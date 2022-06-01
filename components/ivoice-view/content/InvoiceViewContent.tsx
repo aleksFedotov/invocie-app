@@ -1,8 +1,8 @@
 import React from 'react';
 import { IInvoice } from '../../../@types/types';
-import dateFormat from '../../../helpers/dateFormat';
 import useWindowWidth from '../../../hooks/useWindowWidth';
 import InvoiceTable from '../invoice-table/InvoiceTable';
+import { format } from 'date-fns';
 
 import {
   ContentWrapper,
@@ -37,11 +37,11 @@ const InvoiceViewContent: React.FC<{ data: IInvoice }> = ({ data }) => {
         <Dates>
           <DataContainer>
             <p>Invoice Date</p>
-            <h3>{dateFormat(data.createdAt)}</h3>
+            <h3>{format(new Date(data.createdAt), 'dd MMM yyyy')}</h3>
           </DataContainer>
           <DataContainer>
             <p>Payment Due</p>
-            <h3>{dateFormat(data.paymentDue)}</h3>
+            <h3>{format(new Date(data.paymentDue), 'dd MMM yyyy')}</h3>
           </DataContainer>
         </Dates>
         <DataContainer margin={windowWidth! > 750 ? '11rem' : '6rem'}>

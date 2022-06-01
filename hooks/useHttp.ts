@@ -15,7 +15,7 @@ type ReqConfig = {
 
 export default function useHttp(): HttpRes {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<any>();
+  const [error, setError] = useState<null | string>(null);
 
   const activeHttpRequests = useRef<AbortController[]>([]);
 
@@ -23,11 +23,9 @@ export default function useHttp(): HttpRes {
     async ({ url, method = 'GET', headers = {}, body = null }: ReqConfig) => {
       setIsLoading(true);
       setError(null);
-
       const httpAbortCtrl = new AbortController();
 
       activeHttpRequests.current.push(httpAbortCtrl);
-
       try {
         const res = await fetch(url, {
           method,
@@ -35,7 +33,6 @@ export default function useHttp(): HttpRes {
           body,
           signal: httpAbortCtrl.signal,
         });
-        console.log(res);
 
         const resData = await res.json();
 
@@ -44,13 +41,14 @@ export default function useHttp(): HttpRes {
         );
 
         if (!res.ok) {
-          throw new Error(resData.msg);
+          throw resData.msg;
         }
         setIsLoading(false);
         return resData;
       } catch (error) {
         // @ts-ignore
-        setError(error.message);
+
+        setError(error);
         setIsLoading(false);
         throw error;
       }

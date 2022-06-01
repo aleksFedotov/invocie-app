@@ -35,6 +35,13 @@ export const Button = styled.button`
     &:hover {
       background-color: var(--color-main-button-hover);
     }
+
+    &.auth_btn {
+      border-radius: 0.6rem;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
   }
 
   &.delete_btn {

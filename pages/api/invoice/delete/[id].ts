@@ -8,6 +8,7 @@ export default async function handler(
 ) {
   if (req.method === 'DELETE') {
     const invoiceId = req.query.id;
+    const { userId } = JSON.parse(req.body);
 
     let invoice;
     try {
@@ -24,9 +25,12 @@ export default async function handler(
       });
     }
 
-    // if(invoice.userId !== data.userId) {
-    //     return res.status(501).json({success: false, msg: "ou are not allowed to delete this invoice."})
-    // }
+    if (invoice!.userId !== userId) {
+      return res.status(501).json({
+        success: false,
+        msg: 'You are not allowed to delete this invoice.',
+      });
+    }
 
     try {
       await prisma.invoice.delete({

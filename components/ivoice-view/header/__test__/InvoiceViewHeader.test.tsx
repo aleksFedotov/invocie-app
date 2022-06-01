@@ -54,7 +54,7 @@ describe('InvoiceViewHeader componetn testing', () => {
 
   test('should have status paid', () => {
     render(mockComponent());
-    const status = screen.queryByText(/paid/i);
+    const status = screen.queryByText('paid');
     expect(status).toBeInTheDocument();
   });
 });

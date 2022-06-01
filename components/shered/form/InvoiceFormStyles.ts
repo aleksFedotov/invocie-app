@@ -8,6 +8,7 @@ type FormProps = {
 };
 
 export const FormWrapper = styled(motion.form)`
+  position: relative;
   z-index: 3;
   max-width: 62.5rem;
   max-height: 100vh;

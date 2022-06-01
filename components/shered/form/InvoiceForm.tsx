@@ -19,6 +19,8 @@ import useHttp from '../../../hooks/useHttp';
 import FormInvoiceItems from '../form-incoice-items/FormInvoiceItems';
 import { Inputs, IInvoice } from '../../../@types/types';
 import generateData from '../../../helpers/generateData';
+import defaultValues from '../../../helpers/defaultInvoiceValues';
+import { useRouter } from 'next/router';
 
 import {
   FormSection,
@@ -32,7 +34,10 @@ import {
   Shadow,
   ErrorMessage,
 } from './InvoiceFormStyles';
+import { visualElement } from 'framer-motion';
+import LoadingSpinner from '../../UI/loading/loading-spinner/LoadingSpinner';
 
+// validation shema
 const schema = yup
   .object()
   .shape({
@@ -40,7 +45,7 @@ const schema = yup
     createdAt: yup.string().required(),
     paymentTerms: yup.number().required(),
     clientName: yup.string().required(),
-    clientEmail: yup.string().email(),
+    clientEmail: yup.string().email().required(),
     senderAddress: yup.object().shape({
       street: yup.string().required(),
       city: yup.string().required(),
@@ -53,16 +58,13 @@ const schema = yup
       postCode: yup.string().required(),
       country: yup.string().required(),
     }),
-    items: yup
-      .array()
-      .of(
-        yup.object().shape({
-          name: yup.string().required(),
-          quantity: yup.number().min(1).required(),
-          price: yup.number().min(1).required(),
-        })
-      )
-      .min(1),
+    items: yup.array().of(
+      yup.object().shape({
+        name: yup.string().required(),
+        quantity: yup.number().min(1).required(),
+        price: yup.number().min(1).required(),
+      })
+    ),
   })
   .required();
 
@@ -73,6 +75,12 @@ const InvoiceForm: React.FC<{
 }> = ({ create, edit, data }) => {
   const dispatch = useAppDispatch();
   const { error, isLoading, sendRequest } = useHttp();
+
+  // refresh page after submiting and etc
+  const router = useRouter();
+  const refreshData = () => router.replace(router.asPath);
+
+  // framer-motion animation options
 
   const formAnimation = {
     hidden: {
@@ -85,9 +93,11 @@ const InvoiceForm: React.FC<{
     },
   };
 
+  // react hook form settings
+
   const methods = useForm<Inputs>({
     // @ts-ignore:next-line
-    defaultValues: data,
+    defaultValues: data ? data : defaultValues,
     resolver: yupResolver(schema),
   });
 
@@ -104,11 +114,35 @@ const InvoiceForm: React.FC<{
   const isEmptyItemsArray =
     Object.keys(errors).length > 0 && !values.items.length;
 
+  // submit handling
+
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const generatedData = generateData(data);
 
     try {
-      const res = await sendRequest({
+      await sendRequest({
+        url: create ? '/api/invoice/new' : '/api/invoice/edit',
+        method: create ? 'POST' : 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...generatedData,
+          userId: 'cl3sfjgqi0002a0w0jtc8bc4u',
+        }),
+      });
+      dispatch(closeFormModal());
+      refreshData();
+    } catch (error) {}
+  };
+
+  // save as draft handling
+
+  const saveAsDraft = async () => {
+    const generatedData = generateData(values, 'draft');
+
+    try {
+      await sendRequest({
         url: 'api/invoice/new',
         method: 'POST',
         headers: {
@@ -119,7 +153,8 @@ const InvoiceForm: React.FC<{
           userId: 'cl3sfjgqi0002a0w0jtc8bc4u',
         }),
       });
-      const resData = res.json();
+      dispatch(closeFormModal());
+      refreshData();
     } catch (error) {}
   };
   return (
@@ -132,6 +167,7 @@ const InvoiceForm: React.FC<{
         onSubmit={handleSubmit(onSubmit)}
         autoComplete="off"
       >
+        {isLoading && <LoadingSpinner asOverlay text="Submitting..." />}
         <Button
           className="back_btn"
           onClick={() => {
@@ -149,6 +185,7 @@ const InvoiceForm: React.FC<{
             {data?.id}
           </h2>
         )}
+        {error && <ErrorMessage>{error}</ErrorMessage>}
         <Wrapper>
           <FormSection>
             <p>Bill From</p>
@@ -156,11 +193,15 @@ const InvoiceForm: React.FC<{
               <Controller
                 control={control}
                 name="senderAddress.street"
-                render={({ field: { onChange }, fieldState: { error } }) => (
+                render={({
+                  field: { onChange, value },
+                  fieldState: { error },
+                }) => (
                   <FormInput
                     id="senderStreet"
                     label="Street Address"
                     error={error}
+                    value={value}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                       const data = event.target.value;
                       onChange(data);
@@ -172,11 +213,15 @@ const InvoiceForm: React.FC<{
               <Controller
                 control={control}
                 name="senderAddress.city"
-                render={({ field: { onChange }, fieldState: { error } }) => (
+                render={({
+                  field: { onChange, value },
+                  fieldState: { error },
+                }) => (
                   <FormInput
                     id="senderCity"
                     label="City"
                     error={error}
+                    value={value}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                       const data = event.target.value;
                       onChange(data);
@@ -188,11 +233,15 @@ const InvoiceForm: React.FC<{
               <Controller
                 control={control}
                 name="senderAddress.postCode"
-                render={({ field: { onChange }, fieldState: { error } }) => (
+                render={({
+                  field: { onChange, value },
+                  fieldState: { error },
+                }) => (
                   <FormInput
                     id="senderPostCode"
                     label="Post Code"
                     error={error}
+                    value={value}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                       const data = event.target.value;
                       onChange(data);
@@ -204,11 +253,15 @@ const InvoiceForm: React.FC<{
               <Controller
                 control={control}
                 name="senderAddress.country"
-                render={({ field: { onChange }, fieldState: { error } }) => (
+                render={({
+                  field: { onChange, value },
+                  fieldState: { error },
+                }) => (
                   <FormInput
                     id="senderCountry"
                     label="Contry"
                     error={error}
+                    value={value}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                       const data = event.target.value;
                       onChange(data);
@@ -225,11 +278,15 @@ const InvoiceForm: React.FC<{
               <Controller
                 control={control}
                 name="clientName"
-                render={({ field: { onChange }, fieldState: { error } }) => (
+                render={({
+                  field: { onChange, value },
+                  fieldState: { error },
+                }) => (
                   <FormInput
                     id="clientName"
                     label="Client’s Name"
                     error={error}
+                    value={value}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                       const data = event.target.value;
                       onChange(data);
@@ -241,12 +298,16 @@ const InvoiceForm: React.FC<{
               <Controller
                 control={control}
                 name="clientEmail"
-                render={({ field: { onChange }, fieldState: { error } }) => (
+                render={({
+                  field: { onChange, value },
+                  fieldState: { error },
+                }) => (
                   <FormInput
                     id="clientEmail"
                     label="Client’s Email"
                     placeholder="e.g. email@example.com"
                     error={error}
+                    value={value}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                       const data = event.target.value;
                       onChange(data);
@@ -258,11 +319,15 @@ const InvoiceForm: React.FC<{
               <Controller
                 control={control}
                 name="clientAddress.street"
-                render={({ field: { onChange }, fieldState: { error } }) => (
+                render={({
+                  field: { onChange, value },
+                  fieldState: { error },
+                }) => (
                   <FormInput
                     id="clientStreet"
                     label="Street Address"
                     error={error}
+                    value={value}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                       const data = event.target.value;
                       onChange(data);
@@ -271,14 +336,19 @@ const InvoiceForm: React.FC<{
                 )}
               />
 
+              {/* !!!! */}
               <Controller
                 control={control}
                 name="clientAddress.city"
-                render={({ field: { onChange }, fieldState: { error } }) => (
+                render={({
+                  field: { onChange, value },
+                  fieldState: { error },
+                }) => (
                   <FormInput
                     id="clientCity"
                     label="City"
                     error={error}
+                    value={value}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                       const data = event.target.value;
                       onChange(data);
@@ -290,11 +360,15 @@ const InvoiceForm: React.FC<{
               <Controller
                 control={control}
                 name="clientAddress.postCode"
-                render={({ field: { onChange }, fieldState: { error } }) => (
+                render={({
+                  field: { onChange, value },
+                  fieldState: { error },
+                }) => (
                   <FormInput
                     id="clientPostCode"
                     label="Post Code"
                     error={error}
+                    value={value}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                       const data = event.target.value;
                       onChange(data);
@@ -306,11 +380,15 @@ const InvoiceForm: React.FC<{
               <Controller
                 control={control}
                 name="clientAddress.country"
-                render={({ field: { onChange }, fieldState: { error } }) => (
+                render={({
+                  field: { onChange, value },
+                  fieldState: { error },
+                }) => (
                   <FormInput
                     id="clientCountry"
                     label="Country"
                     error={error}
+                    value={value}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                       const data = event.target.value;
                       onChange(data);
@@ -351,12 +429,16 @@ const InvoiceForm: React.FC<{
             <Controller
               control={control}
               name="description"
-              render={({ field: { onChange }, fieldState: { error } }) => (
+              render={({
+                field: { onChange, value },
+                fieldState: { error },
+              }) => (
                 <FormInput
                   id="description"
                   label="Project Description"
                   placeholder="e.g. Graphic Design Service"
                   error={error}
+                  value={value}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                     const data = event.target.value;
                     onChange(data);
@@ -396,12 +478,12 @@ const InvoiceForm: React.FC<{
               </Button>
             </div>
             <ButtonsRight>
-              <Button className="save_btn">
-                Save as Draft{' '}
+              <Button className="save_btn" type="button" onClick={saveAsDraft}>
+                Save as Draft
                 <Ripple color={'var(--color-white)'} duration={1000} />
               </Button>
               <Button className="main_btn">
-                Save & Send{' '}
+                Save & Send
                 <Ripple color={'var(--color-white)'} duration={1000} />
               </Button>
             </ButtonsRight>
@@ -422,7 +504,7 @@ const InvoiceForm: React.FC<{
                 <Ripple color={'var(--color-white)'} duration={1000} />
               </Button>
               <Button className="main_btn">
-                Save Changes{' '}
+                Save Changes
                 <Ripple color={'var(--color-white)'} duration={1000} />
               </Button>
             </ButtonsRight>

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useFieldArray, FieldError, useFormContext } from 'react-hook-form';
-import { Inputs } from '../form/InvoiceForm';
+import { Inputs } from '../../../@types/types';
 
 import { Wrapper, InvoiceItemsHeader } from './FormInvoiceItemsStyles';
 import { Button } from '../../UI/button/ButtonStyles';

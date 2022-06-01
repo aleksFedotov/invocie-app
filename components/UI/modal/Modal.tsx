@@ -12,36 +12,14 @@ const Modal: React.FC<{ children?: React.ReactNode; type: string }> = ({
   type,
 }) => {
   const [_document, setDocument] = useState<Document | null>(null);
-  const dispatch = useAppDispatch();
-
-  const modalWrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setDocument(document);
   }, []);
 
-  useEffect(() => {
-    const backDropHandler = (e: MouseEvent) => {
-      const target = e.target as Node;
-      if (
-        modalWrapperRef.current &&
-        !modalWrapperRef.current.contains(target)
-      ) {
-        if (type === 'delete') {
-          dispatch(closeDeleteModal());
-        } else {
-          dispatch(closeFormModal());
-        }
-      }
-    };
-    setDocument(document);
-    window.addEventListener('click', backDropHandler);
-    return () => window.removeEventListener('click', backDropHandler);
-  }, [dispatch, type]);
-
   const modalContent = (
     <ModalOverlay type={type} id="modal">
-      <ModalWrapper ref={modalWrapperRef}>{children}</ModalWrapper>
+      {children}
     </ModalOverlay>
   );
 

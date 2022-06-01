@@ -1,47 +1,20 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { Invoice } from '@prisma/client';
+import { IInvoice } from '../../../../@types/types';
 import prisma from '../../../../client';
-
-const data = {
-  id: 'RT3080',
-  createdAt: '2021-08-18',
-  paymentDue: '2021-08-19',
-  description: 'Re-branding',
-  paymentTerms: 2,
-  clientName: 'Jensen Huang',
-  clientEmail: 'jensenh@mail.com',
-  status: 'paid',
-  senderAddress: {
-    street: '19 Union Terrace',
-    city: 'London',
-    postCode: 'E1 3EZ',
-    country: 'United Kingdom',
-  },
-  clientAddress: {
-    street: '106 Kendell Street',
-    city: 'Sharrington',
-    postCode: 'NR24 5WQ',
-    country: 'United Kingdom',
-  },
-  items: [],
-
-  total: 1800.9,
-};
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   if (req.method === 'PUT') {
-    const invoiceId = req.query.id;
-    // const data: Invoice = req.body;
+    const data: IInvoice = req.body;
 
     let invoice;
     try {
       invoice = await prisma.invoice.findFirst({
         where: {
           // @ts-ignore
-          id_db: invoiceId,
+          id_db: data.id_db,
         },
         include: {
           items: true,
@@ -54,9 +27,12 @@ export default async function handler(
       });
     }
 
-    // if(invoice.userId !== data.userId) {
-    //     return res.status(501).json({success: false, msg: "ou are not allowed to edit this invoice."})
-    // }
+    if (invoice!.userId !== data.userId) {
+      return res.status(501).json({
+        success: false,
+        msg: 'You are not allowed to edit this invoice.',
+      });
+    }
 
     try {
       await prisma.item.deleteMany({
@@ -65,7 +41,7 @@ export default async function handler(
       await prisma.invoice.update({
         where: {
           // @ts-ignore
-          id_db: invoiceId,
+          id_db: data.id_db,
         },
         data: {
           createdAt: data.createdAt,
@@ -92,12 +68,20 @@ export default async function handler(
             },
           },
           items: {
-            create: [...data.items],
+            create: data.items.map((item) => {
+              return {
+                name: item.name,
+                quantity: item.quantity,
+                price: item.price,
+                total: item.total,
+              };
+            }),
           },
           total: data.total,
         },
       });
     } catch (error) {
+      console.log('second', error);
       return res.status(500).json({
         success: false,
         msg: 'Something went wrong, could not edit invoice.',

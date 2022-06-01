@@ -59,7 +59,7 @@ describe('InvoicesListItem testing', () => {
   test('should have total price', () => {
     render(<InvocesLitsItem data={data} />);
     const totalPrice = screen.getByRole('heading', { level: 2 });
-    expect(totalPrice).toHaveTextContent(/£ 1,800.90/i);
+    expect(totalPrice).toHaveTextContent(/£1,800.90/i);
   });
   test('should have paid status', () => {
     render(<InvocesLitsItem data={data} />);

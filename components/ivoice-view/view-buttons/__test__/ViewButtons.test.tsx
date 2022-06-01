@@ -34,7 +34,7 @@ describe('ViewButtons componetn testing', () => {
 
   test('should render main btn', () => {
     render(mockComponent());
-    const mainBtn = screen.getByRole('button', { name: /Mark as Read/i });
+    const mainBtn = screen.getByRole('button', { name: /Mark as Paid/i });
     expect(mainBtn).toHaveClass('main_btn');
   });
 });

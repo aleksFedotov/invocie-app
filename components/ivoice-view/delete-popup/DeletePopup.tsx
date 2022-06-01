@@ -20,6 +20,9 @@ const DeletePopup: React.FC<{ id: string; invoiceId?: string }> = ({
       await sendRequest({
         url: `/api/invoice/delete/${invoiceId}`,
         method: 'DELETE',
+        body: JSON.stringify({
+          userId: 'cl3sfjgqi0002a0w0jtc8bc4u',
+        }),
       });
     } catch (error) {}
     dispatch(closeDeleteModal());

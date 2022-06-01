@@ -108,10 +108,8 @@ export const DatePicker: React.FC<{
   const handleDateSelect = (selectedDay: number) => {
     const newDate = new Date(currentYear, currentMonth, selectedDay);
     setSelectedDate(newDate);
-  };
-  useEffect(() => {
     openHandlers.off();
-  }, [openHandlers, selectedDate]);
+  };
 
   const calendarVariants = {
     hidden: {
@@ -149,10 +147,10 @@ export const DatePicker: React.FC<{
         {open && (
           <Calendar
             data-testid="calender"
-            variants={calendarVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
+            // variants={calendarVariants}
+            // initial="hidden"
+            // animate="visible"
+            // exit="exit"
             style={{ originY: 0 }}
           >
             <CalendarNav>
