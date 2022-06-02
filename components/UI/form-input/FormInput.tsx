@@ -1,5 +1,4 @@
 import React from 'react';
-import handler from '../../../pages/api/hello';
 
 import { InputWrapper, Input, LabelWrapper } from './FormInputStyles';
 
@@ -39,7 +38,8 @@ const FormInput: React.FC<Props> = React.forwardRef(
           <label id={id}>{label}</label>
           {error && (
             <span role="alert">
-              {id === 'clientEmail' ? 'Invalid email' : "Can't be empty"}
+              {/* {id === 'clientEmail' ? 'Invalid email' : "Can't be empty"} */}
+              {error.message}
             </span>
           )}
         </LabelWrapper>

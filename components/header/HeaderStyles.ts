@@ -1,8 +1,10 @@
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 
 import { media } from '../../styles/GlobalStyles';
 
 export const MainHeader = styled.header`
+  position: relative;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -56,5 +58,29 @@ export const ThemeSwitcher = styled.button`
   }
   &:active {
     transform: scale(0.95);
+  }
+`;
+
+export const SingInPopup = styled(motion.div)`
+  width: 12rem;
+  position: absolute;
+  background-color: ${({ theme }) => theme.secondbg};
+  border-radius: 0.8rem;
+  padding: 1rem;
+  bottom: 2rem;
+  left: 12rem;
+  button {
+    height: 4rem;
+  }
+
+  ${media.tablet} {
+    bottom: initial;
+    left: initial;
+    right: 3rem;
+    top: 10rem;
+  }
+
+  ${media.phone} {
+    top: 8rem;
   }
 `;

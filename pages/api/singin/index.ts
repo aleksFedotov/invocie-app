@@ -3,6 +3,7 @@ import { User } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import * as jose from 'jose';
 import prisma from '../../../client';
+import { IUserData } from '../../../@types/types';
 
 export default async function handler(
   req: NextApiRequest,
@@ -48,6 +49,7 @@ export default async function handler(
       const userData = { email: userEmail, password: hashedPassword };
       const newUser = await prisma.user.create({ data: userData });
       let jwtToken;
+
       try {
         jwtToken = await new jose.SignJWT({ email: userEmail })
           .setProtectedHeader({ alg: 'HS256' })
@@ -60,7 +62,11 @@ export default async function handler(
           msg: 'Signing up failed, please try again.',
         });
       }
-      res.status(200).json({ user: newUser, token: jwtToken });
+      const userDataToSend: IUserData = {
+        id: newUser.id,
+        token: jwtToken,
+      };
+      res.status(200).json(userDataToSend);
     } catch (error) {
       res.status(500).json({ msg: 'Something went wrong' });
     }

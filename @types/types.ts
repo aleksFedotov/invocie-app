@@ -49,3 +49,8 @@ export type Inputs = {
   clientAddress: IAddress;
   items: IInvoiceItem[];
 };
+
+export interface IUserData {
+  id: string;
+  token: string;
+}

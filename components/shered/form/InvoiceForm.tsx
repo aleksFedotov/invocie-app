@@ -34,35 +34,32 @@ import {
   Shadow,
   ErrorMessage,
 } from './InvoiceFormStyles';
-import { visualElement } from 'framer-motion';
 import LoadingSpinner from '../../UI/loading/loading-spinner/LoadingSpinner';
 
 // validation shema
 const schema = yup
   .object()
   .shape({
-    description: yup.string().required(),
-    createdAt: yup.string().required(),
-    paymentTerms: yup.number().required(),
-    clientName: yup.string().required(),
-    clientEmail: yup.string().email().required(),
+    description: yup.string().required("Can't be empty"),
+    clientName: yup.string().required("Can't be empty"),
+    clientEmail: yup.string().email().required('Invalid email'),
     senderAddress: yup.object().shape({
-      street: yup.string().required(),
-      city: yup.string().required(),
-      postCode: yup.string().required(),
-      country: yup.string().required(),
+      street: yup.string().required("Can't be empty"),
+      city: yup.string().required("Can't be empty"),
+      postCode: yup.string().required("Can't be empty"),
+      country: yup.string().required("Can't be empty"),
     }),
     clientAddress: yup.object().shape({
-      street: yup.string().required(),
-      city: yup.string().required(),
-      postCode: yup.string().required(),
-      country: yup.string().required(),
+      street: yup.string().required("Can't be empty"),
+      city: yup.string().required("Can't be empty"),
+      postCode: yup.string().required("Can't be empty"),
+      country: yup.string().required("Can't be empty"),
     }),
     items: yup.array().of(
       yup.object().shape({
-        name: yup.string().required(),
-        quantity: yup.number().min(1).required(),
-        price: yup.number().min(1).required(),
+        name: yup.string().required("Can't be empty"),
+        quantity: yup.number().min(1).required("Can't be empty"),
+        price: yup.number().min(1).required("Can't be empty"),
       })
     ),
   })
@@ -193,6 +190,7 @@ const InvoiceForm: React.FC<{
               <Controller
                 control={control}
                 name="senderAddress.street"
+                rules={{ required: true }}
                 render={({
                   field: { onChange, value },
                   fieldState: { error },

@@ -4,12 +4,15 @@ import useWindowWidth from '../../../hooks/useWindowWidth';
 import { AvatarWrapper } from './AvatarStyles';
 import Image from 'next/image';
 
-const Avatar: React.FC<{ image: string }> = ({ image }) => {
+const Avatar: React.FC<{ image: string; onClick: () => void }> = ({
+  image,
+  onClick,
+}) => {
   const windowWidth = useWindowWidth();
   let imageSize = windowWidth > 800 ? 40 : 32;
 
   return (
-    <AvatarWrapper>
+    <AvatarWrapper onClick={onClick}>
       <Image
         src={image}
         width={imageSize}

@@ -45,7 +45,7 @@ const InvoicesListItem: React.FC<{ data: IInvoiceListData }> = ({ data }) => {
         {windowWidth && windowWidth > 700 ? (
           <ClientName className="name">{data.clientName}</ClientName>
         ) : (
-          <Total>&#163; {moneyFormat(data.total)}</Total>
+          <Total>{moneyFormat(data.total)}</Total>
         )}
       </ListItemLeft>
       <ListItemRight>
