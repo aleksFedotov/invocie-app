@@ -1,6 +1,6 @@
 import React from 'react';
 import { IInvoiceItem } from '../../../@types/types';
-import moneyFormat from '../../../helpers/moneyFormat';
+import moneyFormat from '../../../libs/moneyFormat';
 import useWindowWidth from '../../../hooks/useWindowWidth';
 
 import {

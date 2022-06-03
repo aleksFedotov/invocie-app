@@ -41,6 +41,9 @@ const Auth = () => {
 
   const onSubmit: SubmitHandler<AuthInputs> = async (data) => {
     try {
+      const tokenExpirationDate = new Date(
+        new Date().getTime() + 1000 * 60 * 60
+      ).toString();
       const userData = await sendRequest({
         url: isLoginMode ? '/api/login' : '/api/singin',
         method: 'POST',
@@ -48,12 +51,9 @@ const Auth = () => {
         body: JSON.stringify({
           email: data.email,
           password: data.password,
+          expirationDate: tokenExpirationDate,
         }),
       });
-
-      const tokenExpirationDate = new Date(
-        new Date().getTime() + 1000 * 60 * 60
-      ).toString();
 
       dispatch(
         login({

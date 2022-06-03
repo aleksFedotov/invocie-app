@@ -35,7 +35,6 @@ export const EmptyListContent = styled.div`
   }
 
   span {
-    font-family: 'Spartan-bold';
     font-weight: 700;
   }
 

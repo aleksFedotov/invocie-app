@@ -234,6 +234,7 @@ export const PageWrapper = styled.div`
   ${media.tablet} {
     flex-direction: column;
   }
+  overflow-x: hidden;
 `;
 
 export const MainWrapper = styled(motion.main)`

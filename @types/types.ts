@@ -53,4 +53,5 @@ export type Inputs = {
 export interface IUserData {
   id: string;
   token: string;
+  expiration: string;
 }

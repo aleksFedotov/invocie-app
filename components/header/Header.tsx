@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { destroyCookie } from 'nookies';
 
 import {
   ThemeSwitcher,
@@ -30,6 +31,7 @@ const Header: React.FC<{ themeHandler: () => void; theme: string }> = ({
   const formModal = useAppSelector(selectformModal);
   const { isLogin } = useAppSelector(selectAuth);
   const [isSingUpShown, setisSignUpShown] = useState<boolean>(false);
+  const refreshData = () => router.replace(router.asPath);
 
   useEffect(() => {
     document.body.style.overflow = 'visible';
@@ -40,6 +42,8 @@ const Header: React.FC<{ themeHandler: () => void; theme: string }> = ({
 
   const clickHandler = () => {
     if (isLogin) {
+      destroyCookie(null, 'userData');
+      refreshData();
       dispatch(logout());
     } else {
       router.push('/auth');

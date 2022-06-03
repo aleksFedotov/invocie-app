@@ -5,7 +5,7 @@ import { Inputs } from '../../../@types/types';
 import { Button } from '../../UI/button/ButtonStyles';
 import FormInput from '../../UI/form-input/FormInput';
 import { InvoiceItem } from './FormItemsStyles';
-import moneyFormat from '../../../helpers/moneyFormat';
+import moneyFormat from '../../../libs/moneyFormat';
 
 const FormItem: React.FC<{
   ind: number;

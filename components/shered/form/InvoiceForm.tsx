@@ -18,9 +18,10 @@ import Ripple from '../../UI/ripple/Ripple';
 import useHttp from '../../../hooks/useHttp';
 import FormInvoiceItems from '../form-incoice-items/FormInvoiceItems';
 import { Inputs, IInvoice } from '../../../@types/types';
-import generateData from '../../../helpers/generateData';
-import defaultValues from '../../../helpers/defaultInvoiceValues';
+import generateData from '../../../libs/generateData';
+import defaultValues from '../../../libs/defaultInvoiceValues';
 import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
 
 import {
   FormSection,
@@ -115,6 +116,8 @@ const InvoiceForm: React.FC<{
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const generatedData = generateData(data);
+    const cookies = parseCookies();
+    const storedData = JSON.parse(cookies.userData);
 
     try {
       await sendRequest({
@@ -125,7 +128,7 @@ const InvoiceForm: React.FC<{
         },
         body: JSON.stringify({
           ...generatedData,
-          userId: 'cl3sfjgqi0002a0w0jtc8bc4u',
+          userId: storedData.id,
         }),
       });
       dispatch(closeFormModal());
@@ -137,6 +140,8 @@ const InvoiceForm: React.FC<{
 
   const saveAsDraft = async () => {
     const generatedData = generateData(values, 'draft');
+    const cookies = parseCookies();
+    const storedData = JSON.parse(cookies.userData);
 
     try {
       await sendRequest({
@@ -147,7 +152,7 @@ const InvoiceForm: React.FC<{
         },
         body: JSON.stringify({
           ...generatedData,
-          userId: 'cl3sfjgqi0002a0w0jtc8bc4u',
+          userId: storedData.id,
         }),
       });
       dispatch(closeFormModal());

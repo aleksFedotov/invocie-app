@@ -1,15 +1,19 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { User } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import * as jose from 'jose';
 import prisma from '../../../client';
 import { IUserData } from '../../../@types/types';
+import { setCookie } from 'nookies';
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { email: userEmail, password }: User = req.body;
+  const {
+    email: userEmail,
+    password,
+    expirationDate,
+  }: { email: string; password: string; expirationDate?: string } = req.body;
   if (req.method === 'POST') {
     let existingUser;
     try {
@@ -62,10 +66,19 @@ export default async function handler(
         msg: 'Logging in failed, please try again.',
       });
     }
+
+    const tokenExpirationDate = new Date(new Date().getTime() + 1000 * 60 * 60);
+
     const userDataToSend: IUserData = {
       id: existingUser.id,
       token: jwtToken,
+      expiration: expirationDate || tokenExpirationDate.toISOString(),
     };
+
+    setCookie({ res }, 'userData', JSON.stringify(userDataToSend), {
+      maxAge: 30 * 24 * 60 * 60,
+      path: '/',
+    });
 
     res.status(201).json(userDataToSend);
   }

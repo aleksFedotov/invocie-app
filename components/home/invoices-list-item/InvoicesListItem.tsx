@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { IInvoiceListData } from '../../../@types/types';
 import Status from '../../UI/status/Status';
 
-import moneyFormat from '../../../helpers/moneyFormat';
+import moneyFormat from '../../../libs/moneyFormat';
 import ArrowRightIcon from '../../../public/assets/icon-arrow-right.svg';
 import useWindowWidth from '../../../hooks/useWindowWidth';
 import { format } from 'date-fns';
