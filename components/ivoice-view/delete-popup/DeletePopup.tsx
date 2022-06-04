@@ -6,6 +6,7 @@ import useHttp from '../../../hooks/useHttp';
 
 import { PoupWrapper, PopupButtons } from './DeletePopupStyles';
 import { Button } from '../../UI/button/ButtonStyles';
+import { parseCookies } from 'nookies';
 
 const DeletePopup: React.FC<{ id: string; invoiceId?: string }> = ({
   id,
@@ -16,12 +17,14 @@ const DeletePopup: React.FC<{ id: string; invoiceId?: string }> = ({
   const { sendRequest } = useHttp();
 
   const deleteClickHandler = async () => {
+    const cookies = parseCookies();
+    const storedData = JSON.parse(cookies.userData);
     try {
       await sendRequest({
         url: `/api/invoice/delete/${invoiceId}`,
         method: 'DELETE',
         body: JSON.stringify({
-          userId: 'cl3sfjgqi0002a0w0jtc8bc4u',
+          userId: storedData.id,
         }),
       });
     } catch (error) {}

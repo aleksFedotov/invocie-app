@@ -45,6 +45,7 @@ const Header: React.FC<{ themeHandler: () => void; theme: string }> = ({
       destroyCookie(null, 'userData');
       refreshData();
       dispatch(logout());
+      router.push('/');
     } else {
       router.push('/auth');
     }

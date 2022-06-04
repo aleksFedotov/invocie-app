@@ -77,7 +77,7 @@ export const SingInPopup = styled(motion.div)`
     bottom: initial;
     left: initial;
     right: 3rem;
-    top: 10rem;
+    top: 9rem;
   }
 
   ${media.phone} {

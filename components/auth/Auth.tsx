@@ -18,7 +18,15 @@ type AuthInputs = {
   passwordConfirmation?: string;
 };
 
-const schema = yup.object().shape({
+const schemaLogin = yup.object().shape({
+  email: yup.string().email().required('Invalid email'),
+  password: yup
+    .string()
+    .min(6, 'Should be at least 6 characters long')
+    .required("Can't be epmty"),
+});
+
+const schemaSignin = yup.object().shape({
   email: yup.string().email().required('Invalid email'),
   password: yup
     .string()
@@ -26,17 +34,18 @@ const schema = yup.object().shape({
     .required("Can't be epmty"),
   passwordConfirmation: yup
     .string()
-    .oneOf([yup.ref('password'), null], 'Password must match'),
+    .oneOf([yup.ref('password'), null], 'Password must match')
+    .required("Can't be epmty"),
 });
 
-const Auth = () => {
+const Auth: React.FC = () => {
   const [isLoginMode, setIsLoginMode] = useState<boolean>(false);
   const { isLoading, error, sendRequest } = useHttp();
   const dispatch = useAppDispatch();
   const router = useRouter();
 
   const { handleSubmit, control } = useForm<AuthInputs>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(isLoginMode ? schemaLogin : schemaSignin),
   });
 
   const onSubmit: SubmitHandler<AuthInputs> = async (data) => {
@@ -76,12 +85,11 @@ const Auth = () => {
         <Controller
           control={control}
           name="email"
-          render={({ field: { onChange, value }, fieldState: { error } }) => (
+          render={({ field: { onChange }, fieldState: { error } }) => (
             <FormInput
               id="email"
               placeholder="Email address"
               error={error}
-              value={value}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                 const data = event.target.value;
                 onChange(data);
@@ -93,13 +101,12 @@ const Auth = () => {
         <Controller
           control={control}
           name="password"
-          render={({ field: { onChange, value }, fieldState: { error } }) => (
+          render={({ field: { onChange }, fieldState: { error } }) => (
             <FormInput
               id="password"
               placeholder="Password"
               type="password"
               error={error}
-              value={value}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                 const data = event.target.value;
                 onChange(data);
@@ -111,13 +118,12 @@ const Auth = () => {
           <Controller
             control={control}
             name="passwordConfirmation"
-            render={({ field: { onChange, value }, fieldState: { error } }) => (
+            render={({ field: { onChange }, fieldState: { error } }) => (
               <FormInput
                 id="passwordConfirmation"
                 placeholder="Repeat Password"
                 type="password"
                 error={error}
-                value={value}
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                   const data = event.target.value;
                   onChange(data);
@@ -134,6 +140,7 @@ const Auth = () => {
           <p>
             Don’t have an account?{' '}
             <Switcher
+              data-testid="switcher"
               onClick={() => {
                 setIsLoginMode(false);
               }}
@@ -145,6 +152,7 @@ const Auth = () => {
           <p>
             Already have an account?{'  '}
             <Switcher
+              data-testid="switcher"
               onClick={() => {
                 setIsLoginMode(true);
               }}

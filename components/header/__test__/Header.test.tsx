@@ -1,4 +1,10 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  act,
+} from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import store from '../../../store/store';
@@ -57,5 +63,18 @@ describe('Header compotent testting', () => {
     const sunIcon = screen.getByTestId('sun');
     fireEvent.click(sunIcon);
     expect(themeHandler).toBeCalled();
+  });
+
+  test('Should open sing up pop up after clicking on avatar', async () => {
+    render(mockHeader('light'));
+    const avatar = screen.getByAltText('avatar');
+    act(() => {
+      fireEvent.click(avatar);
+    });
+
+    await waitFor(() => {
+      const btn = screen.queryByRole('button', { name: /sing up/i });
+      expect(btn).toBeInTheDocument();
+    });
   });
 });

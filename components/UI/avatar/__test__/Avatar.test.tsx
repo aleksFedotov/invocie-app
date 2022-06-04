@@ -14,25 +14,27 @@ window.resizeTo = function resizeTo(width, height) {
 
 describe('Avatar component testing', () => {
   test('should render component', () => {
-    render(<Avatar image="/test_img" />);
+    render(<Avatar image="/test_img" onClick={() => jest.fn} />);
     const avatarImg = screen.getByAltText('avatar');
     screen.debug();
     expect(avatarImg).toBeInTheDocument();
   });
   test('should have right size', () => {
-    render(<Avatar image="/test_img" />);
+    render(<Avatar image="/test_img" onClick={() => jest.fn} />);
     const avatarImg = screen.getByRole('img');
 
     expect(avatarImg).toHaveAttribute('data-size', '40');
   });
 
   test('should have size 32 after resizing to 650', () => {
-    const { rerender } = render(<Avatar image="/test_img" />);
+    const { rerender } = render(
+      <Avatar image="/test_img" onClick={() => jest.fn} />
+    );
     act(() => {
       window.resizeTo(500, 500);
     });
 
-    rerender(<Avatar image="/test_img" />);
+    rerender(<Avatar image="/test_img" onClick={() => jest.fn} />);
     const avatarImg = screen.getByRole('img');
     expect(avatarImg).toHaveAttribute('data-size', '32');
   });
