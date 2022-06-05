@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from './store';
 
-interface IInitialState {
+export interface IFilterInitialState {
   appliedFilters: string[];
 }
 
-const initialState: IInitialState = {
+const initialState: IFilterInitialState = {
   appliedFilters: [],
 };
 

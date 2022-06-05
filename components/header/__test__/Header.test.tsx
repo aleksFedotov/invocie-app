@@ -4,77 +4,170 @@ import {
   screen,
   waitFor,
   act,
-} from '@testing-library/react';
+} from '../../../test-utils/testUtils';
 import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import store from '../../../store/store';
+import { useRouter } from 'next/router';
 
 import Header from '../Header';
 
 const themeHandler = jest.fn();
-
-const mockHeader = (theme: string) => {
-  return (
-    <Provider store={store}>
-      <Header themeHandler={themeHandler} theme={theme} />
-    </Provider>
-  );
-};
+jest.mock('next/router', () => ({
+  useRouter: jest.fn(),
+}));
 
 describe('Header compotent testting', () => {
   test('should render component', () => {
-    render(mockHeader('light'));
+    render(<Header themeHandler={themeHandler} theme={'light'} />);
     const header = screen.getByRole('banner');
     expect(header).toBeInTheDocument();
   });
 
   test('component should have logo', () => {
-    render(mockHeader('light'));
+    render(<Header themeHandler={themeHandler} theme={'light'} />);
     const logo = screen.getByAltText('logo');
     expect(logo).toBeInTheDocument();
   });
 
   test('component should have theme button', () => {
-    render(mockHeader('light'));
+    render(<Header themeHandler={themeHandler} theme={'light'} />);
     const themeBtn = screen.getByRole('button');
     expect(themeBtn).toBeInTheDocument();
   });
 
   test('butoon should have sun icon if it is light theme', () => {
-    render(mockHeader('light'));
+    render(<Header themeHandler={themeHandler} theme={'light'} />);
     const sunIcon = screen.getByTestId('sun');
     expect(sunIcon).toBeInTheDocument();
   });
 
   test('butoon should have moon icon if it is dark theme', () => {
-    render(mockHeader('dark'));
+    render(<Header themeHandler={themeHandler} theme={'dark'} />);
     const moonIcon = screen.getByTestId('moon');
     expect(moonIcon).toBeInTheDocument();
   });
 
   test('component should have avatar', () => {
-    render(mockHeader('light'));
+    render(<Header themeHandler={themeHandler} theme={'light'} />);
     const avatar = screen.getByAltText('avatar');
     expect(avatar).toBeInTheDocument();
   });
 
   test('should callen onClick when icon is cliked', () => {
-    render(mockHeader('light'));
+    render(<Header themeHandler={themeHandler} theme={'light'} />);
     const sunIcon = screen.getByTestId('sun');
     fireEvent.click(sunIcon);
     expect(themeHandler).toBeCalled();
   });
 
-  test('Should open sing up pop up after clicking on avatar', async () => {
-    render(mockHeader('light'));
+  test('Should open "singup" popup after clicking on avatar', async () => {
+    render(<Header themeHandler={themeHandler} theme={'light'} />);
     const avatar = screen.getByAltText('avatar');
     act(() => {
       fireEvent.click(avatar);
     });
 
     await waitFor(() => {
-      const btn = screen.queryByRole('button', { name: /sing up/i });
+      const btn = screen.queryByTestId('singinPopup');
       expect(btn).toBeInTheDocument();
     });
+  });
+
+  test("should close  'singup' popup after clickin on avatar twicw", async () => {
+    render(<Header themeHandler={themeHandler} theme={'light'} />);
+    const avatar = screen.getByAltText('avatar');
+    act(() => {
+      fireEvent.click(avatar);
+    });
+
+    await waitFor(() => {
+      const btn = screen.queryByTestId('singinPopup');
+      expect(btn).toBeInTheDocument();
+    });
+
+    act(() => {
+      fireEvent.click(avatar);
+    });
+
+    await waitFor(() => {
+      const btn = screen.queryByTestId('singinPopup');
+      expect(btn).not.toBeInTheDocument();
+    });
+  });
+
+  test('should call router.push after clickin on logout btn', async () => {
+    render(<Header themeHandler={themeHandler} theme={'light'} />);
+    const push = jest.fn();
+    // @ts-ignore
+    useRouter.mockImplementation(() => ({ push }));
+    const avatar = screen.getByAltText('avatar');
+    act(() => {
+      fireEvent.click(avatar);
+    });
+
+    await waitFor(() => {
+      const btn = screen.queryByTestId('singinPopup');
+      expect(btn).toBeInTheDocument();
+    });
+
+    const signin = screen.getByRole('button', { name: 'Sign In' });
+    fireEvent.click(signin);
+    expect(push).toBeCalledWith('/auth');
+  });
+  test('should call router.push after clickin on logout btn', async () => {
+    render(<Header themeHandler={themeHandler} theme={'light'} />, {
+      preloadedState: {
+        auth: {
+          isLogin: true,
+          userId: null,
+          token: null,
+          tokenExpirationDate: null,
+        },
+      },
+    });
+    const push = jest.fn();
+    const replace = jest.fn();
+    // @ts-ignore
+    useRouter.mockImplementation(() => ({ push, replace }));
+    const avatar = screen.getByAltText('avatar');
+    act(() => {
+      fireEvent.click(avatar);
+    });
+
+    await waitFor(() => {
+      const btn = screen.queryByTestId('singinPopup');
+      expect(btn).toBeInTheDocument();
+    });
+
+    const signin = screen.getByRole('button', { name: 'Log Out' });
+    fireEvent.click(signin);
+
+    await waitFor(() => {
+      expect(replace).toBeCalled();
+    });
+  });
+
+  test('document.body.style.overflow be visible then modal is closed', () => {
+    render(<Header themeHandler={themeHandler} theme={'light'} />, {
+      preloadedState: {
+        modal: {
+          deleteModal: false,
+          formModal: false,
+        },
+      },
+    });
+    expect(document.body).toHaveStyle('overflow: visible;');
+  });
+  test('document.body.style.overflow be hidden then modal is open', () => {
+    render(<Header themeHandler={themeHandler} theme={'light'} />, {
+      preloadedState: {
+        modal: {
+          deleteModal: true,
+          formModal: false,
+        },
+      },
+    });
+    expect(document.body).toHaveStyle('overflow: hidden;');
   });
 });

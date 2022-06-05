@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from './store';
 
-interface IInitialState {
+export interface IAuthInitialState {
   isLogin: boolean;
   userId: string | null;
   token: string | null;
@@ -14,7 +14,7 @@ interface ILoginDAta {
   tokenExpirationDate: Date | string;
 }
 
-const initialState: IInitialState = {
+const initialState: IAuthInitialState = {
   isLogin: false,
   userId: null,
   token: null,

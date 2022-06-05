@@ -28,14 +28,14 @@ const InvoicesHeader: React.FC<{ total: number }> = ({ total }) => {
     setMenuIsOpened((prevState) => !prevState);
   };
 
-  let totalContent = <p>There are {total} total invoices</p>;
+  let totalContent;
 
-  if (total && windowWidth && windowWidth < 650) {
-    totalContent = <p>{total} invoices</p>;
-  } else if (total && windowWidth && windowWidth > 650) {
-    totalContent = <p>There are {total} total invoices</p>;
+  if (total && windowWidth < 650) {
+    totalContent = <p data-testid="total">{total} invoices</p>;
+  } else if (total && windowWidth > 650) {
+    totalContent = <p data-testid="total">There are {total} total invoices</p>;
   } else if (!total) {
-    totalContent = <p>No invoices</p>;
+    totalContent = <p data-testid="total">No invoices</p>;
   }
 
   return (

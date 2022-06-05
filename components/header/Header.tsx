@@ -92,6 +92,7 @@ const Header: React.FC<{ themeHandler: () => void; theme: string }> = ({
             initial="hidden"
             animate="visible"
             exit="hidden"
+            data-testid="singinPopup"
           >
             <Button className="main_btn auth_btn" onClick={clickHandler}>
               {isLogin ? 'Log Out' : 'Sign In'}
