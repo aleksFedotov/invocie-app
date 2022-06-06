@@ -2,6 +2,7 @@ import { getByRole, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import InvoiceTable from '../InvoiceTable';
+import { act } from 'react-dom/test-utils';
 
 const testData = {
   items: [
@@ -19,6 +20,15 @@ const testData = {
     },
   ],
   total: 556.0,
+};
+
+window.resizeTo = function resizeTo(width, height) {
+  Object.assign(this, {
+    innerWidth: width,
+    innerHeight: height,
+    outerWidth: width,
+    outerHeight: height,
+  }).dispatchEvent(new this.Event('resize'));
 };
 
 describe('InvoiceTable component testing', () => {
@@ -58,6 +68,24 @@ describe('InvoiceTable component testing', () => {
   test('should have amount due', () => {
     render(<InvoiceTable data={testData.items} total={testData.total} />);
     const total = screen.queryByText(/£556.00/i);
+
     expect(total).toBeInTheDocument();
+  });
+
+  test('should not render MobileTable component when window size greater than 575', () => {
+    render(<InvoiceTable data={testData.items} total={testData.total} />);
+    act(() => {
+      window.resizeBy(1440, 900);
+    });
+
+    const mobileTable = screen.queryByTestId('mobile-table');
+    expect(mobileTable).not.toBeInTheDocument();
+  });
+  test('should render MobileTable component when window size less than 575', () => {
+    render(<InvoiceTable data={testData.items} total={testData.total} />);
+    act(() => window.resizeTo(500, 500));
+
+    const mobileTable = screen.getByTestId('mobile-table');
+    expect(mobileTable).toBeInTheDocument();
   });
 });

@@ -31,8 +31,8 @@ const ViewButtons: React.FC<{ isMobile: boolean; invoiceId?: string }> = ({
           status: 'paid',
         }),
       });
-      refreshData();
     } catch (error) {}
+    refreshData();
   };
   return (
     <ButtonsWrapper mobile={isMobile}>

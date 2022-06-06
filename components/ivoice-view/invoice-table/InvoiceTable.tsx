@@ -51,7 +51,7 @@ const InvoiceTable: React.FC<{ data: IInvoiceItem[]; total: number }> = ({
           </TableBody>
         </Table>
       ) : (
-        <MobileTable>
+        <MobileTable data-testid="mobile-table">
           {data.map((item) => (
             <InvoiceItem key={item.name}>
               <ItemLeft>

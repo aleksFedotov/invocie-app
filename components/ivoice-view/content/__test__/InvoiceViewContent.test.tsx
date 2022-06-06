@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import InvoiceViewContent from '../InvoiceViewContent';
+import { act } from 'react-dom/test-utils';
 
 const testData = {
   id: 'XM9141',
@@ -39,6 +40,15 @@ const testData = {
     },
   ],
   total: 556.0,
+};
+
+window.resizeTo = function resizeTo(width, height) {
+  Object.assign(this, {
+    innerWidth: width,
+    innerHeight: height,
+    outerWidth: width,
+    outerHeight: height,
+  }).dispatchEvent(new this.Event('resize'));
 };
 
 describe('InvoiceViewMain component testing', () => {
@@ -118,5 +128,18 @@ describe('InvoiceViewMain component testing', () => {
     render(<InvoiceViewContent data={testData} />);
     const country = screen.queryByText(/USA/i);
     expect(country).toBeInTheDocument();
+  });
+
+  test('Bill to data container should have margin 11rem when widow size greater when 750', () => {
+    render(<InvoiceViewContent data={testData} />);
+    act(() => window.resizeTo(1440, 900));
+    const container = screen.getByTestId('bill-to');
+    expect(container).toHaveStyle('margin-right: 11rem');
+  });
+  test('Bill to data container should have margin 6rem when widow size less when 750', () => {
+    render(<InvoiceViewContent data={testData} />);
+    act(() => window.resizeTo(650, 650));
+    const container = screen.getByTestId('bill-to');
+    expect(container).toHaveStyle('margin-right: 6rem');
   });
 });

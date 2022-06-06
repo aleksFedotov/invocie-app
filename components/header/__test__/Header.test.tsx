@@ -6,8 +6,6 @@ import {
   act,
 } from '../../../test-utils/testUtils';
 import '@testing-library/jest-dom';
-import { Provider } from 'react-redux';
-import store from '../../../store/store';
 import { useRouter } from 'next/router';
 
 import Header from '../Header';

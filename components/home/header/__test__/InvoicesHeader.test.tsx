@@ -14,8 +14,6 @@ jest.mock('../../../../store/hooks', () => ({
   useAppDispatch: jest.fn(),
 }));
 
-const useDispatchMock = useAppDispatch as jest.Mock;
-
 window.resizeTo = function resizeTo(width, height) {
   Object.assign(this, {
     innerWidth: width,
@@ -94,11 +92,12 @@ describe('InvoceHeader component testing', () => {
   });
 
   test('should call dispatch after clickin on btn', () => {
+    const dispatch = jest.fn();
+    // @ts-ignore
+    useAppDispatch.mockReturnValue(dispatch);
     render(<InvoicesHeader total={7} />);
     const btn = screen.getByRole('button', { name: /new/i });
-    // const dispatch = jest.fn;
-    // useDispatchMock.mockReturnValue(() => dispatch);
-    // fireEvent.click(btn);
-    // expect(useDispatchMock).toBeCalled();
+    fireEvent.click(btn);
+    expect(dispatch).toBeCalled();
   });
 });

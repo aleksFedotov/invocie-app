@@ -44,7 +44,10 @@ const InvoiceViewContent: React.FC<{ data: IInvoice }> = ({ data }) => {
             <h3>{format(new Date(data.paymentDue), 'dd MMM yyyy')}</h3>
           </DataContainer>
         </Dates>
-        <DataContainer margin={windowWidth! > 750 ? '11rem' : '6rem'}>
+        <DataContainer
+          data-testid="bill-to"
+          margin={windowWidth! > 750 ? '11rem' : '6rem'}
+        >
           <p>Bill To</p>
           <h3>{data.clientName}</h3>
           <Address align="start">

@@ -1,7 +1,9 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import InvocesLitsItem from '../InvoicesListItem';
+import { useRouter } from 'next/router';
+import { act } from 'react-dom/test-utils';
 
 const data = {
   id: 'RT3080',
@@ -35,6 +37,20 @@ const data = {
   total: 1800.9,
 };
 
+jest.mock('next/router', () => ({
+  ...jest.requireActual('next/router'),
+  useRouter: jest.fn(),
+}));
+
+window.resizeTo = function resizeTo(width, height) {
+  Object.assign(this, {
+    innerWidth: width,
+    innerHeight: height,
+    outerWidth: width,
+    outerHeight: height,
+  }).dispatchEvent(new this.Event('resize'));
+};
+
 describe('InvoicesListItem testing', () => {
   test('should render component', () => {
     render(<InvocesLitsItem data={data} />);
@@ -65,5 +81,53 @@ describe('InvoicesListItem testing', () => {
     render(<InvocesLitsItem data={data} />);
     const status = screen.getByText(/paid/i);
     expect(status).toBeInTheDocument();
+  });
+
+  test('clicking on item should call router.push', () => {
+    const push = jest.fn();
+    // @ts-ignore
+    useRouter.mockImplementation(() => ({ push }));
+    render(<InvocesLitsItem data={data} />);
+    const listitem = screen.getByTestId('invoice');
+    fireEvent.click(listitem);
+    expect(push).toBeCalledWith('/invoice/RT3080');
+  });
+
+  test('should render arrow icon when window size is greater than 700', () => {
+    render(<InvocesLitsItem data={data} />);
+    act(() => window.resizeTo(1440, 900));
+    const arrowIcon = screen.queryByRole('img');
+    expect(arrowIcon).toBeInTheDocument();
+  });
+  test('should not render arrow icon when window size is less than 700', () => {
+    render(<InvocesLitsItem data={data} />);
+    act(() => window.resizeTo(650, 650));
+    const arrowIcon = screen.queryByRole('img');
+    expect(arrowIcon).not.toBeInTheDocument();
+  });
+
+  test('left side of item should render client name when window size is greater than 700', () => {
+    render(<InvocesLitsItem data={data} />);
+    act(() => window.resizeTo(1440, 900));
+    const leftSide = screen.getByTestId('item-left');
+    expect(leftSide).toHaveTextContent(/Jensen Huang/i);
+  });
+  test('left side of item should render total when window size is less than 700', () => {
+    render(<InvocesLitsItem data={data} />);
+    act(() => window.resizeTo(650, 650));
+    const leftSide = screen.getByTestId('item-left');
+    expect(leftSide).toHaveTextContent(/£1,800.90/i);
+  });
+  test('right side of item should render total when window size is greater than 700', () => {
+    render(<InvocesLitsItem data={data} />);
+    act(() => window.resizeTo(1440, 900));
+    const rightSide = screen.getByTestId('item-right');
+    expect(rightSide).toHaveTextContent(/£1,800.90/i);
+  });
+  test('right side of item should render cllient name when window size is less than 700', () => {
+    render(<InvocesLitsItem data={data} />);
+    act(() => window.resizeTo(650, 650));
+    const rightSide = screen.getByTestId('item-right');
+    expect(rightSide).toHaveTextContent(/Jensen Huang/i);
   });
 });

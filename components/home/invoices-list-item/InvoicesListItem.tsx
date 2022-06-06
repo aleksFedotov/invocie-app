@@ -43,21 +43,25 @@ const InvoicesListItem: React.FC<{ data: IInvoiceListData }> = ({ data }) => {
           Due {format(new Date(data.paymentDue), 'dd MMM yyyy')}
         </DueDate>
         {windowWidth && windowWidth > 700 ? (
-          <ClientName className="name">{data.clientName}</ClientName>
+          <ClientName className="name" data-testid="item-left">
+            {data.clientName}
+          </ClientName>
         ) : (
-          <Total>{moneyFormat(data.total)}</Total>
+          <Total data-testid="item-left">{moneyFormat(data.total)}</Total>
         )}
       </ListItemLeft>
       <ListItemRight>
         {windowWidth && windowWidth > 700 ? (
-          <Total>{moneyFormat(data.total)}</Total>
+          <Total data-testid="item-right">{moneyFormat(data.total)}</Total>
         ) : (
-          <ClientName className="name">{data.clientName}</ClientName>
+          <ClientName className="name" data-testid="item-right">
+            {data.clientName}
+          </ClientName>
         )}
 
         <Status status={data.status} />
 
-        {windowWidth && windowWidth > 700 && <ArrowRightIcon />}
+        {windowWidth && windowWidth > 700 && <ArrowRightIcon role="img" />}
       </ListItemRight>
     </ListItem>
   );

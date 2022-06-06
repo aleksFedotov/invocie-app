@@ -8,7 +8,6 @@ import {
 import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import store from '../../../store/store';
-import { useRouter } from 'next/router';
 
 import Auth from '../Auth';
 
@@ -19,22 +18,6 @@ const mockComponent = () => {
     </Provider>
   );
 };
-
-let mockIsloading = false;
-let mockErorr = false;
-const mockSendRequest = jest.fn();
-
-jest.mock('../../../hooks/useHttp', () => {
-  return {
-    __esModule: true,
-    ...jest.requireActual('../../../hooks/useHttp'),
-    default: () => ({
-      isLoading: mockIsloading,
-      error: mockErorr,
-      sendRequest: mockSendRequest,
-    }),
-  };
-});
 
 describe('Auth component testing', () => {
   test('should render component', () => {
