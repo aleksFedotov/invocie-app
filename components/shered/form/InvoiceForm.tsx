@@ -132,8 +132,8 @@ const InvoiceForm: React.FC<{
         }),
       });
       dispatch(closeFormModal());
-      refreshData();
     } catch (error) {}
+    refreshData();
   };
 
   // save as draft handling
@@ -156,8 +156,8 @@ const InvoiceForm: React.FC<{
         }),
       });
       dispatch(closeFormModal());
-      refreshData();
     } catch (error) {}
+    refreshData();
   };
   return (
     <FormProvider {...methods}>
@@ -176,6 +176,7 @@ const InvoiceForm: React.FC<{
             dispatch(closeFormModal());
           }}
           type="button"
+          data-testid="backBtn"
         >
           <IconArrowLeft />
           Go Back
@@ -187,7 +188,9 @@ const InvoiceForm: React.FC<{
             {data?.id}
           </h2>
         )}
-        {error && <ErrorMessage>{error}</ErrorMessage>}
+        {error && (
+          <ErrorMessage data-testid="mainErorrMessage">{error}</ErrorMessage>
+        )}
         <Wrapper>
           <FormSection>
             <p>Bill From</p>
@@ -339,7 +342,6 @@ const InvoiceForm: React.FC<{
                 )}
               />
 
-              {/* !!!! */}
               <Controller
                 control={control}
                 name="clientAddress.city"
