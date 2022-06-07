@@ -1,4 +1,5 @@
 import generateData from '../generateData';
+import * as createId from '../generateId';
 
 const testData = {
   createdAt: '2021-08-18',
@@ -62,11 +63,9 @@ const result = {
 };
 
 describe('generateData function testing', () => {
-  jest.mock('../generateId', () => {
-    return jest.fn(() => 'RT3080');
-  });
-
   test('should generate correct data', () => {
+    const spy = jest.spyOn(createId, 'default');
+    spy.mockReturnValue('RT3080');
     expect(generateData(testData)).toEqual(result);
   });
 });

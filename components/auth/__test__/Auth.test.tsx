@@ -8,6 +8,7 @@ import {
 import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import store from '../../../store/store';
+import * as hook from '../../../hooks/useHttp';
 
 import Auth from '../Auth';
 
@@ -65,6 +66,12 @@ describe('Auth component testing', () => {
     expect(repeatPasswordInput).toHaveValue('123456');
   });
   test('should pass validation with right data', async () => {
+    const spy = jest.spyOn(hook, 'default');
+    spy.mockReturnValue({
+      isLoading: false,
+      error: false,
+      sendRequest: jest.fn(),
+    });
     render(mockComponent());
     const emailInput = screen.getByLabelText('email');
     fireEvent.change(emailInput, { target: { value: 'test@test.com' } });
@@ -73,8 +80,8 @@ describe('Auth component testing', () => {
     const repeatPasswordInput = screen.getByLabelText('passwordConfirmation');
     fireEvent.change(repeatPasswordInput, { target: { value: '123456' } });
     const btn = screen.getByRole('button');
-    await act(() => {
-      fireEvent.click(btn);
+    await act(async () => {
+      await fireEvent.click(btn);
     });
 
     await waitFor(() => {

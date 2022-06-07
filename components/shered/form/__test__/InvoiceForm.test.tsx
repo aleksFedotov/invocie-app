@@ -3,6 +3,8 @@ import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import store from '../../../../store/store';
 import { IInvoice } from '../../../../@types/types';
+import * as httpHook from '../../../../hooks/useHttp';
+import * as formHook from 'react-hook-form';
 
 import InvoiceForm from '../InvoiceForm';
 
@@ -119,6 +121,27 @@ describe('InvoiceForm componrnt testing', () => {
       const country = screen.getByLabelText(/clientCountry/i);
       fireEvent.change(country, { target: { value: 'United Kingdom' } });
       expect(country).toHaveValue('United Kingdom');
+    });
+
+    test('should pass validation with correct data', () => {
+      // const spy = jest.spyOn(httpHook, "default")
+      // spy.mockReturnValue({
+      //   isLoading: false,
+      //   error:false,
+      //   sendRequest: jest.fn()
+      // })
+      const mockUseForm = () => {
+        handleSubmit: jest.fn;
+      };
+      const spy = jest.spyOn(formHook, 'useForm');
+      spy.mockReturnValue({
+        useForm: mockUseForm,
+      });
+      const onSubmit = jest.fn();
+      render(mockComponent());
+      const btn = screen.getByRole('button', { name: /Save & Send/i });
+      fireEvent.click(btn);
+      expect(mockUseForm).toBeCalled();
     });
   });
 
