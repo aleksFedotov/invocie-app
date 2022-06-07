@@ -40,7 +40,7 @@ const schemaSignin = yup.object().shape({
 
 const Auth: React.FC = () => {
   const [isLoginMode, setIsLoginMode] = useState<boolean>(false);
-  const { isLoading, error, sendRequest } = useHttp();
+  const { isLoading, error: httpError, sendRequest } = useHttp();
   const dispatch = useAppDispatch();
   const router = useRouter();
 
@@ -78,7 +78,7 @@ const Auth: React.FC = () => {
 
   return (
     <AuthWrapper>
-      {error && <ErorrMessage>{error}</ErorrMessage>}
+      {httpError && <ErorrMessage>{httpError}</ErorrMessage>}
       <AuthForm onSubmit={handleSubmit(onSubmit)}>
         {isLoading && <LoadingSpinner asOverlay text="Submitting..." />}
         <h1>{isLoginMode ? 'Login' : 'Sign Up'}</h1>

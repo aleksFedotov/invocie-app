@@ -23,7 +23,7 @@ describe('FormImput testing', () => {
         id="firstName"
         label="First Name"
         placeholder="First Name"
-        error={true}
+        error={{ message: "Can't be empty" }}
       />
     );
 
@@ -36,7 +36,7 @@ describe('FormImput testing', () => {
         id="clientEmail"
         label="First Name"
         placeholder="First Name"
-        error={true}
+        error={{ message: 'Invalid email' }}
       />
     );
 

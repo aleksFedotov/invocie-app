@@ -1,10 +1,4 @@
-import {
-  fireEvent,
-  getByText,
-  render,
-  screen,
-  waitFor,
-} from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import store from '../../../../store/store';
