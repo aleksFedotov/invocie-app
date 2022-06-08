@@ -35,7 +35,7 @@ import {
   Shadow,
   ErrorMessage,
 } from './InvoiceFormStyles';
-import LoadingSpinner from '../../UI/loading/loading-spinner/LoadingSpinner';
+import LoadingSpinner from '../../UI/loading/LoadingSpinner';
 
 // validation shema
 const schema = yup

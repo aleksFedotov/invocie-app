@@ -12,7 +12,7 @@ describe('SelectDropdown component testting', () => {
       <SelectDropdown
         label="Payment Terms"
         id="terms"
-        value={''}
+        value={30}
         onChange={onChange}
       />
     );
@@ -25,7 +25,7 @@ describe('SelectDropdown component testting', () => {
       <SelectDropdown
         label="Payment Terms"
         id="terms"
-        value={''}
+        value={30}
         onChange={onChange}
       />
     );
@@ -38,7 +38,7 @@ describe('SelectDropdown component testting', () => {
       <SelectDropdown
         label="Payment Terms"
         id="terms"
-        value={''}
+        value={30}
         onChange={onChange}
       />
     );
@@ -50,7 +50,7 @@ describe('SelectDropdown component testting', () => {
       <SelectDropdown
         label="Payment Terms"
         id="terms"
-        value={''}
+        value={30}
         onChange={onChange}
       />
     );
@@ -69,7 +69,7 @@ describe('SelectDropdown component testting', () => {
       <SelectDropdown
         label="Payment Terms"
         id="terms"
-        value={''}
+        value={30}
         onChange={onChange}
       />
     );
@@ -79,5 +79,25 @@ describe('SelectDropdown component testting', () => {
     fireEvent.click(option);
     const value = screen.getByTestId(/selectedValue/i);
     expect(value).toHaveTextContent('Net 14 Days');
+  });
+
+  test('should close if click ouside drop down', async () => {
+    render(
+      <SelectDropdown
+        label="Payment Terms"
+        id="terms"
+        value={30}
+        onChange={onChange}
+      />
+    );
+    const select = screen.getByTestId('selectDropDown');
+    fireEvent.click(select);
+    let dropdown = await screen.findByTestId('dropdown');
+    expect(dropdown).toBeInTheDocument();
+    fireEvent.click(document.body);
+    await waitFor(() => {
+      const dropdown = screen.queryByTestId('dropdown');
+      expect(dropdown).not.toBeInTheDocument();
+    });
   });
 });

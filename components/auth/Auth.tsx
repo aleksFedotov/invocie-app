@@ -6,7 +6,7 @@ import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import useHttp from '../../hooks/useHttp';
-import LoadingSpinner from '../UI/loading/loading-spinner/LoadingSpinner';
+import LoadingSpinner from '../UI/loading/LoadingSpinner';
 import { useAppDispatch } from '../../store/hooks';
 import { login } from '../../store/authSlice';
 import Ripple from '../UI/ripple/Ripple';

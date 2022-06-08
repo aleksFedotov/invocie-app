@@ -147,21 +147,29 @@ export const DatePicker: React.FC<{
         {open && (
           <Calendar
             data-testid="calender"
-            // variants={calendarVariants}
-            // initial="hidden"
-            // animate="visible"
-            // exit="exit"
+            variants={calendarVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
             style={{ originY: 0 }}
           >
             <CalendarNav>
-              <button onClick={handlePrevMonth} type="button">
+              <button
+                onClick={handlePrevMonth}
+                type="button"
+                data-testid="prevMonth"
+              >
                 <ArrowLeftIcon />
               </button>
               <p>
                 {format(new Date(currentYear, currentMonth), 'MMM')}{' '}
                 {currentYear}
               </p>
-              <button onClick={handleNextMonth} type="button">
+              <button
+                onClick={handleNextMonth}
+                type="button"
+                data-testid="nextMonth"
+              >
                 <ArrowRightIcon />
               </button>
             </CalendarNav>

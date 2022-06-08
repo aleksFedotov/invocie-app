@@ -74,10 +74,6 @@ describe('InvoiceTable component testing', () => {
 
   test('should not render MobileTable component when window size greater than 575', () => {
     render(<InvoiceTable data={testData.items} total={testData.total} />);
-    act(() => {
-      window.resizeBy(1440, 900);
-    });
-
     const mobileTable = screen.queryByTestId('mobile-table');
     expect(mobileTable).not.toBeInTheDocument();
   });

@@ -38,13 +38,14 @@ const Ripple: React.FC<{ duration: number; color: string }> = ({
   });
 
   const addRipple = (event: React.MouseEvent<HTMLElement>) => {
-    const rippleContainer = event.currentTarget!.getBoundingClientRect();
+    const rippleContainer = event.currentTarget.getBoundingClientRect();
+
     const size =
       rippleContainer.width > rippleContainer.height
         ? rippleContainer.width
         : rippleContainer.height;
-    const x = event.pageX - rippleContainer.x - size / 2;
-    const y = event.pageY - rippleContainer.y - size / 2;
+    const x = event.pageX ? event.pageX - rippleContainer.x - size / 2 : 0;
+    const y = event.pageY ? event.pageY - rippleContainer.x - size / 2 : 0;
     const newRipple = {
       x,
       y,

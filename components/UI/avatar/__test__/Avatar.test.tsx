@@ -16,7 +16,6 @@ describe('Avatar component testing', () => {
   test('should render component', () => {
     render(<Avatar image="/test_img" onClick={() => jest.fn} />);
     const avatarImg = screen.getByAltText('avatar');
-    screen.debug();
     expect(avatarImg).toBeInTheDocument();
   });
   test('should have right size', () => {

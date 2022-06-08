@@ -22,7 +22,7 @@ const FormItem: React.FC<{
   const watchItemPrice = watchItems[ind].price;
   const watchItemQty = watchItems[ind].quantity;
 
-  const itemsErrors = errors.items;
+  const itemsErrors = errors.items && errors.items[ind];
 
   const setTotal = (qty: number, price: number) => {
     const total = qty * price;
@@ -39,7 +39,7 @@ const FormItem: React.FC<{
         render={({ field: { onChange, value } }) => (
           <FormInput
             id="itemName"
-            error={itemsErrors && itemsErrors[ind]?.name}
+            error={itemsErrors?.name}
             value={value}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
               onChange(event.target.value);
@@ -59,7 +59,7 @@ const FormItem: React.FC<{
           <FormInput
             id="quantity"
             type="number"
-            error={itemsErrors && itemsErrors[ind]?.quantity}
+            error={itemsErrors?.quantity}
             value={value}
             placeholder="0"
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,7 +81,7 @@ const FormItem: React.FC<{
           <FormInput
             id="price"
             type="text"
-            error={itemsErrors && itemsErrors[ind]?.price}
+            error={itemsErrors?.price}
             value={value}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
               const data = event.target.value.replace(/[^0-9\.]/g, '');
@@ -90,7 +90,7 @@ const FormItem: React.FC<{
             }}
             onBlur={(event: React.FocusEvent<HTMLInputElement>) => {
               const data = +event.target.value;
-              onChange(+data.toFixed(2));
+              onChange(data.toFixed(2));
             }}
             label="Price"
             invoiceItem

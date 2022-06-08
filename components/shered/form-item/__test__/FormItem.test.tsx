@@ -1,10 +1,16 @@
-import { screen, render, fireEvent } from '@testing-library/react';
+import { screen, render, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { FormProvider, useForm } from 'react-hook-form';
+import * as formHook from 'react-hook-form';
 
 import FormItem from '../FormItem';
+import { act } from 'react-dom/test-utils';
 
 const mockRemove = jest.fn();
+
+jest.mock('react-hook-form', () => ({
+  ...jest.requireActual('react-hook-form'),
+}));
 
 const Provider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const methods = useForm({
@@ -55,5 +61,24 @@ describe('FormItem component testing', () => {
     fireEvent.change(quantity, { target: { value: '4' } });
     fireEvent.change(price, { target: { value: '100' } });
     expect(total).toHaveValue('400.00');
+  });
+
+  test('should call remove after clicking on delete btn', () => {
+    render(mockComponent());
+    const btn = screen.getByRole('button');
+    fireEvent.click(btn);
+    expect(mockRemove).toBeCalled();
+  });
+
+  test('should change format on price after unfocus', async () => {
+    render(mockComponent());
+    const price = screen.getByLabelText(/price/i);
+    fireEvent.change(price, { target: { value: '100' } });
+    await act(() => {
+      fireEvent.blur(price);
+    });
+    await waitFor(() => {
+      expect(price).toHaveValue('100.00');
+    });
   });
 });
