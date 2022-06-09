@@ -1,22 +1,8 @@
-import { renderHook } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
+import { renderHook, waitFor } from '@testing-library/react';
+
 import { server } from '../../mocks/server';
-import fetch from 'node-fetch';
-
+import 'next';
 import useHttp from '../useHttp';
-
-// function fetchMock(url: string, suffix = '') {
-//   return new Promise((resolve) =>
-//     setTimeout(() => {
-//       resolve({
-//         json: () =>
-//           Promise.resolve({
-//             data: url + suffix,
-//           }),
-//       });
-//     }, 200 + Math.random() * 300)
-//   );
-// }
 
 beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
@@ -29,19 +15,33 @@ describe('useHttp testing', () => {
   });
   test('initital value of isLoading should be false', () => {
     const { result } = renderHook(() => useHttp());
-    console.log(result);
     expect(result.current.isLoading).toEqual(false);
   });
   test('initital value of error should be null', () => {
     const { result } = renderHook(() => useHttp());
     expect(result.current.error).toEqual(null);
   });
-  test('', async () => {
+  test('', () => {
     const { result } = renderHook(() => useHttp());
-    await act(() => {
-      result.current.sendRequest({
-        url: 'test',
+
+    waitFor(async () => {
+      const response = await result.current.sendRequest({
+        url: 'https://test/login',
       });
+      expect(response).toEqual({ user: 'alex' });
+    });
+  });
+  test('', () => {
+    const { result } = renderHook(() => useHttp());
+
+    waitFor(async () => {
+      const response = await result.current.sendRequest({
+        url: 'https://test/error',
+      });
+      expect(response).toEqual({ msg: 'something went wrong' });
+      expect(result.current.error).toEqual('something went wrong');
+      expect(result.current.sendRequest).toThrowError();
+      expect(result.current.isLoading).toEqual(false);
     });
   });
 });
