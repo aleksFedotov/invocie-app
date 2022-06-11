@@ -7,10 +7,14 @@ import { Provider } from 'react-redux';
 import store from '../store/store';
 import useWindowWidth from '../hooks/useWindowWidth';
 import { useRouter } from 'next/router';
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistStore } from 'redux-persist';
 
 import Header from '../components/header/Header';
 import ViewButtons from '../components/ivoice-view/view-buttons/ViewButtons';
 import { AnimatePresence } from 'framer-motion';
+
+// let persistor = persistStore(store);
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [theme, setTheme] = useState<string>('dark');
@@ -56,6 +60,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
       <Provider store={store}>
+        {/* <PersistGate loading={null} persistor={persistor}> */}
         <GlobalStyles />
         <PageWrapper>
           <Header themeHandler={changeTheme} theme={theme} />
@@ -74,6 +79,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             <ViewButtons isMobile={true} />
           )}
         </PageWrapper>
+        {/* </PersistGate> */}
       </Provider>
     </ThemeProvider>
   );

@@ -14,7 +14,7 @@ export default async function handler(
       invoice = await prisma.invoice.findFirst({
         where: {
           // @ts-ignore
-          id_db: invoiceId,
+          id: invoiceId,
         },
         include: {
           items: true,
@@ -30,7 +30,7 @@ export default async function handler(
       await prisma.invoice.update({
         where: {
           // @ts-ignore
-          id_db: invoiceId,
+          id: invoiceId,
         },
         data: {
           status: data.status,

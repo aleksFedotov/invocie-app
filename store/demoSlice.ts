@@ -1,17 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from './store';
 import { IInvoice } from '../@types/types';
-import { stat } from 'fs';
-import { Item } from 'framer-motion/types/components/Reorder/Item';
+import data from '../data.json';
 
 interface IModeInitialState {
   isDemoMode: boolean;
   invoices: IInvoice[];
 }
 
-const initialState: IModeInitialState = {
+let initialState: IModeInitialState = {
   isDemoMode: false,
-  invoices: [],
+  invoices: data,
 };
 
 const demoSlice = createSlice({
@@ -58,6 +57,8 @@ export const {
   editInvoice,
   markAsPaid,
 } = demoSlice.actions;
+
+export const demoActions = demoSlice.actions;
 
 export const selectDemo = (state: RootState) => state.demo;
 export const demoReducer = demoSlice.reducer;
