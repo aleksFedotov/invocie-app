@@ -14,6 +14,7 @@ import { useCallback, useEffect } from 'react';
 import { parseCookies } from 'nookies';
 import { useAppDispatch } from '../store/hooks';
 import { login } from '../store/authSlice';
+import { loginDemo } from '../store/demoSlice';
 import { useRouter } from 'next/router';
 
 import InvoicesHeader from '../components/home/header/InvoicesHeader';
@@ -22,6 +23,7 @@ import EmptyList from '../components/home/empty-invoicelist/EmptyList';
 import Modal from '../components/UI/modal/Modal';
 import InvoiceForm from '../components/shered/form/InvoiceForm';
 import Welcome from '../components/home/welcome/Welcome';
+import { wrapper } from '../store/store';
 
 let logOutTimer: ReturnType<typeof setTimeout>;
 
@@ -112,32 +114,37 @@ const Home: NextPage<{ invoicesListData: IInvoiceListData[] }> = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const cookies = nookies.get(ctx);
+export const getServerSideProps: GetServerSideProps =
+  wrapper.getServerSideProps((store) => async (ctx) => {
+    const cookies = nookies.get(ctx);
 
-  if (Object.keys(cookies).length === 0) {
+    if (Object.keys(cookies).length === 0) {
+      store.dispatch(loginDemo());
+
+      const data = store.getState().demo.invoices;
+
+      return {
+        props: {
+          invoicesListData: data,
+        },
+      };
+    }
+    const userData = JSON.parse(cookies.userData);
+
+    const data = await prisma.user.findUnique({
+      where: {
+        id: userData.id,
+      },
+      include: {
+        invoices: true,
+      },
+    });
+
     return {
       props: {
-        invoicesListData: [],
+        invoicesListData: data?.invoices,
       },
     };
-  }
-  const userData = JSON.parse(cookies.userData);
-
-  const data = await prisma.user.findUnique({
-    where: {
-      id: userData.id,
-    },
-    include: {
-      invoices: true,
-    },
   });
-
-  return {
-    props: {
-      invoicesListData: data?.invoices,
-    },
-  };
-};
 
 export default Home;

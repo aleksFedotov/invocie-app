@@ -1,11 +1,10 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { GetServerSideProps } from 'next';
-import Data from '../../data.json';
 import { IInvoice } from '../../@types/types';
 import { useAppSelector } from '../../store/hooks';
 import { selectDeleteModal, selectformModal } from '../../store/modalSlice';
-import { selectDemo } from '../../store/demoSlice';
+import { loginDemo, selectDemo } from '../../store/demoSlice';
 import { Button } from '../../components/UI/button/ButtonStyles';
 import InvoiceViewHeader from '../../components/ivoice-view/header/InvoiceViewHeader';
 import InvoiceViewContent from '../../components/ivoice-view/content/InvoiceViewContent';
@@ -16,6 +15,8 @@ import { useRouter } from 'next/router';
 import IconArrowLeft from '../../public/assets/icon-arrow-left.svg';
 import InvoiceForm from '../../components/shered/form/InvoiceForm';
 import prisma from '../../client';
+import { wrapper } from '../../store/store';
+import nookies from 'nookies';
 
 const InvoceView: NextPage<{ invoiceData: IInvoice }> = ({ invoiceData }) => {
   const modalIsOpened = useAppSelector(selectDeleteModal);
@@ -23,11 +24,12 @@ const InvoceView: NextPage<{ invoiceData: IInvoice }> = ({ invoiceData }) => {
   const { invoices } = useAppSelector(selectDemo);
   const router = useRouter();
 
-  if (!invoiceData) {
-    const { id } = router.query;
-    // @ts-ignore
-    invoiceData = invoices.find((item) => item.id === id);
-  }
+  // if (invoiceData === null) {
+  //   const { id } = router.query;
+  //   // @ts-ignore
+  //   invoiceData = invoices.find((item) => item.id === id);
+  // }
+
   return (
     <>
       <Head>
@@ -39,7 +41,7 @@ const InvoceView: NextPage<{ invoiceData: IInvoice }> = ({ invoiceData }) => {
       <Button
         className="back_btn"
         onClick={() => {
-          router.push('/');
+          router.replace('/', undefined, { shallow: true });
         }}
       >
         <IconArrowLeft />
@@ -69,26 +71,69 @@ const InvoceView: NextPage<{ invoiceData: IInvoice }> = ({ invoiceData }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  const id = query.id;
+// export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+//   const id = query.id;
 
-  const invoiceData = await prisma.invoice.findFirst({
-    where: {
-      // @ts-ignore
-      id: id,
-    },
-    include: {
-      senderAddress: true,
-      clientAddress: true,
-      items: true,
-    },
+//   const invoiceData = await prisma.invoice.findFirst({
+//     where: {
+//       // @ts-ignore
+//       id: id,
+//     },
+//     include: {
+//       senderAddress: true,
+//       clientAddress: true,
+//       items: true,
+//     },
+//   });
+
+//   console.log(invoiceData);
+
+//   return {
+//     props: {
+//       invoiceData: invoiceData,
+//     },
+//   };
+// };
+
+export const getServerSideProps: GetServerSideProps =
+  wrapper.getServerSideProps((store) => async (ctx) => {
+    const id = ctx.query.id;
+    // check if user id loggedin, if not thne it is demo mode
+    const cookies = nookies.get(ctx);
+
+    // swithcing to demode
+    if (Object.keys(cookies).length === 0) {
+      store.dispatch(loginDemo());
+
+      const data = store
+        .getState()
+        .demo.invoices.find((item) => item.id === id);
+      return {
+        props: {
+          invoiceData: data,
+        },
+      };
+    }
+
+    const invoiceData = await prisma.invoice.findFirst({
+      where: {
+        // @ts-ignore
+        id: id,
+      },
+      include: {
+        senderAddress: true,
+        clientAddress: true,
+        items: true,
+      },
+    });
+
+    console.log('login');
+
+    return {
+      props: {
+        invoiceData: invoiceData,
+      },
+    };
   });
-
-  return {
-    props: {
-      invoiceData: invoiceData,
-    },
-  };
-};
 
 export default InvoceView;
