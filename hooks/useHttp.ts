@@ -17,6 +17,8 @@ export default function useHttp(): HttpRes {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<null | string>(null);
 
+  // const activeHttpRequests = useRef<AbortController[]>([]);
+
   const sendRequest = useCallback(
     async ({ url, method = 'GET', headers = {}, body = null }: ReqConfig) => {
       setIsLoading(true);
@@ -43,6 +45,13 @@ export default function useHttp(): HttpRes {
     },
     []
   );
+
+  // useEffect(() => {
+  //   return () => {
+  //     // eslint-disable-next-line react-hooks/exhaustive-deps
+  //     activeHttpRequests.current.forEach((abortCtrl) => abortCtrl.abort());
+  //   };
+  // }, []);
 
   return {
     isLoading,

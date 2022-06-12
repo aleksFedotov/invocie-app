@@ -1,4 +1,4 @@
-import { renderHook, waitFor, act } from '@testing-library/react';
+import { renderHook, waitFor } from '@testing-library/react';
 
 import { server } from '../../mocks/server';
 import 'next';
@@ -21,7 +21,7 @@ describe('useHttp testing', () => {
     const { result } = renderHook(() => useHttp());
     expect(result.current.error).toEqual(null);
   });
-  test('should get status 200 and data if request is solved', () => {
+  test('', () => {
     const { result } = renderHook(() => useHttp());
 
     waitFor(async () => {
@@ -31,7 +31,7 @@ describe('useHttp testing', () => {
       expect(response).toEqual({ user: 'alex' });
     });
   });
-  test('should get status 500 and error message if request is solved', async () => {
+  test('', () => {
     const { result } = renderHook(() => useHttp());
 
     waitFor(async () => {
@@ -42,17 +42,6 @@ describe('useHttp testing', () => {
       expect(result.current.error).toEqual('something went wrong');
       expect(result.current.sendRequest).toThrowError();
       expect(result.current.isLoading).toEqual(false);
-    });
-  });
-
-  test('should trigger !res.ok', async () => {
-    const { result } = renderHook(() => useHttp());
-
-    await act(async () => {
-      const response = result.current.sendRequest({
-        url: 'https://test/error',
-      });
-      await expect(response).rejects.toBeTruthy();
     });
   });
 });
