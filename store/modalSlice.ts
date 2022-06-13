@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import type { RootState } from './store';
+import type { AppState } from './store';
 
 export interface IModalInitialState {
   deleteModal: boolean;
@@ -36,7 +36,7 @@ export const {
   openFormModal,
   closeFormModal,
 } = ModalSlice.actions;
-export const selectDeleteModal = (state: RootState) => state.modal.deleteModal;
-export const selectformModal = (state: RootState) => state.modal.formModal;
+export const selectDeleteModal = (state: AppState) => state.modal.deleteModal;
+export const selectformModal = (state: AppState) => state.modal.formModal;
 
 export const modalReducer = ModalSlice.reducer;

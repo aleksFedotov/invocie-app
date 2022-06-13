@@ -3,18 +3,14 @@ import type { AppProps } from 'next/app';
 import { GlobalStyles, MainWrapper, PageWrapper } from '../styles/GlobalStyles';
 import { ThemeProvider } from 'styled-components';
 import { lightTheme, darkTheme } from '../styles/theme/theme';
-import { Provider } from 'react-redux';
-import store from '../store/store';
+import { wrapper } from '../store/store';
+
 import useWindowWidth from '../hooks/useWindowWidth';
 import { useRouter } from 'next/router';
-import { PersistGate } from 'redux-persist/integration/react';
-import { persistStore } from 'redux-persist';
 
 import Header from '../components/header/Header';
 import ViewButtons from '../components/ivoice-view/view-buttons/ViewButtons';
 import { AnimatePresence } from 'framer-motion';
-
-// let persistor = persistStore(store);
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [theme, setTheme] = useState<string>('dark');
@@ -59,30 +55,27 @@ function MyApp({ Component, pageProps }: AppProps) {
   };
   return (
     <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
-      <Provider store={store}>
-        {/* <PersistGate loading={null} persistor={persistor}> */}
-        <GlobalStyles />
-        <PageWrapper>
-          <Header themeHandler={changeTheme} theme={theme} />
-          <AnimatePresence exitBeforeEnter>
-            <MainWrapper
-              key={router.route}
-              variants={pageAnimation}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-            >
-              <Component {...pageProps} />
-            </MainWrapper>
-          </AnimatePresence>
-          {router.pathname === '/invoice/[id]' && windowWidth! < 700 && (
-            <ViewButtons isMobile={true} />
-          )}
-        </PageWrapper>
-        {/* </PersistGate> */}
-      </Provider>
+      <GlobalStyles />
+      <PageWrapper>
+        <Header themeHandler={changeTheme} theme={theme} />
+        <AnimatePresence exitBeforeEnter>
+          <MainWrapper
+            key={router.route}
+            variants={pageAnimation}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+          >
+            <Component {...pageProps} />
+          </MainWrapper>
+        </AnimatePresence>
+        {router.pathname === '/invoice/[id]' && windowWidth! < 700 && (
+          <ViewButtons isMobile={true} />
+        )}
+      </PageWrapper>
+      {/* </PersistGate> */}
     </ThemeProvider>
   );
 }
 
-export default MyApp;
+export default wrapper.withRedux(MyApp);

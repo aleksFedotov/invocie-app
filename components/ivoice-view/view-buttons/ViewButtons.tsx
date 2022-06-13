@@ -26,6 +26,10 @@ const ViewButtons: React.FC<{ isMobile: boolean; invoiceId?: string }> = ({
   const refreshData = () => router.replace(router.asPath);
 
   const paidHanlder = async () => {
+    if (isDemoMode) {
+      // @ts-ignore
+      dispatch(markAsPaid(invoiceId));
+    }
     try {
       const res = await sendRequest({
         url: `/api/invoice/status/${invoiceId}`,

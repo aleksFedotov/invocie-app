@@ -3,77 +3,33 @@ import { filterReducer } from './filterSlice';
 import { modalReducer } from './modalSlice';
 import { authReducer } from './authSlice';
 import { demoReducer } from './demoSlice';
-import { Middleware, combineReducers } from 'redux';
-import storage from 'redux-persist/lib/storage';
-import { persistReducer } from 'redux-persist';
-import { demoActions } from './demoSlice';
-import data from '../data.json';
+import { createWrapper } from 'next-redux-wrapper';
 
 import {
-  FLUSH,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-  REHYDRATE,
-  persistStore,
-} from 'redux-persist';
+  nextReduxCookieMiddleware,
+  wrapMakeStore,
+} from 'next-redux-cookie-wrapper';
 
-export type AppDispatch = typeof store.dispatch;
-export type RootState = ReturnType<typeof store.getState>;
+const makeStore = wrapMakeStore(() =>
+  configureStore({
+    reducer: {
+      filter: filterReducer,
+      modal: modalReducer,
+      auth: authReducer,
+      demo: demoReducer,
+    },
+    // preloadedState: reHydrateStore(),
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().prepend(
+        nextReduxCookieMiddleware({
+          subtrees: [{ subtree: 'demo', cookieName: 'demo' }],
+        })
+      ),
+  })
+);
 
-// MIDDLEWARE;
-const demoMiddleware: Middleware = (store) => (next) => (action) => {
-  const { demo } = store.getState();
-  const storageData = localStorage.getItem('demo');
-  console.log(demoActions);
-  console.log(action);
-  console.log(demoActions.hasOwnProperty(action));
-  if (demoActions.loginDemo.match(action) && storageData === null) {
-    localStorage.setItem(
-      'demo',
-      JSON.stringify({ isDemoMode: true, invoices: data })
-    );
-  }
-  if (demo.isDemoMode) {
-    localStorage.setItem('demo', JSON.stringify(demo));
-  }
-  next(action);
-};
+export type AppStore = ReturnType<typeof makeStore>;
+export type AppState = ReturnType<AppStore['getState']>;
+export type AppDispatch = AppStore['dispatch'];
 
-// Rehydration function
-
-// const reHydrateStore = () => {
-//   if (localStorage.getItem('demo') !== null) {
-//     return JSON.parse(localStorage.getItem('demo')); // re-hydrate the store
-//   }
-// };
-
-// const reducers = combineReducers({
-//   filter: filterReducer,
-//   modal: modalReducer,
-//   auth: authReducer,
-//   demo: demoReducer,
-// });
-
-// const persistConfig = {
-//   key: 'root',
-//   storage,
-//   whitelist: ['demo'],
-// };
-
-// const persistedReducer = persistReducer(persistConfig, reducers);
-
-const store = configureStore({
-  reducer: {
-    filter: filterReducer,
-    modal: modalReducer,
-    auth: authReducer,
-    demo: demoReducer,
-  },
-  // preloadedState: reHydrateStore(),
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(demoMiddleware),
-});
-
-export default store;
+export const wrapper = createWrapper<AppStore>(makeStore, { debug: true });
