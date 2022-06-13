@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { RootState } from './store';
+import type { AppState } from './store';
 
 export interface IFilterInitialState {
   appliedFilters: string[];
@@ -27,6 +27,6 @@ export const filtersSlice = createSlice({
 });
 
 export const { setFitlers } = filtersSlice.actions;
-export const selectFilters = (state: RootState) => state.filter.appliedFilters;
+export const selectFilters = (state: AppState) => state.filter.appliedFilters;
 
 export const filterReducer = filtersSlice.reducer;

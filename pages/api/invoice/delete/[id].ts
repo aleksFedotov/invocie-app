@@ -15,7 +15,7 @@ export default async function handler(
       invoice = await prisma.invoice.findUnique({
         where: {
           // @ts-ignore
-          id_db: invoiceId,
+          db: invoiceId,
         },
       });
     } catch (error) {
@@ -36,7 +36,7 @@ export default async function handler(
       await prisma.invoice.delete({
         where: {
           // @ts-ignore
-          id_db: invoiceId,
+          db: invoiceId,
         },
       });
     } catch (error) {

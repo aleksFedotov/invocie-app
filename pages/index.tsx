@@ -1,4 +1,5 @@
 import type { NextPage } from 'next';
+import { decompressFromEncodedURIComponent } from 'lz-string';
 import Head from 'next/head';
 import prisma from '../client';
 import nookies, { destroyCookie } from 'nookies';
@@ -6,6 +7,7 @@ import { GetServerSideProps } from 'next';
 import { IInvoiceListData } from '../@types/types';
 import { selectFilters } from '../store/filterSlice';
 import { selectformModal } from '../store/modalSlice';
+import { selectDemo } from '../store/demoSlice';
 import { logout, selectAuth } from '../store/authSlice';
 import { useAppSelector } from '../store/hooks';
 import { AnimatePresence } from 'framer-motion';
@@ -14,12 +16,15 @@ import { parseCookies } from 'nookies';
 import { useAppDispatch } from '../store/hooks';
 import { login } from '../store/authSlice';
 import { useRouter } from 'next/router';
+import { wrapper } from '../store/store';
+import * as cookie from 'cookie';
 
 import InvoicesHeader from '../components/home/header/InvoicesHeader';
 import InvoicesList from '../components/home/invoices-list/InvoicesList';
 import EmptyList from '../components/home/empty-invoicelist/EmptyList';
 import Modal from '../components/UI/modal/Modal';
 import InvoiceForm from '../components/shered/form/InvoiceForm';
+import Welcome from '../components/home/welcome/Welcome';
 
 let logOutTimer: ReturnType<typeof setTimeout>;
 
@@ -28,7 +33,8 @@ const Home: NextPage<{ invoicesListData: IInvoiceListData[] }> = ({
 }) => {
   const filters = useAppSelector(selectFilters);
   const isModalOpened = useAppSelector(selectformModal);
-  const { token, tokenExpirationDate } = useAppSelector(selectAuth);
+  const { isDemoMode, invoices } = useAppSelector(selectDemo);
+  const { token, tokenExpirationDate, isLogin } = useAppSelector(selectAuth);
   const dispatch = useAppDispatch();
 
   const router = useRouter();
@@ -59,7 +65,7 @@ const Home: NextPage<{ invoicesListData: IInvoiceListData[] }> = ({
 
   useEffect(() => {
     const cookies = parseCookies();
-    if (Object.keys(cookies).length === 0) return;
+    if (!cookies.hasOwnProperty('userData')) return;
     const storedData = JSON.parse(cookies.userData);
     if (
       storedData &&
@@ -75,6 +81,10 @@ const Home: NextPage<{ invoicesListData: IInvoiceListData[] }> = ({
       );
     }
   }, [dispatch]);
+
+  if (!isLogin && !isDemoMode) {
+    return <Welcome />;
+  }
 
   return (
     <>
@@ -101,31 +111,46 @@ const Home: NextPage<{ invoicesListData: IInvoiceListData[] }> = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const cookies = nookies.get(ctx);
-  if (Object.keys(cookies).length === 0) {
+export const getServerSideProps: GetServerSideProps =
+  wrapper.getServerSideProps((store) => async (context) => {
+    const cookies = cookie.parse(
+      (context.req && context.req.headers.cookie) || ''
+    );
+
+    if (cookies.hasOwnProperty('userData')) {
+      const userData = JSON.parse(cookies.userData);
+
+      const data = await prisma.user.findUnique({
+        where: {
+          id: userData.id,
+        },
+        include: {
+          invoices: true,
+        },
+      });
+
+      return {
+        props: {
+          invoicesListData: data?.invoices,
+        },
+      };
+    } else if (cookies.hasOwnProperty('demo')) {
+      const decompressedCookie = decompressFromEncodedURIComponent(
+        cookies.demo
+      );
+      const demoData = JSON.parse(decompressedCookie!);
+
+      return {
+        props: {
+          invoicesListData: demoData?.invoices,
+        },
+      };
+    }
     return {
       props: {
         invoicesListData: [],
       },
     };
-  }
-  const userData = JSON.parse(cookies.userData);
-
-  const data = await prisma.user.findUnique({
-    where: {
-      id: userData.id,
-    },
-    include: {
-      invoices: true,
-    },
   });
-
-  return {
-    props: {
-      invoicesListData: data?.invoices,
-    },
-  };
-};
 
 export default Home;
