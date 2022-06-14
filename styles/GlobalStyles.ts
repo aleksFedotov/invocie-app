@@ -238,6 +238,7 @@ export const PageWrapper = styled.div`
 `;
 
 export const MainWrapper = styled(motion.main)`
+  position: relative;
   margin: 0 auto;
   padding: 3.2rem 2.4rem 2.4rem;
   max-width: 73rem;

@@ -11,8 +11,6 @@ import { useRouter } from 'next/router';
 import { useAppSelector } from '../../../store/hooks';
 import { selectDemo } from '../../../store/demoSlice';
 
-//
-
 const ViewButtons: React.FC<{ isMobile: boolean; invoiceId?: string }> = ({
   isMobile,
   invoiceId,

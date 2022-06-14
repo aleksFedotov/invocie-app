@@ -16,12 +16,16 @@ import { useRouter } from 'next/router';
 import IconArrowLeft from '../../public/assets/icon-arrow-left.svg';
 import InvoiceForm from '../../components/shered/form/InvoiceForm';
 import prisma from '../../client';
+import useWindowWidth from '../../hooks/useWindowWidth';
+import ViewButtons from '../../components/ivoice-view/view-buttons/ViewButtons';
 
 const InvoceView: NextPage<{ invoiceData: IInvoice }> = ({ invoiceData }) => {
   const modalIsOpened = useAppSelector(selectDeleteModal);
   const isFormModalOpened = useAppSelector(selectformModal);
-  const { invoices } = useAppSelector(selectDemo);
+  const { invoices, isDemoMode } = useAppSelector(selectDemo);
   const router = useRouter();
+
+  const windowWidth = useWindowWidth();
 
   if (!invoiceData) {
     const { id } = router.query;
@@ -48,6 +52,12 @@ const InvoceView: NextPage<{ invoiceData: IInvoice }> = ({ invoiceData }) => {
       </Button>
       <InvoiceViewHeader data={invoiceData} />
       <InvoiceViewContent data={invoiceData} />
+      {windowWidth! < 700 && (
+        <ViewButtons
+          isMobile={true}
+          invoiceId={isDemoMode ? invoiceData.id : invoiceData.id_db}
+        />
+      )}
       <AnimatePresence>
         {modalIsOpened && (
           <Modal type="delete" key="modal">
