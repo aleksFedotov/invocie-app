@@ -45,7 +45,7 @@ const Ripple: React.FC<{ duration: number; color: string }> = ({
         ? rippleContainer.width
         : rippleContainer.height;
     const x = event.pageX ? event.pageX - rippleContainer.x - size / 2 : 0;
-    const y = event.pageY ? event.pageY - rippleContainer.x - size / 2 : 0;
+    const y = event.pageY ? event.pageY - rippleContainer.y - size / 2 : 0;
     const newRipple = {
       x,
       y,

@@ -52,7 +52,7 @@ const InvoicesHeader: React.FC<{ total: number }> = ({ total }) => {
         <Button
           className="main_btn new_invoice"
           onClick={() => {
-            dispatch(openFormModal());
+            // dispatch(openFormModal());
           }}
         >
           <PlusIconWrapper>
