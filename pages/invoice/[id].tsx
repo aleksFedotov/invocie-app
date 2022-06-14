@@ -5,6 +5,7 @@ import Data from '../../data.json';
 import { IInvoice } from '../../@types/types';
 import { useAppSelector } from '../../store/hooks';
 import { selectDeleteModal, selectformModal } from '../../store/modalSlice';
+import { selectDemo } from '../../store/demoSlice';
 import { Button } from '../../components/UI/button/ButtonStyles';
 import InvoiceViewHeader from '../../components/ivoice-view/header/InvoiceViewHeader';
 import InvoiceViewContent from '../../components/ivoice-view/content/InvoiceViewContent';
@@ -19,8 +20,15 @@ import prisma from '../../client';
 const InvoceView: NextPage<{ invoiceData: IInvoice }> = ({ invoiceData }) => {
   const modalIsOpened = useAppSelector(selectDeleteModal);
   const isFormModalOpened = useAppSelector(selectformModal);
+  const { invoices } = useAppSelector(selectDemo);
   const router = useRouter();
 
+  if (!invoiceData) {
+    const { id } = router.query;
+    // @ts-ignore
+    invoiceData = invoices.find((item) => item.id === id);
+    if (!id || !invoiceData) return <></>;
+  }
   return (
     <>
       <Head>
@@ -32,7 +40,7 @@ const InvoceView: NextPage<{ invoiceData: IInvoice }> = ({ invoiceData }) => {
       <Button
         className="back_btn"
         onClick={() => {
-          router.push('/');
+          router.push('/', undefined, { shallow: true });
         }}
       >
         <IconArrowLeft />
@@ -79,7 +87,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 
   return {
     props: {
-      invoiceData,
+      invoiceData: invoiceData,
     },
   };
 };

@@ -9,6 +9,7 @@ import useHttp from '../../hooks/useHttp';
 import LoadingSpinner from '../UI/loading/LoadingSpinner';
 import { useAppDispatch } from '../../store/hooks';
 import { login } from '../../store/authSlice';
+import { logoutDemo } from '../../store/demoSlice';
 import Ripple from '../UI/ripple/Ripple';
 import { useRouter } from 'next/router';
 
@@ -71,6 +72,8 @@ const Auth: React.FC = () => {
           tokenExpirationDate,
         })
       );
+
+      dispatch(logoutDemo());
 
       router.push('/');
     } catch (error) {}

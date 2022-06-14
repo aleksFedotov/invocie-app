@@ -33,10 +33,11 @@ export default async function handler(
           id_db: invoiceId,
         },
         data: {
-          status: data.status,
+          status: 'paid',
         },
       });
     } catch (error) {
+      console.log(error);
       return res.status(500).json({
         success: false,
         msg: 'Something went wrong, could not update status.',

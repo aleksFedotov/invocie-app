@@ -6,6 +6,7 @@ import { GetServerSideProps } from 'next';
 import { IInvoiceListData } from '../@types/types';
 import { selectFilters } from '../store/filterSlice';
 import { selectformModal } from '../store/modalSlice';
+import { selectDemo } from '../store/demoSlice';
 import { logout, selectAuth } from '../store/authSlice';
 import { useAppSelector } from '../store/hooks';
 import { AnimatePresence } from 'framer-motion';
@@ -20,6 +21,7 @@ import InvoicesList from '../components/home/invoices-list/InvoicesList';
 import EmptyList from '../components/home/empty-invoicelist/EmptyList';
 import Modal from '../components/UI/modal/Modal';
 import InvoiceForm from '../components/shered/form/InvoiceForm';
+import Welcome from '../components/home/welcome/Welcome';
 
 let logOutTimer: ReturnType<typeof setTimeout>;
 
@@ -28,7 +30,8 @@ const Home: NextPage<{ invoicesListData: IInvoiceListData[] }> = ({
 }) => {
   const filters = useAppSelector(selectFilters);
   const isModalOpened = useAppSelector(selectformModal);
-  const { token, tokenExpirationDate } = useAppSelector(selectAuth);
+  const { isDemoMode, invoices } = useAppSelector(selectDemo);
+  const { token, tokenExpirationDate, isLogin } = useAppSelector(selectAuth);
   const dispatch = useAppDispatch();
 
   const router = useRouter();
@@ -37,6 +40,9 @@ const Home: NextPage<{ invoicesListData: IInvoiceListData[] }> = ({
     [router]
   );
 
+  if (isDemoMode) {
+    invoicesListData = invoices;
+  }
   if (filters.length) {
     invoicesListData = invoicesListData.filter((invoice) =>
       filters.includes(invoice.status)
@@ -76,6 +82,10 @@ const Home: NextPage<{ invoicesListData: IInvoiceListData[] }> = ({
     }
   }, [dispatch]);
 
+  if (!isLogin && !isDemoMode) {
+    return <Welcome />;
+  }
+
   return (
     <>
       <Head>
@@ -103,6 +113,7 @@ const Home: NextPage<{ invoicesListData: IInvoiceListData[] }> = ({
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const cookies = nookies.get(ctx);
+
   if (Object.keys(cookies).length === 0) {
     return {
       props: {

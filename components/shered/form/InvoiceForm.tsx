@@ -11,7 +11,7 @@ import FormInput from '../../UI/form-input/FormInput';
 import { Button } from '../../UI/button/ButtonStyles';
 import DatePicker from '../../UI/date-picker/DatePicker';
 import SelectDropdown from '../../UI/select-dropdown/SelectDropdown';
-import { useAppDispatch } from '../../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { closeFormModal } from '../../../store/modalSlice';
 import IconArrowLeft from '../../../public/assets/icon-arrow-left.svg';
 import Ripple from '../../UI/ripple/Ripple';
@@ -22,6 +22,8 @@ import generateData from '../../../libs/generateData';
 import defaultValues from '../../../libs/defaultInvoiceValues';
 import { useRouter } from 'next/router';
 import { parseCookies } from 'nookies';
+import { selectDemo } from '../../../store/demoSlice';
+import { createInvoice, editInvoice } from '../../../store/demoSlice';
 
 import {
   FormSection,
@@ -73,6 +75,7 @@ const InvoiceForm: React.FC<{
 }> = ({ create, edit, data }) => {
   const dispatch = useAppDispatch();
   const { error, isLoading, sendRequest } = useHttp();
+  const { isDemoMode } = useAppSelector(selectDemo);
 
   // refresh page after submiting and etc
   const router = useRouter();
@@ -114,25 +117,34 @@ const InvoiceForm: React.FC<{
 
   // submit handling
 
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const generatedData = generateData(data);
-    const cookies = parseCookies();
-    const storedData = JSON.parse(cookies.userData);
+  const onSubmit: SubmitHandler<Inputs> = async (formData) => {
+    const generatedData = generateData(formData);
 
-    try {
-      await sendRequest({
-        url: create ? '/api/invoice/new' : '/api/invoice/edit',
-        method: create ? 'POST' : 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...generatedData,
-          userId: storedData.id,
-        }),
-      });
-      dispatch(closeFormModal());
-    } catch (error) {}
+    if (isDemoMode) {
+      dispatch(
+        create
+          ? createInvoice(generatedData)
+          : editInvoice({ id: data!.id, invoice: generatedData })
+      );
+    } else {
+      const cookies = parseCookies();
+      const storedData = JSON.parse(cookies.userData);
+
+      try {
+        await sendRequest({
+          url: create ? '/api/invoice/new' : '/api/invoice/edit',
+          method: create ? 'POST' : 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            ...generatedData,
+            userId: storedData.id,
+          }),
+        });
+      } catch (error) {}
+    }
+    dispatch(closeFormModal());
     refreshData();
   };
 
@@ -140,23 +152,27 @@ const InvoiceForm: React.FC<{
 
   const saveAsDraft = async () => {
     const generatedData = generateData(values, 'draft');
-    const cookies = parseCookies();
-    const storedData = JSON.parse(cookies.userData);
+    if (isDemoMode) {
+      dispatch(createInvoice(generatedData));
+    } else {
+      const cookies = parseCookies();
+      const storedData = JSON.parse(cookies.userData);
 
-    try {
-      await sendRequest({
-        url: 'api/invoice/new',
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...generatedData,
-          userId: storedData.id,
-        }),
-      });
-      dispatch(closeFormModal());
-    } catch (error) {}
+      try {
+        await sendRequest({
+          url: 'api/invoice/new',
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            ...generatedData,
+            userId: storedData.id,
+          }),
+        });
+      } catch (error) {}
+    }
+    dispatch(closeFormModal());
     refreshData();
   };
   return (
