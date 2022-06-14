@@ -40,33 +40,33 @@ import {
 import LoadingSpinner from '../../UI/loading/LoadingSpinner';
 
 // validation shema
-const schema = yup
-  .object()
-  .shape({
-    description: yup.string().required("Can't be empty"),
-    clientName: yup.string().required("Can't be empty"),
-    clientEmail: yup.string().email().required('Invalid email'),
-    senderAddress: yup.object().shape({
-      street: yup.string().required("Can't be empty"),
-      city: yup.string().required("Can't be empty"),
-      postCode: yup.string().required("Can't be empty"),
-      country: yup.string().required("Can't be empty"),
-    }),
-    clientAddress: yup.object().shape({
-      street: yup.string().required("Can't be empty"),
-      city: yup.string().required("Can't be empty"),
-      postCode: yup.string().required("Can't be empty"),
-      country: yup.string().required("Can't be empty"),
-    }),
-    items: yup.array().of(
+const schema = yup.object().shape({
+  description: yup.string().required("Can't be empty"),
+  clientName: yup.string().required("Can't be empty"),
+  clientEmail: yup.string().email().required('Invalid email'),
+  senderAddress: yup.object().shape({
+    street: yup.string().required("Can't be empty"),
+    city: yup.string().required("Can't be empty"),
+    postCode: yup.string().required("Can't be empty"),
+    country: yup.string().required("Can't be empty"),
+  }),
+  clientAddress: yup.object().shape({
+    street: yup.string().required("Can't be empty"),
+    city: yup.string().required("Can't be empty"),
+    postCode: yup.string().required("Can't be empty"),
+    country: yup.string().required("Can't be empty"),
+  }),
+  items: yup
+    .array()
+    .of(
       yup.object().shape({
         name: yup.string().required("Can't be empty"),
         quantity: yup.number().min(1).required("Can't be empty"),
         price: yup.number().min(1).required("Can't be empty"),
       })
-    ),
-  })
-  .required();
+    )
+    .min(1),
+});
 
 const InvoiceForm: React.FC<{
   create?: boolean;
@@ -110,8 +110,9 @@ const InvoiceForm: React.FC<{
   } = methods;
 
   const values = getValues();
-
-  const isErorrs = Object.keys(errors).length > 0;
+  console.log(errors);
+  const isErorrs =
+    Object.keys(errors).length > 0 && Array.isArray(errors.items);
   const isEmptyItemsArray =
     Object.keys(errors).length > 0 && !values.items.length;
 
