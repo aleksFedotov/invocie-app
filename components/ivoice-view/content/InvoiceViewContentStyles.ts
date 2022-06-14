@@ -18,7 +18,6 @@ export const ContentWrapper = styled.div`
 
   ${media.phone} {
     padding: 2.4rem;
-    margin-bottom: 9rem;
   }
 `;
 

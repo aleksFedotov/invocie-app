@@ -5,13 +5,13 @@ import { ThemeProvider } from 'styled-components';
 import { lightTheme, darkTheme } from '../styles/theme/theme';
 import { Provider } from 'react-redux';
 import store from '../store/store';
-
+import useWindowWidth from '../hooks/useWindowWidth';
 import { useRouter } from 'next/router';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
 
 import Header from '../components/header/Header';
-
+import ViewButtons from '../components/ivoice-view/view-buttons/ViewButtons';
 import { AnimatePresence } from 'framer-motion';
 
 let persistor = persistStore(store);
@@ -19,6 +19,7 @@ let persistor = persistStore(store);
 function MyApp({ Component, pageProps }: AppProps) {
   const [theme, setTheme] = useState<string>('dark');
 
+  const windowWidth = useWindowWidth();
   const router = useRouter();
 
   const changeTheme = () => {
@@ -74,6 +75,9 @@ function MyApp({ Component, pageProps }: AppProps) {
                 <Component {...pageProps} />
               </MainWrapper>
             </AnimatePresence>
+            {router.pathname === '/invoice/[id]' && windowWidth! < 700 && (
+              <ViewButtons isMobile={true} />
+            )}
           </PageWrapper>
         </PersistGate>
       </Provider>
