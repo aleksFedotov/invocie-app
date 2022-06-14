@@ -38,7 +38,7 @@ const demoSlice = createSlice({
     ) {
       const { id, invoice } = action.payload;
       state.invoices = state.invoices.map((item) =>
-        item.id === id ? invoice : item
+        item.id === id ? { ...invoice, id: item.id } : item
       );
     },
     markAsPaid(state, action: PayloadAction<string>) {

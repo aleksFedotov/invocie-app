@@ -26,19 +26,23 @@ const ViewButtons: React.FC<{ isMobile: boolean; invoiceId?: string }> = ({
   const refreshData = () => router.replace(router.asPath);
 
   const paidHanlder = async () => {
-    try {
-      const res = await sendRequest({
-        url: `/api/invoice/status/${invoiceId}`,
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          status: 'paid',
-        }),
-      });
-    } catch (error) {}
-    refreshData();
+    if (isDemoMode) {
+      dispatch(markAsPaid(invoiceId!));
+    } else {
+      try {
+        const res = await sendRequest({
+          url: `/api/invoice/status/${invoiceId}`,
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            status: 'paid',
+          }),
+        });
+      } catch (error) {}
+      refreshData();
+    }
   };
   return (
     <ButtonsWrapper mobile={isMobile}>

@@ -40,6 +40,9 @@ const Home: NextPage<{ invoicesListData: IInvoiceListData[] }> = ({
     [router]
   );
 
+  if (isDemoMode) {
+    invoicesListData = invoices;
+  }
   if (filters.length) {
     invoicesListData = invoicesListData.filter((invoice) =>
       filters.includes(invoice.status)
@@ -81,10 +84,6 @@ const Home: NextPage<{ invoicesListData: IInvoiceListData[] }> = ({
 
   if (!isLogin && !isDemoMode) {
     return <Welcome />;
-  }
-
-  if (isDemoMode) {
-    invoicesListData = invoices;
   }
 
   return (

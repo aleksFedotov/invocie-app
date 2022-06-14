@@ -1,7 +1,10 @@
 import React from 'react';
-import { useAppDispatch } from '../../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { closeDeleteModal } from '../../../store/modalSlice';
 import { useRouter } from 'next/router';
+import { selectDemo } from '../../../store/demoSlice';
+import { deleteInvoice } from '../../../store/demoSlice';
+
 import useHttp from '../../../hooks/useHttp';
 
 import { PoupWrapper, PopupButtons } from './DeletePopupStyles';
@@ -13,23 +16,28 @@ const DeletePopup: React.FC<{ id: string; invoiceId?: string }> = ({
   invoiceId,
 }) => {
   const dispatch = useAppDispatch();
+  const { isDemoMode } = useAppSelector(selectDemo);
   const router = useRouter();
   const { sendRequest } = useHttp();
 
   const deleteClickHandler = async () => {
-    const cookies = parseCookies();
-    const storedData = JSON.parse(cookies.userData);
-    try {
-      await sendRequest({
-        url: `/api/invoice/delete/${invoiceId}`,
-        method: 'DELETE',
-        body: JSON.stringify({
-          userId: storedData.id,
-        }),
-      });
-    } catch (error) {}
+    if (isDemoMode) {
+      dispatch(deleteInvoice(id!));
+    } else {
+      const cookies = parseCookies();
+      const storedData = JSON.parse(cookies.userData);
+      try {
+        await sendRequest({
+          url: `/api/invoice/delete/${invoiceId}`,
+          method: 'DELETE',
+          body: JSON.stringify({
+            userId: storedData.id,
+          }),
+        });
+      } catch (error) {}
+    }
     dispatch(closeDeleteModal());
-    router.push('/');
+    router.push('/', undefined, { shallow: true });
   };
   const popupAnimation = {
     hidden: { scale: 0 },

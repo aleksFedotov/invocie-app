@@ -14,7 +14,7 @@ export default async function handler(
       invoice = await prisma.invoice.findFirst({
         where: {
           // @ts-ignore
-          id: invoiceId,
+          id_db: invoiceId,
         },
         include: {
           items: true,
@@ -30,13 +30,14 @@ export default async function handler(
       await prisma.invoice.update({
         where: {
           // @ts-ignore
-          id: invoiceId,
+          id_db: invoiceId,
         },
         data: {
-          status: data.status,
+          status: 'paid',
         },
       });
     } catch (error) {
+      console.log(error);
       return res.status(500).json({
         success: false,
         msg: 'Something went wrong, could not update status.',

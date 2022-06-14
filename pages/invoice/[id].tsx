@@ -27,6 +27,7 @@ const InvoceView: NextPage<{ invoiceData: IInvoice }> = ({ invoiceData }) => {
     const { id } = router.query;
     // @ts-ignore
     invoiceData = invoices.find((item) => item.id === id);
+    if (!id || !invoiceData) return <></>;
   }
   return (
     <>
@@ -39,7 +40,7 @@ const InvoceView: NextPage<{ invoiceData: IInvoice }> = ({ invoiceData }) => {
       <Button
         className="back_btn"
         onClick={() => {
-          router.push('/');
+          router.push('/', undefined, { shallow: true });
         }}
       >
         <IconArrowLeft />
