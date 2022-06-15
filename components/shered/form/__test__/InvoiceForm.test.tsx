@@ -73,7 +73,7 @@ const mockComponent = (mode = 'create', data?: IInvoice) => {
 };
 
 describe('InvoiceForm componrnt testing', () => {
-  describe('etsting create form', () => {
+  describe('tetsting create form', () => {
     test('should render component', () => {
       render(mockComponent());
       const form = screen.getByText(/bill to/i);
@@ -168,6 +168,9 @@ describe('InvoiceForm componrnt testing', () => {
       const replace = jest.fn();
       // @ts-ignore
       useRouter.mockImplementation(() => ({ replace }));
+      const dispatch = jest.fn();
+      // @ts-ignore
+      useAppDispatch.mockReturnValue(dispatch);
 
       render(mockComponent());
       const address = screen.getByLabelText(/senderStreet/i);

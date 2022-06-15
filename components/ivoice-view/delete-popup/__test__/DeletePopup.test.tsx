@@ -81,7 +81,7 @@ describe('DeletePoupd component testing', () => {
       fireEvent.click(deleteBtn);
     });
     await waitFor(() => {
-      expect(push).toBeCalledWith('/');
+      expect(push).toBeCalledWith('/', undefined, { shallow: true });
       expect(dispatch).toBeCalled();
     });
   });

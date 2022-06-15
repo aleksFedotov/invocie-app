@@ -6,6 +6,7 @@ import Ripple from '../../UI/ripple/Ripple';
 import { useRouter } from 'next/router';
 import { useAppDispatch } from '../../../store/hooks';
 import { loginDemo } from '../../../store/demoSlice';
+import Image from 'next/image';
 
 const Welcome: React.FC = () => {
   const router = useRouter();
@@ -19,7 +20,8 @@ const Welcome: React.FC = () => {
     <WelcomeWrapper>
       <TextContent>
         <h1>
-          Welcome to <span>Invoice app</span>
+          Welcome to <br />
+          <span>Invoice app</span>
         </h1>
         <p>Keep track of your invoices.</p>
         <ButtonsWrapper>
@@ -38,6 +40,14 @@ const Welcome: React.FC = () => {
           </Button>
         </ButtonsWrapper>
       </TextContent>
+      <div>
+        <Image
+          src={'/assets/preview-removebg-preview.png'}
+          alt="preview"
+          width={350}
+          height={260}
+        />
+      </div>
     </WelcomeWrapper>
   );
 };

@@ -78,7 +78,7 @@ describe('demoSlice  testing', () => {
     const isDemoMode = store.getState().demo.isDemoMode;
     const invocies = store.getState().demo.invoices;
     expect(isDemoMode).toEqual(false);
-    expect(invocies).toHaveLength(0);
+    expect(invocies).toHaveLength(7);
   });
 
   test('should change isDemoMode to true after loginDemo', () => {
@@ -99,7 +99,7 @@ describe('demoSlice  testing', () => {
     store.dispatch(createInvoice(testData));
     const invocies = store.getState().demo.invoices;
     await waitFor(() => {
-      expect(invocies).toHaveLength(1);
+      expect(invocies).toHaveLength(8);
       expect(invocies[0].id).toEqual('RT3080');
     });
   });
@@ -123,6 +123,6 @@ describe('demoSlice  testing', () => {
   test('should delete invoice', () => {
     store.dispatch(deleteInvoice('RT3080'));
     const invocies = store.getState().demo.invoices;
-    expect(invocies).toHaveLength(0);
+    expect(invocies).toHaveLength(6);
   });
 });

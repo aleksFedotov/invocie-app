@@ -110,9 +110,11 @@ const InvoiceForm: React.FC<{
   } = methods;
 
   const values = getValues();
-  console.log(errors);
   const isErorrs =
-    Object.keys(errors).length > 0 && Array.isArray(errors.items);
+    Object.keys(errors).length > 0 &&
+    typeof errors.items !== 'undefined' &&
+    // @ts-ignore
+    errors.items.type !== 'required';
   const isEmptyItemsArray =
     Object.keys(errors).length > 0 && !values.items.length;
 
