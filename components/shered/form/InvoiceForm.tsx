@@ -43,7 +43,7 @@ import LoadingSpinner from '../../UI/loading/LoadingSpinner';
 const schema = yup.object().shape({
   description: yup.string().required("Can't be empty"),
   clientName: yup.string().required("Can't be empty"),
-  clientEmail: yup.string().email().required('Invalid email'),
+  clientEmail: yup.string().email('Invalid email').required('Invalid email'),
   senderAddress: yup.object().shape({
     street: yup.string().required("Can't be empty"),
     city: yup.string().required("Can't be empty"),

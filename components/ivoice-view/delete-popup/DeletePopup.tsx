@@ -70,7 +70,11 @@ const DeletePopup: React.FC<{ id: string; invoiceId?: string }> = ({
         >
           Cancel
         </Button>
-        <Button className="delete_btn" onClick={deleteClickHandler}>
+        <Button
+          className="delete_btn"
+          onClick={deleteClickHandler}
+          data-testid="delete-popup"
+        >
           Delete
         </Button>
       </PopupButtons>
