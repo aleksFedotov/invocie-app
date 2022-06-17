@@ -8,6 +8,7 @@ import { useAppSelector } from '../../../store/hooks';
 import { selectDemo } from '../../../store/demoSlice';
 
 const InvoiceViewHeader: React.FC<{ data: IInvoice }> = ({ data }) => {
+  // Hooks
   const { isDemoMode } = useAppSelector(selectDemo);
   return (
     <HeaderWrapper>

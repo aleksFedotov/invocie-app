@@ -20,7 +20,9 @@ import useWindowWidth from '../../../hooks/useWindowWidth';
 import Ripple from '../../UI/ripple/Ripple';
 
 const InvoicesHeader: React.FC<{ total: number }> = ({ total }) => {
+  // States
   const [menuIsOpened, setMenuIsOpened] = useState<boolean>(false);
+  // Hooks
   const windowWidth = useWindowWidth();
   const dispatch = useAppDispatch();
 
@@ -28,6 +30,8 @@ const InvoicesHeader: React.FC<{ total: number }> = ({ total }) => {
     setMenuIsOpened((prevState) => !prevState);
   };
 
+  // Depends on widow size from useWindowWidth hook
+  // we render diffent content for total number of invoices
   let totalContent;
 
   if (total && windowWidth < 650) {

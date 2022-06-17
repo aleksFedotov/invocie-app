@@ -1,10 +1,8 @@
-/**
-    Each ID must start with 2 capital letters and end with 4 numbers, characters can repeat
-    26 possibilities for first char 0 
-    26 possibilities for second char 1
-    10 possibilities for chars 2 - 6
-    26 ^ 2 * 10 ^ 4 = 6,760,000 combinations
-*/
+// Each ID must start with 2 capital letters and end with 4 numbers, characters can repeat
+// 26 possibilities for first char 0
+// 26 possibilities for second char 1
+// 10 possibilities for chars 2 - 6
+// 26 ^ 2 * 10 ^ 4 = 6,760,000 combinations
 
 const letters = [
   'a',

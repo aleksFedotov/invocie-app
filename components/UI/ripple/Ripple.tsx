@@ -12,11 +12,10 @@ const useDebouncedRippleCleanUp = (
   duration: number,
   cleanUpFunction: () => void
 ) => {
+  // hadling timeouts of multimple ripples
   useEffect(() => {
     let bounce: ReturnType<typeof setTimeout>;
     if (rippleCount > 0) {
-      // clearTimeout(bounce);
-
       bounce = setTimeout(() => {
         cleanUpFunction();
         clearTimeout(bounce);
@@ -31,19 +30,23 @@ const Ripple: React.FC<{ duration: number; color: string }> = ({
   duration,
   color,
 }) => {
+  // Statees
   const [rippleArray, setRippleArray] = useState<IRipplrArray[]>([]);
 
+  // Clean all ripples
   useDebouncedRippleCleanUp(rippleArray.length, duration, () => {
     setRippleArray([]);
   });
 
   const addRipple = (event: React.MouseEvent<HTMLElement>) => {
+    // getting size information of element
     const rippleContainer = event.currentTarget.getBoundingClientRect();
-
+    // setting size based on heoght and width
     const size =
       rippleContainer.width > rippleContainer.height
         ? rippleContainer.width
         : rippleContainer.height;
+    // Setting x and y basen on elemnet location on page, element coordinte and size
     const x = event.pageX ? event.pageX - rippleContainer.x - size / 2 : 0;
     const y = event.pageY ? event.pageY - rippleContainer.y - size / 2 : 0;
     const newRipple = {
@@ -51,7 +54,7 @@ const Ripple: React.FC<{ duration: number; color: string }> = ({
       y,
       size,
     };
-
+    // adding new ripple ot ripple array
     setRippleArray([...rippleArray, newRipple]);
   };
 

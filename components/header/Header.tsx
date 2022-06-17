@@ -25,22 +25,30 @@ const Header: React.FC<{ themeHandler: () => void; theme: string }> = ({
   themeHandler,
   theme,
 }) => {
+  // States
+  const [isSingUpShown, setisSignUpShown] = useState<boolean>(false);
+  // Hooks
   const dispatch = useAppDispatch();
   const router = useRouter();
   const deleteModal = useAppSelector(selectDeleteModal);
   const formModal = useAppSelector(selectformModal);
   const { isLogin } = useAppSelector(selectAuth);
-  const [isSingUpShown, setisSignUpShown] = useState<boolean>(false);
   const refreshData = () => router.replace(router.asPath);
 
   useEffect(() => {
+    // make sure that in modal user could not scroll by adding to body "overflow = 'hidden'"
+    // when any modal is opened and change it to .overflow = 'visible' when it is closed
+
     document.body.style.overflow = 'visible';
     if (deleteModal || formModal) {
       document.body.style.overflow = 'hidden';
     }
   }, [deleteModal, formModal]);
 
-  const clickHandler = () => {
+  const singInClickHandler = () => {
+    // if it is user id logedin then after click we destroy cookies, refresh data to show most resent data,
+    // call logout action from store to cleae global state and return user to main page
+    // if user is not logedin when we redirect it to auth page
     if (isLogin) {
       destroyCookie(null, 'userData');
       refreshData();
@@ -52,6 +60,7 @@ const Header: React.FC<{ themeHandler: () => void; theme: string }> = ({
     setisSignUpShown((prevState) => !prevState!);
   };
 
+  // Animation variants for frame-motion
   const popupAnimation = {
     hidden: {
       scale: 0,
@@ -78,6 +87,7 @@ const Header: React.FC<{ themeHandler: () => void; theme: string }> = ({
             <MoonIcon data-testid="moon" />
           )}
         </ThemeSwitcher>
+
         <Avatar
           image={'/assets/image-avatar.jpg'}
           onClick={() => {
@@ -94,7 +104,7 @@ const Header: React.FC<{ themeHandler: () => void; theme: string }> = ({
             exit="hidden"
             data-testid="singinPopup"
           >
-            <Button className="main_btn auth_btn" onClick={clickHandler}>
+            <Button className="main_btn auth_btn" onClick={singInClickHandler}>
               {isLogin ? 'Log Out' : 'Sign In'}
               <Ripple color="var(--color-white)" duration={1000} />
             </Button>

@@ -9,6 +9,7 @@ import { loginDemo } from '../../../store/demoSlice';
 import Image from 'next/image';
 
 const Welcome: React.FC = () => {
+  // Hooks
   const router = useRouter();
   const dispatch = useAppDispatch();
 

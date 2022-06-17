@@ -20,6 +20,7 @@ type ValueOptions = {
   [key: number]: TermOption;
 };
 
+// Optios for tern selection
 const valueOptions: ValueOptions = {
   1: {
     text: 'Net 1 Day',
@@ -45,7 +46,7 @@ const SelectDropdown: React.FC<{
   value: number;
   onChange: (n: number) => void;
 }> = ({ label, id, value, onChange, ...props }) => {
-  const [isDroped, dropHandlers] = useToggle();
+  // States
   const [selectedOption, setSeletedOption] = useState<TermOption>(
     value
       ? valueOptions[value]
@@ -54,9 +55,12 @@ const SelectDropdown: React.FC<{
           value: '30',
         }
   );
-
+  // Hooks
+  const [isDroped, dropHandlers] = useToggle();
+  // Refs
   const ref = useRef<HTMLDivElement>(null);
 
+  // Seting options and closing select dropdonw
   const optionClickHandler = (e: React.MouseEvent) => {
     const target = e.target as HTMLElement;
 
@@ -68,10 +72,12 @@ const SelectDropdown: React.FC<{
     dropHandlers.off();
   };
 
+  // change option from string to number
   useEffect(() => {
     onChange(+selectedOption.value);
   }, [onChange, selectedOption.value]);
 
+  // Animation variants for framer-motion
   const dropdownVariants = {
     hidden: {
       scaleY: 0,
@@ -111,6 +117,7 @@ const SelectDropdown: React.FC<{
   };
 
   useEffect(clickOffEffect, [isDroped, handleClickOff]);
+
   return (
     <SelectWrapper ref={ref}>
       <p id={id}>{label}</p>

@@ -19,16 +19,19 @@ import {
   Total,
 } from './InvoicesListItemStyles';
 const InvoicesListItem: React.FC<{ data: IInvoiceListData }> = ({ data }) => {
+  // Hooks
   const windowWidth = useWindowWidth();
   const router = useRouter();
 
   const listItemHandler = () => {
+    // If we click on item user redirects to invoice details page
     router.push(`/invoice/${data.id}`);
   };
   return (
     <ListItem
       data-testid="invoice"
       onClick={listItemHandler}
+      // Animation variants for framer motion
       layout
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -42,7 +45,10 @@ const InvoicesListItem: React.FC<{ data: IInvoiceListData }> = ({ data }) => {
         <DueDate className="due">
           Due {format(new Date(data.paymentDue), 'dd MMM yyyy')}
         </DueDate>
-        {windowWidth && windowWidth > 700 ? (
+
+        {/* Depends on widow size from useWindowWidth hook
+        we render diffent layout of list item */}
+        {windowWidth > 700 ? (
           <ClientName className="name" data-testid="item-left">
             {data.clientName}
           </ClientName>
@@ -51,7 +57,7 @@ const InvoicesListItem: React.FC<{ data: IInvoiceListData }> = ({ data }) => {
         )}
       </ListItemLeft>
       <ListItemRight>
-        {windowWidth && windowWidth > 700 ? (
+        {windowWidth > 700 ? (
           <Total data-testid="item-right">{moneyFormat(data.total)}</Total>
         ) : (
           <ClientName className="name" data-testid="item-right">

@@ -11,6 +11,8 @@ const Modal: React.FC<{ children?: React.ReactNode; type: string }> = ({
   children,
   type,
 }) => {
+  // State
+  // if server side then null if clinet then document
   const [_document, setDocument] = useState<Document | null>(null);
 
   useEffect(() => {
@@ -22,7 +24,7 @@ const Modal: React.FC<{ children?: React.ReactNode; type: string }> = ({
       {children}
     </ModalOverlay>
   );
-
+  // if it is clinet side create portal to modal root div
   if (_document) {
     return ReactDOM.createPortal(
       modalContent,
