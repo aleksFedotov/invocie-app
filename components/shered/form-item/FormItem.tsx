@@ -58,7 +58,7 @@ const FormItem: React.FC<{
         render={({ field: { onChange, value } }) => (
           <FormInput
             id="quantity"
-            type="number"
+            // type="number"
             error={itemsErrors?.quantity}
             value={value}
             placeholder="0"

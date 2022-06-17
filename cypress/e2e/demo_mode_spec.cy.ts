@@ -103,7 +103,6 @@ describe('demo mode', () => {
     cy.findByRole('button', {
       name: /save changes/i,
     }).click();
-
     cy.findByText('Invalid email');
   });
 });

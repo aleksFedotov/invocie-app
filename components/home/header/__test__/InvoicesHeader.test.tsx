@@ -38,8 +38,8 @@ describe('InvoceHeader component testing', () => {
 
   test('should have paragraph with right number of ivoices', () => {
     render(<InvoicesHeader total={7} />);
-    const text = screen.getByText(/There are 7 total Invoices/i);
-    expect(text).toBeInTheDocument();
+    const total = screen.queryByTestId('total-text');
+    expect(total).toHaveTextContent(/There are 7 total invoices/i);
   });
 
   test('should have filter', () => {
@@ -73,7 +73,7 @@ describe('InvoceHeader component testing', () => {
     act(() => {
       window.resizeTo(1440, 900);
     });
-    const total = screen.queryByTestId('total');
+    const total = screen.queryByTestId('total-text');
     expect(total).toHaveTextContent(/There are 7 total invoices/i);
   });
   test("total text should be '7 total' when screen width is less 650", () => {
@@ -81,13 +81,13 @@ describe('InvoceHeader component testing', () => {
     act(() => {
       window.resizeTo(540, 540);
     });
-    const total = screen.queryByTestId('total');
+    const total = screen.queryByTestId('total-text');
     expect(total).toHaveTextContent(/7 invoices/i);
   });
 
   test("total text should be 'No invoices' when where is no invoices in input data", () => {
     render(<InvoicesHeader total={0} />);
-    const total = screen.queryByTestId('total');
+    const total = screen.queryByTestId('total-text');
     expect(total).toHaveTextContent(/No invoices/i);
   });
 
