@@ -5,10 +5,13 @@ import useWindowWidth from '../../../hooks/useWindowWidth';
 import { EmptyListWrapper, EmptyListContent } from './EmptyListStyles';
 
 const EmptyList = () => {
+  // Hooks
   const windowWidth = useWindowWidth();
   return (
     <EmptyListWrapper>
       <EmptyListContent>
+        {/* depends on widow size from useWindowWidth hook 
+        we render image with diffent width and height and differnt text */}
         <Image
           src={'/assets/illustration-empty.svg'}
           width={windowWidth && windowWidth > 650 ? 241 : 194}

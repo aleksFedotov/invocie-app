@@ -7,17 +7,15 @@ import { Button } from '../../UI/button/ButtonStyles';
 import FormItem from '../form-item/FormItem';
 
 const FormInvoiceItems: React.FC<{}> = () => {
+  // Hooks
+
+  // Get all functionality that we need from from context
   const { control, setError } = useFormContext<Inputs>();
+  // Creating firel array got invoice items
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'items',
   });
-
-  useEffect(() => {
-    if (!fields.length) {
-      setError('items', { type: 'required' });
-    }
-  }, [fields.length, setError]);
 
   return (
     <Wrapper>

@@ -17,15 +17,19 @@ const ViewButtons: React.FC<{ isMobile: boolean; invoiceId?: string }> = ({
   isMobile,
   invoiceId,
 }) => {
+  // Hooks
   const dispatch = useAppDispatch();
   const { sendRequest } = useHttp();
   const { isDemoMode } = useAppSelector(selectDemo);
+  const router = useRouter();
 
   // refresh page after submiting and etc
-  const router = useRouter();
   const refreshData = () => router.replace(router.asPath);
 
   const paidHanlder = async () => {
+    // If its demo mode when we just call markAsPaid actio form store
+    // otherwise we send request to server to update data in db and refresh
+    // page to show changes
     if (isDemoMode) {
       dispatch(markAsPaid(invoiceId!));
     } else {

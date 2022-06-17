@@ -15,12 +15,16 @@ const DeletePopup: React.FC<{ id: string; invoiceId?: string }> = ({
   id,
   invoiceId,
 }) => {
+  // Hooks
   const dispatch = useAppDispatch();
   const { isDemoMode } = useAppSelector(selectDemo);
   const router = useRouter();
   const { sendRequest } = useHttp();
 
   const deleteClickHandler = async () => {
+    // If it is demod mode we just call deleteInvoice from store, if not when we send
+    // request to server to delete invoice from db. After we close modal and redirect
+    // to main page
     if (isDemoMode) {
       dispatch(deleteInvoice(id!));
     } else {
@@ -39,6 +43,8 @@ const DeletePopup: React.FC<{ id: string; invoiceId?: string }> = ({
     dispatch(closeDeleteModal());
     router.push('/', undefined, { shallow: true });
   };
+
+  // Animation variants for framer motion
   const popupAnimation = {
     hidden: { scale: 0 },
     visible: {

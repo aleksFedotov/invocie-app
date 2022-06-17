@@ -5,6 +5,7 @@ import { FiltersWrapper } from './FiltersStyles';
 import CheckBox from '../../UI/chechbox/Checkbox';
 
 const Filters: React.FC = () => {
+  // Animation variants for frame motion
   const filtersVariants = {
     hidden: {
       scaleY: 0,

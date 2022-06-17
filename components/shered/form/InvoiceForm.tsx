@@ -73,16 +73,16 @@ const InvoiceForm: React.FC<{
   edit?: boolean;
   data?: IInvoice;
 }> = ({ create, edit, data }) => {
+  // Hooks
   const dispatch = useAppDispatch();
   const { error, isLoading, sendRequest } = useHttp();
   const { isDemoMode } = useAppSelector(selectDemo);
+  const router = useRouter();
 
   // refresh page after submiting and etc
-  const router = useRouter();
   const refreshData = () => router.replace(router.asPath);
 
-  // framer-motion animation options
-
+  // Animation varians for framer-motion
   const formAnimation = {
     hidden: {
       x: '-100%',
@@ -94,14 +94,17 @@ const InvoiceForm: React.FC<{
     },
   };
 
-  // react hook form settings
+  // React hook form settings
 
+  // Get all methods from useForm hook called with default values
+  // if we have it and yup scheam as resolver
   const methods = useForm<Inputs>({
     // @ts-ignore:next-line
     defaultValues: data ? data : defaultValues,
     resolver: yupResolver(schema),
   });
 
+  // Destructuring method object so we can use function and variables n page
   const {
     handleSubmit,
     control,
@@ -109,7 +112,10 @@ const InvoiceForm: React.FC<{
     getValues,
   } = methods;
 
+  // Getting current values from form so we can use it if user want to save as draft. In this case we do not want to go through form validtaion as we will not apass validation, we need just incomplete form data
   const values = getValues();
+
+  // Two types of error if some field are invalid and we have no items Because we have arryFiels from reac hook form it return error in format {items: { type : requried, ref: undefined}right after clicking on add item. So do work around it we have to make sure that even we have items object in errors should not have type === required.
   const isErorrs =
     Object.keys(errors).length > 0 &&
     typeof errors.items !== 'undefined' &&
@@ -118,11 +124,12 @@ const InvoiceForm: React.FC<{
   const isEmptyItemsArray =
     Object.keys(errors).length > 0 && !values.items.length;
 
-  // submit handling
-
+  // Submit handling
   const onSubmit: SubmitHandler<Inputs> = async (formData) => {
+    // We generate data in correct format and give it id and status pending
     const generatedData = generateData(formData);
 
+    // If it is demo mode we just call create action from store
     if (isDemoMode) {
       dispatch(
         create
@@ -130,6 +137,7 @@ const InvoiceForm: React.FC<{
           : editInvoice({ id: data!.id, invoice: generatedData })
       );
     } else {
+      // If its user mode when first of all need get userId from cookies to send it together with request to pass user validation on server side
       const cookies = parseCookies();
       const storedData = JSON.parse(cookies.userData);
 
@@ -147,14 +155,17 @@ const InvoiceForm: React.FC<{
         });
       } catch (error) {}
     }
+    // Whatever it is demo mode or mot we close modal and refresh page
     dispatch(closeFormModal());
     refreshData();
   };
 
-  // save as draft handling
-
+  // Save as draft handling
   const saveAsDraft = async () => {
+    // We generate data in correct format and give it id and status draft
     const generatedData = generateData(values, 'draft');
+
+    // If it is demo mode we just call create action from store
     if (isDemoMode) {
       dispatch(createInvoice(generatedData));
     } else {
@@ -179,6 +190,7 @@ const InvoiceForm: React.FC<{
     refreshData();
   };
   return (
+    // form provide so we have access to all functionality in nested form
     <FormProvider {...methods}>
       <FormWrapper
         variants={formAnimation}

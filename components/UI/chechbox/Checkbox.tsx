@@ -6,6 +6,7 @@ import { FiltersLabel, FiltersInput, FiltersCheckBox } from './CheckboxStyles';
 import CheckIcon from '../../../public/assets/icon-check.svg';
 
 const CheckBox: React.FC<{ label: string }> = ({ label }) => {
+  // Hooks
   const dispatch = useAppDispatch();
   const filters = useAppSelector(selectFilters);
 

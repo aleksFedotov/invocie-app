@@ -5,12 +5,14 @@ import { Inputs } from '../../../@types/types';
 import { Button } from '../../UI/button/ButtonStyles';
 import FormInput from '../../UI/form-input/FormInput';
 import { InvoiceItem } from './FormItemsStyles';
-import moneyFormat from '../../../libs/moneyFormat';
 
 const FormItem: React.FC<{
   ind: number;
   remove: (ind: number) => void;
 }> = ({ ind, remove }) => {
+  // Hooks
+  // Get all functionality that we need from from context
+
   const {
     control,
     watch,
@@ -18,12 +20,15 @@ const FormItem: React.FC<{
     formState: { errors },
   } = useFormContext<Inputs>();
 
+  // Use watch from useForm to keep track of price and quantity values as they change to use it to caculate  total
   const watchItems = watch('items');
   const watchItemPrice = watchItems[ind].price;
   const watchItemQty = watchItems[ind].quantity;
 
+  // Get errors for specific item base on item index
   const itemsErrors = errors.items && errors.items[ind];
 
+  // Calculating total base on price and quantity that we watching and set value with setValue from useForm
   const setTotal = (qty: number, price: number) => {
     const total = qty * price;
     setValue(`items.${ind}.total`, total);

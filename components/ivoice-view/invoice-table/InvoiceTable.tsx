@@ -24,6 +24,7 @@ const InvoiceTable: React.FC<{ data: IInvoiceItem[]; total: number }> = ({
   data,
   total,
 }) => {
+  // Hooks
   const windowWidth = useWindowWidth();
   return (
     <TableWrapper>

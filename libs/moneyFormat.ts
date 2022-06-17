@@ -3,7 +3,6 @@ const moneyFormat = (amount: number) => {
     style: 'currency',
     currency: 'GBP',
   }).format(amount);
-  // return amount.toLocaleString('en-GB', { minimumFractionDigits: 2 });
   return formatedAmount;
 };
 

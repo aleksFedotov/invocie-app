@@ -8,7 +8,9 @@ const Avatar: React.FC<{ image: string; onClick: () => void }> = ({
   image,
   onClick,
 }) => {
+  // Hooks
   const windowWidth = useWindowWidth();
+  // Change image size based on window size
   let imageSize = windowWidth > 800 ? 40 : 32;
 
   return (

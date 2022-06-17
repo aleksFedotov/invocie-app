@@ -8,9 +8,12 @@ import { LogoWrapper } from './LogoStyles';
 import Image from 'next/image';
 
 const Logo: React.FC = () => {
+  // Hooks
   const windowWidth = useWindowWidth();
   const router = useRouter();
   const dispatch = useAppDispatch();
+
+  // Change imageSize base on windowWidth
   let imageSize = 40;
 
   if (windowWidth < 650) {

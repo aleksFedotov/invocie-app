@@ -22,6 +22,7 @@ export const DatePicker: React.FC<{
   id: string;
   onChange: (date: string) => void;
 }> = ({ onChange, value, label, isEdit, id, ...props }) => {
+  // Refs
   const ref = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -40,10 +41,12 @@ export const DatePicker: React.FC<{
   const [currentYear, setCurrentYear] = useState(initialCurrentYear);
   const [daysInMonth, setDaysInMonth] = useState(initialDaysInMonth);
 
+  // Chnaging format to  'yyyy-MM-dd'
   useEffect(() => {
     onChange(format(selectedDate, 'yyyy-MM-dd'));
   }, [selectedDate, onChange]);
 
+  // Get number of days based on month
   const resetDaysInMonthEffect = () => {
     setDaysInMonth(getDaysInMonth(new Date(currentYear, currentMonth)));
   };
@@ -58,7 +61,7 @@ export const DatePicker: React.FC<{
     },
     [openHandlers]
   );
-
+  //
   const clickOffEffect = () => {
     if (open) {
       window.addEventListener('click', handleClickOff);
@@ -82,7 +85,7 @@ export const DatePicker: React.FC<{
   useEffect(clickOffEffect, [open, handleClickOff]);
   useEffect(setFocus, [open]);
 
-  // handlers
+  // handlers of months if 12.22 when we click on next month then month should change to 01.23 and vise verce if it is 01.22 click prev month then 12.21
   const handlePrevMonth = () => {
     setCurrentMonth((curr) => {
       if (curr - 1 < 0) {
@@ -105,12 +108,14 @@ export const DatePicker: React.FC<{
     });
   };
 
+  // Selecting date handler => formating date, set state to new date and close calender
   const handleDateSelect = (selectedDay: number) => {
     const newDate = new Date(currentYear, currentMonth, selectedDay);
     setSelectedDate(newDate);
     openHandlers.off();
   };
 
+  // Animtaions variants for framer-motion
   const calendarVariants = {
     hidden: {
       scaleY: 0,
