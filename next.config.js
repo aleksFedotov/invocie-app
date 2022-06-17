@@ -8,19 +8,6 @@ const securityHeaders = [
 ];
 
 const nextConfig = {
-  pageExtensions:
-    process.env.NODE_ENV === 'production'
-      ? ['page.tsx', 'page.ts', 'page.jsx', 'page.js']
-      : [
-          'page.tsx',
-          'page.ts',
-          'page.jsx',
-          'page.js',
-          'page.dev.tsx',
-          'page.dev.ts',
-          'page.dev.jsx',
-          'page.dev.js',
-        ],
   reactStrictMode: true,
   poweredByHeader: false,
   async headers() {
