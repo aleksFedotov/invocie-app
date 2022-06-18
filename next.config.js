@@ -8,9 +8,9 @@ const securityHeaders = [
 ];
 
 const nextConfig = {
-  typescript: {
-    ignoreBuildErrors: process.env.NODE_ENV === 'production' ? true : false,
-  },
+  // typescript: {
+  //   ignoreBuildErrors: process.env.NODE_ENV === 'production' ? true : false,
+  // },
   reactStrictMode: true,
   poweredByHeader: false,
   async headers() {

@@ -45,7 +45,7 @@ describe('FormItem component testing', () => {
     render(mockComponent());
     const quantity = screen.getByLabelText(/quantity/i);
     fireEvent.change(quantity, { target: { value: '4' } });
-    expect(quantity).toHaveValue(4);
+    expect(quantity).toHaveValue('4');
   });
   test('should change value in price', () => {
     render(mockComponent());

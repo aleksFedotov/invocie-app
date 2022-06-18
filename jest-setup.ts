@@ -3,6 +3,7 @@ import 'next';
 
 // Extend Jest "expect" functionality with Testing Library assertions.
 import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 
 import { server } from './mocks/server';
 

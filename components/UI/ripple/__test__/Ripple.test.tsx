@@ -1,5 +1,4 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom';
 
 import Ripple from '../Ripple';
 import { Button } from '../../button/ButtonStyles';
