@@ -153,7 +153,7 @@ export const GlobalStyles = createGlobalStyle`
 }
 
 html {
-  font-size: 62.5%;
+  font-size: 12px;
 }
 
 body {
@@ -165,7 +165,7 @@ body {
   background-color: ${({ theme }) => theme.mainBg};
   color: ${({ theme }) => theme.mainText};
   min-height: 100Vh;
-
+ 
   transition: background .3s ease;
   
   
@@ -231,10 +231,15 @@ h4 {
 export const PageWrapper = styled.div`
   display: flex;
   min-height: 100vh;
+  overflow-x: hidden;
   ${media.tablet} {
     flex-direction: column;
   }
-  overflow-x: hidden;
+  margin-left: 10.3rem;
+  ${media.tablet} {
+    margin-left: 0;
+    margin-top: 8rem;
+  }
 `;
 
 export const MainWrapper = styled(motion.main)`

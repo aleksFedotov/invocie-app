@@ -5,6 +5,7 @@ import { ThemeProvider } from 'styled-components';
 import { lightTheme, darkTheme } from '../styles/theme/theme';
 import { Provider } from 'react-redux';
 import store from '../store/store';
+import '../styles/_app.css';
 
 import { useRouter } from 'next/router';
 import { PersistGate } from 'redux-persist/integration/react';

@@ -4,11 +4,10 @@ import { motion } from 'framer-motion';
 import { media } from '../../styles/GlobalStyles';
 
 export const MainHeader = styled.header`
-  position: relative;
   height: 100%;
   display: flex;
   flex-direction: column;
-  position: sticky;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 5;
