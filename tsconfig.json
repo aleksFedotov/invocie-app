@@ -13,16 +13,19 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true,
-    "types": ["node", "jest", "@testing-library/jest-dom"]
+    "incremental": true
   },
+  "types": ["node", "jest", "@testing-library/jest-dom"],
 
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     "@types/custom.d.ts",
-    "components/UI/chechbox/__test__/Checkbox.test"
+    "components/UI/chechbox/__test__/Checkbox.test",
+    "jest.config.js"
   ],
+
   "exclude": ["node_modules", "cypress"]
+  // "exclude": ["node_modules", "cypress"]
 }
