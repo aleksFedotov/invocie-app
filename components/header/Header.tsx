@@ -80,6 +80,7 @@ const Header: React.FC<{ themeHandler: () => void; theme: string }> = ({
           onClick={() => {
             themeHandler();
           }}
+          aria-label="theme-swithcer"
         >
           {theme === 'light' ? (
             <SunIcon data-testid="sun" />
@@ -89,7 +90,7 @@ const Header: React.FC<{ themeHandler: () => void; theme: string }> = ({
         </ThemeSwitcher>
 
         <Avatar
-          image={'/assets/image-avatar.jpg'}
+          image={isLogin ? '/assets/image-avatar.jpg' : '/assets/user.png'}
           onClick={() => {
             setisSignUpShown((prevState) => !prevState);
           }}
