@@ -82,7 +82,7 @@ const Header: React.FC<{ themeHandler: () => void; theme: string }> = ({
           }}
           aria-label="theme-swithcer"
         >
-          {theme === 'light' ? (
+          {theme === 'dark' ? (
             <SunIcon data-testid="sun" />
           ) : (
             <MoonIcon data-testid="moon" />
