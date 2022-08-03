@@ -1,5 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
+import dbConnect from '../../../helpers/mongoDB';
+import User from '../../../models/user';
 import bcrypt from 'bcrypt';
 import * as jose from 'jose';
 import prisma from '../../../client';
@@ -10,6 +12,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  await dbConnect();
   const {
     email: userEmail,
     password,
@@ -21,11 +24,12 @@ export default async function handler(
     let hashedPassword: string;
 
     try {
-      existingUser = await prisma.user.findUnique({
-        where: {
-          email: userEmail,
-        },
-      });
+      // existingUser = await prisma.user.findFirst({
+      //   where: {
+      //     email: userEmail,
+      //   },
+      // });
+      existingUser = await User.findOne({ email: userEmail });
     } catch (error) {
       res.status(400).json({
         success: false,
@@ -50,9 +54,14 @@ export default async function handler(
     }
 
     try {
-      // @ts-expect-error
-      const userData = { email: userEmail, password: hashedPassword };
-      const newUser = await prisma.user.create({ data: userData });
+      const userData = {
+        email: userEmail,
+        // @ts-ignore
+        password: hashedPassword,
+        invoices: [],
+      };
+      //  const newUser = await prisma.user.create({ data: userData });
+      const newUser = await User.create(userData);
       let jwtToken;
 
       try {
@@ -75,6 +84,8 @@ export default async function handler(
         id: newUser.id,
         token: jwtToken,
         expiration: expirationDate || tokenExpirationDate.toISOString(),
+        // @ts-ignore
+        invoices: userData.invoices,
       };
       setCookie({ res }, 'userData', JSON.stringify(userDataToSend), {
         maxAge: 30 * 24 * 60 * 60,

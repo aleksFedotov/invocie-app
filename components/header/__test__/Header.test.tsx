@@ -36,13 +36,13 @@ describe('Header compotent testting', () => {
 
   test('butoon should have sun icon if it is light theme', () => {
     render(<Header themeHandler={themeHandler} theme={'light'} />);
-    const sunIcon = screen.getByTestId('sun');
+    const sunIcon = screen.getByTestId('moon');
     expect(sunIcon).toBeInTheDocument();
   });
 
   test('butoon should have moon icon if it is dark theme', () => {
     render(<Header themeHandler={themeHandler} theme={'dark'} />);
-    const moonIcon = screen.getByTestId('moon');
+    const moonIcon = screen.getByTestId('sun');
     expect(moonIcon).toBeInTheDocument();
   });
 
@@ -54,7 +54,7 @@ describe('Header compotent testting', () => {
 
   test('should callen onClick when icon is cliked', () => {
     render(<Header themeHandler={themeHandler} theme={'light'} />);
-    const sunIcon = screen.getByTestId('sun');
+    const sunIcon = screen.getByTestId('moon');
     fireEvent.click(sunIcon);
     expect(themeHandler).toBeCalled();
   });

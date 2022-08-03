@@ -1,5 +1,7 @@
+import { Invoice } from '@prisma/client';
+
 export interface IInvoice {
-  id_db?: string;
+  _id?: string;
   id: string;
   createdAt: string;
   paymentDue: string;
@@ -12,7 +14,6 @@ export interface IInvoice {
   clientAddress: IAddress;
   items: IInvoiceItem[];
   total: number;
-  userId?: string;
 }
 
 export interface IAddress {
@@ -54,4 +55,5 @@ export interface IUserData {
   id: string;
   token: string;
   expiration: string;
+  invoces: IInvoice[];
 }

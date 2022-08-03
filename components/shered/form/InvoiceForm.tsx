@@ -148,10 +148,17 @@ const InvoiceForm: React.FC<{
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            ...generatedData,
-            userId: storedData.id,
-          }),
+          body: create
+            ? JSON.stringify({
+                ...generatedData,
+                userId: storedData.id,
+              })
+            : JSON.stringify({
+                ...generatedData,
+                // for MongoDB
+                _id: data!._id,
+                userId: storedData.id,
+              }),
         });
       } catch (error) {}
     }
@@ -181,6 +188,7 @@ const InvoiceForm: React.FC<{
           },
           body: JSON.stringify({
             ...generatedData,
+
             userId: storedData.id,
           }),
         });

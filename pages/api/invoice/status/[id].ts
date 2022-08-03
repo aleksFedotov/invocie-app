@@ -1,5 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '../../../../client';
+import dbConnect from '../../../../helpers/mongoDB';
+import Invoice from '../../../../models/invoice';
 
 export default async function handler(
   req: NextApiRequest,
@@ -7,18 +9,23 @@ export default async function handler(
 ) {
   if (req.method === 'PATCH') {
     const invoiceId = req.query.id;
-    const data = req.body;
+    // for prisma
+    // const data = req.body;
 
     let invoice;
+    await dbConnect();
     try {
-      invoice = await prisma.invoice.findFirst({
-        where: {
-          // @ts-ignore
-          id_db: invoiceId,
-        },
-        include: {
-          items: true,
-        },
+      // invoice = await prisma.invoice.findFirst({
+      //   where: {
+      //     // @ts-ignore
+      //     id_db: invoiceId,
+      //   },
+      //   include: {
+      //     items: true,
+      //   },
+      // });
+      invoice = await Invoice.findOne({
+        _id: invoiceId,
       });
     } catch (error) {
       return res.status(500).json({
@@ -27,17 +34,26 @@ export default async function handler(
       });
     }
     try {
-      await prisma.invoice.update({
-        where: {
-          // @ts-ignore
-          id_db: invoiceId,
+      // await prisma.invoice.update({
+      //   where: {
+      //     // @ts-ignore
+      //     id_db: invoiceId,
+      //   },
+      //   data: {
+      //     status: 'paid',
+      //   },
+      // });
+      await Invoice.updateOne(
+        {
+          _id: invoiceId,
         },
-        data: {
-          status: 'paid',
-        },
-      });
+        {
+          $set: {
+            status: 'paid',
+          },
+        }
+      );
     } catch (error) {
-      console.log(error);
       return res.status(500).json({
         success: false,
         msg: 'Something went wrong, could not update status.',

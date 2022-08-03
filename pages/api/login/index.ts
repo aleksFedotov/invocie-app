@@ -1,4 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+
+import dbConnect from '../../../helpers/mongoDB';
+import User from '../../../models/user';
 import bcrypt from 'bcrypt';
 import * as jose from 'jose';
 import prisma from '../../../client';
@@ -14,13 +17,18 @@ export default async function handler(
     password,
     expirationDate,
   }: { email: string; password: string; expirationDate?: string } = req.body;
+
+  await dbConnect();
   if (req.method === 'POST') {
     let existingUser;
     try {
-      existingUser = await prisma.user.findFirst({
-        where: {
-          email: userEmail,
-        },
+      // existingUser = await prisma.user.findFirst({
+      //   where: {
+      //     email: userEmail,
+      //   },
+      // });
+      existingUser = await User.findOne({
+        email: userEmail,
       });
     } catch (error) {
       return res.status(500).json({
@@ -73,6 +81,8 @@ export default async function handler(
       id: existingUser.id,
       token: jwtToken,
       expiration: expirationDate || tokenExpirationDate.toISOString(),
+      // @ts-ignore
+      invoices: [],
     };
 
     setCookie({ res }, 'userData', JSON.stringify(userDataToSend), {

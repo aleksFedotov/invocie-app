@@ -29,13 +29,14 @@ const DeletePopup: React.FC<{ id: string; invoiceId?: string }> = ({
       dispatch(deleteInvoice(id!));
     } else {
       const cookies = parseCookies();
-      const storedData = JSON.parse(cookies.userData);
+      const userId: string = JSON.parse(cookies.userData).id;
+
       try {
         await sendRequest({
           url: `/api/invoice/delete/${invoiceId}`,
           method: 'DELETE',
           body: JSON.stringify({
-            userId: storedData.id,
+            userId,
           }),
         });
       } catch (error) {}

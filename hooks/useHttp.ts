@@ -20,6 +20,7 @@ export default function useHttp(): HttpRes {
   const sendRequest = useCallback(
     async ({ url, method = 'GET', headers = {}, body = null }: ReqConfig) => {
       // Seting setisloading to treu so we can show users that requeat is pending
+
       setIsLoading(true);
       // reseting error
       setError(null);

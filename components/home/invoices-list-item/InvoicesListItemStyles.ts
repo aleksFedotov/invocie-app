@@ -62,7 +62,7 @@ export const ListItemRight = styled.div`
   }
 `;
 
-export const InvoiceId = styled.h2`
+export const InvoiceId = styled.h3`
   font-size: var(--font-size-body-m);
   width: 5.6rem;
 

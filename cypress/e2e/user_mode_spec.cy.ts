@@ -145,6 +145,7 @@ describe('user mode', () => {
     cy.wait(500);
     cy.get('[data-testid="invoice"]').then((invoices) => {
       const newInvoicesAmount = invoices.length;
+      // @ts-ignore
       expect(newInvoicesAmount - oldInvoicesAmount).eq(1);
     });
   });
@@ -229,6 +230,7 @@ describe('user mode', () => {
       .invoke('data', 'value')
       .then((value) => {
         const newInvoicesAmount = +value;
+        // @ts-ignore
         expect(oldInvoicesAmount - 1).eq(newInvoicesAmount);
       });
   });

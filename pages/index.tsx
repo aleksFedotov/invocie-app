@@ -1,6 +1,8 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import prisma from '../client';
+import dbConnect from '../helpers/mongoDB';
+import User from '../models/user';
 import nookies, { destroyCookie } from 'nookies';
 import { GetServerSideProps } from 'next';
 import { IInvoiceListData } from '../@types/types';
@@ -123,18 +125,22 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   }
   const userData = JSON.parse(cookies.userData);
 
-  const data = await prisma.user.findUnique({
-    where: {
-      id: userData.id,
-    },
-    include: {
-      invoices: true,
-    },
-  });
+  // const data = await prisma.user.findUnique({
+  //   where: {
+  //     id: userData.id,
+  //   },
+  //   include: {
+  //     invoices: true,
+  //   },
+  // });
+
+  await dbConnect();
+  const result = await User.findOne({ _id: userData.id }).populate('invoices');
+  let invoices = result.invoices;
 
   return {
     props: {
-      invoicesListData: data?.invoices,
+      invoicesListData: JSON.parse(JSON.stringify(invoices)),
     },
   };
 };

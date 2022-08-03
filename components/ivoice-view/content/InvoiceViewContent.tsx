@@ -17,6 +17,7 @@ import {
 const InvoiceViewContent: React.FC<{ data: IInvoice }> = ({ data }) => {
   // Hooks
   const windowWidth = useWindowWidth();
+
   return (
     <ContentWrapper>
       <MainInfo>

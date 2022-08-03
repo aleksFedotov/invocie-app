@@ -1,5 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { User, Invoice } from '@prisma/client';
+import dbConnect from '../../../../helpers/mongoDB';
+import Invoice from '../../../../models/invoice';
+import User from '../../../../models/user';
+// import { User, Invoice } from '@prisma/client';
 import prisma from '../../../../client';
 
 export default async function handler(
@@ -11,12 +14,16 @@ export default async function handler(
     const { userId } = JSON.parse(req.body);
 
     let invoice;
+    await dbConnect();
     try {
-      invoice = await prisma.invoice.findUnique({
-        where: {
-          // @ts-ignore
-          id_db: invoiceId,
-        },
+      // invoice = await prisma.invoice.findUnique({
+      //   where: {
+      //     // @ts-ignore
+      //     id_db: invoiceId,
+      //   },
+      // });
+      invoice = await Invoice.findOne({
+        _id: invoiceId,
       });
     } catch (error) {
       return res.status(500).json({
@@ -25,7 +32,7 @@ export default async function handler(
       });
     }
 
-    if (invoice!.userId !== userId) {
+    if (invoice!.userId.toString() !== userId) {
       return res.status(501).json({
         success: false,
         msg: 'You are not allowed to delete this invoice.',
@@ -33,14 +40,16 @@ export default async function handler(
     }
 
     try {
-      await prisma.invoice.delete({
-        where: {
-          // @ts-ignore
-          id_db: invoiceId,
-        },
-      });
+      // await prisma.invoice.delete({
+      //   where: {
+      //     // @ts-ignore
+      //     id_db: invoiceId,
+      //   },
+      // });
+      await Invoice.deleteOne({ _id: invoiceId });
+      // @ts-ignore
+      await User.updateOne({ _id: userId }, { $pull: { invoices: invoiceId } });
     } catch (error) {
-      console.log(error);
       return res.status(500).json({
         success: false,
         msg: 'Something went wrong, could not delete invoice.',

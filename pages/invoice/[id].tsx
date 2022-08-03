@@ -1,6 +1,8 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { GetServerSideProps } from 'next';
+import dbConnect from '../../helpers/mongoDB';
+import Invoice from '../../models/invoice';
 import Data from '../../data.json';
 import { IInvoice } from '../../@types/types';
 import { useAppSelector } from '../../store/hooks';
@@ -54,7 +56,7 @@ const InvoceView: NextPage<{ invoiceData: IInvoice }> = ({ invoiceData }) => {
       {windowWidth! < 700 && (
         <ViewButtons
           isMobile={true}
-          invoiceId={isDemoMode ? invoiceData.id : invoiceData.id_db}
+          invoiceId={isDemoMode ? invoiceData.id : invoiceData._id}
         />
       )}
       <AnimatePresence>
@@ -62,7 +64,7 @@ const InvoceView: NextPage<{ invoiceData: IInvoice }> = ({ invoiceData }) => {
           <Modal type="delete" key="modal">
             <DeletePopup
               id={invoiceData.id}
-              invoiceId={invoiceData.id_db}
+              invoiceId={invoiceData._id}
               key="delete"
             />
           </Modal>
@@ -82,21 +84,24 @@ const InvoceView: NextPage<{ invoiceData: IInvoice }> = ({ invoiceData }) => {
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const id = query.id;
 
-  const invoiceData = await prisma.invoice.findFirst({
-    where: {
-      // @ts-ignore
-      id: id,
-    },
-    include: {
-      senderAddress: true,
-      clientAddress: true,
-      items: true,
-    },
-  });
+  // const invoiceData = await prisma.invoice.findFirst({
+  //   where: {
+  //     // @ts-ignore
+  //     id: id,
+  //   },
+  //   include: {
+  //     senderAddress: true,
+  //     clientAddress: true,
+  //     items: true,
+  //   },
+  // });
+
+  await dbConnect();
+  const invoiceData = await Invoice.findOne({ id: id });
 
   return {
     props: {
-      invoiceData: invoiceData,
+      invoiceData: JSON.parse(JSON.stringify(invoiceData)),
     },
   };
 };

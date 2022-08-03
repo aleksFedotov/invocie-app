@@ -153,7 +153,7 @@ export const GlobalStyles = createGlobalStyle`
 }
 
 html {
-  font-size: 12px;
+  font-size: 10px;
 }
 
 body {
